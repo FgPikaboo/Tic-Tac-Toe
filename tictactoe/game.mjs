@@ -1,14 +1,27 @@
 export class TicTacToe_Game {
 	
+	static STATUS = {
+		P1: 0,
+		P2: 1,
+		ENDED: 2
+	}
+
+	static WINNER = {
+		P1: 0,
+		P2: 1
+	}
+
 	static SYMBOLE_PLAYER = {
-		P1: 'X',
-		P2: 'O'
+		X: 0,
+		O: 1
 	}
 
 	constructor() {
-		/** @type {string} */
+		/** @type {number} */
 		this.status
-		this.winner = ''
+		/** @type {number} */
+		this.winner
+		/** @type {Array<string>} */
 		this.value_grid = [ 
 			'', '', '',
 			'', '', '',
