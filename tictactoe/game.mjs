@@ -38,7 +38,8 @@ export class TicTacToe_Game {
 	/**
 	 * Commence la partie
 	 */
-	startGame() { 
+	startGame() {
+		
 		this.setFirstPlayer()
 	}
 
