@@ -14,11 +14,9 @@ export class TicTacToe {
 	 * Jeu du tictactoe en cours
 	 */
 	playGame() {
-		this.ui.showMainScreen()
-		this.ui.showMenuCursor()
-		this.ui.moveDown()
-		this.ui.moveUp()
-		this.ui.moveUp()
+		this.currentGame.checkWinCondition()
+		this.currentGame.checkWinCondition()
+		this.currentGame.checkWinCondition()
 	}
 
 	main() { }

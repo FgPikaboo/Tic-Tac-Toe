@@ -30,6 +30,10 @@ export class TicTacToe_UI {
 		}
 	}
 
+	/**
+	 * Obtiens la position du TicTacToe
+	 * @returns {{x: number, y: number}} Position du TicTacToe
+	 */
 	getTicTacToePos() {
 		return { 
 			x: Math.ceil(getScreenWidth()/4),

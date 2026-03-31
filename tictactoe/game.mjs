@@ -27,6 +27,11 @@ export class TicTacToe_Game {
 			'', '', '',
 			'', '', ''
 		]
+		/** @type {number} L'etat du classement en cours */
+		this.ladder = {
+			P1: 0,
+			P2: 0
+		}
 	}
 
 	/** 
@@ -39,7 +44,6 @@ export class TicTacToe_Game {
 	 * Commence la partie
 	 */
 	startGame() {
-		
 		this.setFirstPlayer()
 	}
 
@@ -47,7 +51,21 @@ export class TicTacToe_Game {
 	 * Verifie la condition de victoire
 	 * @return {boolean} Condition valide
 	 */
-	checkWinCondition() { }
+	checkWinCondition() { 
+		// If true -> countWinnerLadder(player)
+		this.countWinnerLadder(TicTacToe_Game.WINNER.P2)
+		console.error(new Date().toISOString(), this.ladder)
+	}
+
+	countWinnerLadder(player) {
+		// if player === 0, +1 au ladder P1
+		if (player === 0) {
+			this.ladder.P1 += 1
+		} else {
+			this.ladder.P2 += 1
+		}
+	}
+
 
 	/** 
 	 * Obtiens le choix du joueur dans la grille du tictactoe
