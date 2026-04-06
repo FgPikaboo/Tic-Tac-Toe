@@ -11,6 +11,8 @@ export class TicTacToe_UI {
 		'Exit',
 		'Plaisir'
 	]
+
+	static VERSION = '@MrPikaboo -- VERSION 0.3'
 	
 	constructor() {
 		/** @type {number} */
@@ -37,9 +39,20 @@ export class TicTacToe_UI {
 	getTicTacToePos() {
 		return { 
 			x: Math.ceil(getScreenWidth()/4),
-			y: Math.ceil(getScreenHeight()/3)
+			y: Math.ceil(getScreenHeight()/4)
 		}
 	}
+
+	/**
+	 * Obtiens la position du Ladder
+	 * @returns {{x: number, y: number}} Position du Ladder
+	 */
+	getLadderPos() {
+		return { 
+			x: Math.ceil((getScreenWidth()/10)*8),
+			y: 0
+		}
+	}	
 
 	/**
 	 * Affiche le menu
@@ -96,19 +109,29 @@ export class TicTacToe_UI {
 	showTicTacToe() {
 		const pos = this.getTicTacToePos()
 		const TIC_TAC_TOE = ['-' , '|']
-		const LINE = 20
-		drawString(pos.x, pos.y, TIC_TAC_TOE[0].repeat(LINE))
-		drawString(pos.x, pos.y + 3, TIC_TAC_TOE[0].repeat(LINE))
-		for (let i = 0; i < 8; i++) {
+		const LINE = 26
+		drawString(pos.x, pos.y + 1, TIC_TAC_TOE[0].repeat(LINE))
+		drawString(pos.x, pos.y + 5, TIC_TAC_TOE[0].repeat(LINE))
+		for (let i = 0; i < 11; i++) {
 			drawString(pos.x+(LINE/3), (pos.y-2) + i, TIC_TAC_TOE[1])
 			drawString(pos.x+((LINE/3)*2), (pos.y-2) + i, TIC_TAC_TOE[1])
 		}
 	}
 
 	/**
-	 * Affiche le jeu (contenant un TicTacToe)
+	 * Affiche le Ladder
 	 */
-	showLadder() { }
+	showLadder() {
+		const pos = this.getLadderPos()
+		const height_y = getScreenHeight()
+		const half_to_half_height_y = height_y/4
+		const BORDER = ['-', '|']
+		drawString(pos.x, pos.y + (half_to_half_height_y*3), BORDER[0].repeat(pos.x))
+		for (let i = 0; i < height_y; i++) {
+			drawString(pos.x, pos.y + i, BORDER[1])
+		}
+		drawString(pos.x+3, height_y-(half_to_half_height_y/2), TicTacToe_UI.VERSION)
+	}
 
 	/**
 	 * Affiche le curseur dans le jeu
