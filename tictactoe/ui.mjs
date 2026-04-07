@@ -3,6 +3,8 @@ import {
 	getScreenHeight,
 	getScreenWidth
 } from "../terminal-engine.mjs"
+import { TicTacToe_Game } from "./game.mjs"
+import { TicTacToe } from "./index.mjs"
 
 export class TicTacToe_UI {
 
@@ -12,13 +14,14 @@ export class TicTacToe_UI {
 		'Plaisir'
 	]
 
-	static VERSION = '@MrPikaboo -- VERSION 0.3'
+	static VERSION = '@MrPikaboo -- VERSION 0.4'
 	
 	constructor() {
 		/** @type {number} */
 		this.mainMenuOptionSelected = 0
 		/** @type {number} */
 		this.caseSelected = 4
+		/** @type {TicTacToe_Game} L'instance de la classe Game */
 	}
 	
 	/**
@@ -121,7 +124,7 @@ export class TicTacToe_UI {
 	/**
 	 * Affiche le Ladder
 	 */
-	showLadder() {
+	showLadder(ladder) {
 		const pos = this.getLadderPos()
 		const height_y = getScreenHeight()
 		const half_to_half_height_y = height_y/4
@@ -130,6 +133,24 @@ export class TicTacToe_UI {
 		for (let i = 0; i < height_y; i++) {
 			drawString(pos.x, pos.y + i, BORDER[1])
 		}
+		this.showLadderInfo(ladder)
+	}
+
+	/** 
+	 * Affiche les valeurs/données/infos du ladder
+	 */
+	showLadderInfo(ladder) {
+		const pos = this.getLadderPos()
+		const height_y = getScreenHeight()
+		const half_to_half_height_y = height_y/4
+
+		/** Rank Ladder */
+		const rank_ladder = ladder
+		const PLAYER = [`Player 1: ${rank_ladder.P1}`,`Player 2: ${rank_ladder.P2}`]
+		drawString(pos.x+3, pos.y+2, PLAYER[0])
+		drawString(pos.x+3, pos.y+4, PLAYER[1])
+
+		/** Version UI */
 		drawString(pos.x+3, height_y-(half_to_half_height_y/2), TicTacToe_UI.VERSION)
 	}
 

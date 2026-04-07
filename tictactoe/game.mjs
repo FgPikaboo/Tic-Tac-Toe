@@ -1,3 +1,5 @@
+import { TicTacToe_UI } from "./ui.mjs"
+
 export class TicTacToe_Game {
 	
 	static STATUS = {
@@ -27,11 +29,6 @@ export class TicTacToe_Game {
 			'', '', '',
 			'', '', ''
 		]
-		/** @type {number} L'etat du classement en cours */
-		this.ladder = {
-			P1: 0,
-			P2: 0
-		}
 	}
 
 	/** 
@@ -49,23 +46,12 @@ export class TicTacToe_Game {
 
 	/**
 	 * Verifie la condition de victoire
-	 * @return {boolean} Condition valide
+	 * @return {number} Condition valide
 	 */
 	checkWinCondition() { 
-		// If true -> countWinnerLadder(player)
-		this.countWinnerLadder(TicTacToe_Game.WINNER.P2)
-		console.error(new Date().toISOString(), this.ladder)
+		// If P1 win / else if P2 / else draw -> return gagnant pour ladder + partie suivante
+		return TicTacToe_Game.WINNER.P2
 	}
-
-	countWinnerLadder(player) {
-		// if player === 0, +1 au ladder P1
-		if (player === 0) {
-			this.ladder.P1 += 1
-		} else {
-			this.ladder.P2 += 1
-		}
-	}
-
 
 	/** 
 	 * Obtiens le choix du joueur dans la grille du tictactoe
