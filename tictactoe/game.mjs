@@ -1,5 +1,3 @@
-import { TicTacToe_UI } from "./ui.mjs"
-
 export class TicTacToe_Game {
 	
 	static STATUS = {

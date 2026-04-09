@@ -33,9 +33,9 @@ export class TicTacToe {
 	 */
 	playGame() {
 		this.countWinnerLadder()
-		this.countWinnerLadder()
 		this.ui.showTicTacToe()
 		this.ui.showLadder(this.ladder)
+		this.ui.showGameCursor()
 	}
 
 	main() { }

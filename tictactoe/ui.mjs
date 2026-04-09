@@ -3,8 +3,6 @@ import {
 	getScreenHeight,
 	getScreenWidth
 } from "../terminal-engine.mjs"
-import { TicTacToe_Game } from "./game.mjs"
-import { TicTacToe } from "./index.mjs"
 
 export class TicTacToe_UI {
 
@@ -14,6 +12,11 @@ export class TicTacToe_UI {
 		'Plaisir'
 	]
 
+	static TICTACTOE_GRID = {
+		WIDTH: 23,
+		HEIGHT: 11
+	}
+
 	static VERSION = '@MrPikaboo -- VERSION 0.4'
 	
 	constructor() {
@@ -21,7 +24,7 @@ export class TicTacToe_UI {
 		this.mainMenuOptionSelected = 0
 		/** @type {number} */
 		this.caseSelected = 4
-		/** @type {TicTacToe_Game} L'instance de la classe Game */
+		
 	}
 	
 	/**
@@ -40,9 +43,20 @@ export class TicTacToe_UI {
 	 * @returns {{x: number, y: number}} Position du TicTacToe
 	 */
 	getTicTacToePos() {
-		return { 
-			x: Math.ceil(getScreenWidth()/4),
-			y: Math.ceil(getScreenHeight()/4)
+		const zone_draw_width = Math.ceil(getScreenWidth()*0.75)
+		const zone_draw_height = Math.ceil(getScreenHeight()*(2/3))
+		const middle_tictactoe_grid = {
+			width: zone_draw_width/2,
+			height: zone_draw_height/2
+		}
+		const TIC_TAC_TOE_GRID_WIDTH_HALF = TicTacToe_UI.TICTACTOE_GRID.WIDTH/2
+		const TIC_TAC_TOE_GRID_HEIGHT_HALF = TicTacToe_UI.TICTACTOE_GRID.HEIGHT/2
+		const middle_half_grid_width = Math.ceil(middle_tictactoe_grid.width - TIC_TAC_TOE_GRID_WIDTH_HALF)
+		const middle_half_grid_height = Math.ceil(middle_tictactoe_grid.height - TIC_TAC_TOE_GRID_HEIGHT_HALF)
+		/** Return Position 0 of TicTacToe_Grid */
+		return {
+			x: middle_half_grid_width,
+			y: middle_half_grid_height
 		}
 	}
 
@@ -55,7 +69,12 @@ export class TicTacToe_UI {
 			x: Math.ceil((getScreenWidth()/10)*8),
 			y: 0
 		}
-	}	
+	}
+
+	getGameCursorPos() { /** A FINIR */
+		const pos = this.getTicTacToePos()
+		
+	}
 
 	/**
 	 * Affiche le menu
@@ -112,12 +131,12 @@ export class TicTacToe_UI {
 	showTicTacToe() {
 		const pos = this.getTicTacToePos()
 		const TIC_TAC_TOE = ['-' , '|']
-		const LINE = 26
-		drawString(pos.x, pos.y + 1, TIC_TAC_TOE[0].repeat(LINE))
-		drawString(pos.x, pos.y + 5, TIC_TAC_TOE[0].repeat(LINE))
-		for (let i = 0; i < 11; i++) {
-			drawString(pos.x+(LINE/3), (pos.y-2) + i, TIC_TAC_TOE[1])
-			drawString(pos.x+((LINE/3)*2), (pos.y-2) + i, TIC_TAC_TOE[1])
+		const LINE = TicTacToe_UI.TICTACTOE_GRID
+		drawString(pos.x , pos.y + (LINE.HEIGHT/3), TIC_TAC_TOE[0].repeat(LINE.WIDTH))
+		drawString(pos.x , pos.y + ((LINE.HEIGHT/3)*2), TIC_TAC_TOE[0].repeat(LINE.WIDTH))
+		for (let i = 0; i < LINE.HEIGHT; i++) {
+			drawString(pos.x + (LINE.WIDTH/3), pos.y + i, TIC_TAC_TOE[1])
+			drawString(pos.x + ((LINE.WIDTH/3)*2), pos.y + i, TIC_TAC_TOE[1])
 		}
 	}
 
@@ -157,7 +176,9 @@ export class TicTacToe_UI {
 	/**
 	 * Affiche le curseur dans le jeu
 	 */
-	showGameCursor() { }
+	showGameCursor() {
+		this.getGameCursorPos()
+	}
 
 	/**
 	 * Affiche l'ecran de fin du jeu (Affichage vainqueur + ladder + press pour continue)
