@@ -24,7 +24,6 @@ export class TicTacToe_UI {
 		this.mainMenuOptionSelected = 0
 		/** @type {number} */
 		this.caseSelected = 4
-		
 	}
 	
 	/**
@@ -71,10 +70,7 @@ export class TicTacToe_UI {
 		}
 	}
 
-	getGameCursorPos() { /** A FINIR */
-		const pos = this.getTicTacToePos()
-		
-	}
+	getGameCursorPos() { } /** Dessine le curseur ingame */
 
 	/**
 	 * Affiche le menu
@@ -140,6 +136,35 @@ export class TicTacToe_UI {
 		}
 	}
 
+	showValueTicTacToe(value_grid) {
+		const pos = this.getTicTacToePos()
+		let pos_x = pos.x + 3
+		let pos_y = pos.y + 1
+		let next_case = 0
+		const copy_grid = value_grid.slice()
+		for (let i = 0; i < copy_grid.length; i++) {
+			if (i % 3 === 0 && i !== 0) {
+				pos_x = pos.x + 3
+				pos_y += 4
+				next_case = 0
+			}
+			drawString(pos_x + next_case, pos_y, copy_grid[i])
+			next_case += 8
+		}
+	}
+
+	/**
+	 * Verifie si le terminal a une bonne taille pour eviter le crash
+	 * @returns {boolean} Bonne taille ou non
+	 */
+	checkSizeTerminal() {
+		const pos = this.getTicTacToePos()
+		if (pos.y < 0) {
+			return false
+		}
+		return true
+	}
+
 	/**
 	 * Affiche le Ladder
 	 */
@@ -186,10 +211,12 @@ export class TicTacToe_UI {
 	showEndGame() { }
 
 	/**
-	 * Dessine la case dans le tictactoe
+	 * Confirme la case selectionner pour pouvoir le dessiner plus tard
 	 * @param {number} idx_case La case choisie
 	 */
-	setCaseSelected(idx_case) { }
+	setCaseSelected(idx_case) {
+
+	}
 	
 	/**
 	 * Selectionne la case dans le menu du tictactoe

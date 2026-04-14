@@ -32,10 +32,19 @@ export class TicTacToe {
 	 * Jeu du tictactoe en cours
 	 */
 	playGame() {
+		if (!this.ui.checkSizeTerminal()) {
+			console.log('\nTaille de la fenetre trop petite')
+			process.exit()
+		}
 		this.countWinnerLadder()
 		this.ui.showTicTacToe()
 		this.ui.showLadder(this.ladder)
-		this.ui.showGameCursor()
+		this.currentGame.setChoice(1)
+
+		const info = this.currentGame.getValueGrid()
+		this.ui.setCaseSelected(info)
+
+		this.ui.showValueTicTacToe(info)
 	}
 
 	main() { }

@@ -12,13 +12,13 @@ export class TicTacToe_Game {
 	}
 
 	static SYMBOLE_PLAYER = {
-		X: 0,
-		O: 1
+		P1: 'O',
+		P2: 'X'
 	}
 
 	constructor() {
 		/** @type {number} L'etat actuel du joueurs (P1,P2,ENDED) */
-		this.status
+		this.status = TicTacToe_Game.STATUS.P1
 		/** @type {number} L'etat du vainqueur de la partie (P1,P2,ENDED) */
 		this.winner
 		/** @type {Array<string>} Les valeurs de la grille du Tictactoe (a voir si un tableau de number est mieux) */
@@ -29,11 +29,9 @@ export class TicTacToe_Game {
 		]
 	}
 
-	/** 
-	 * Choisie aléatoirement ou par le joueur qui a perdu, par qui commence
-	 * @return {number} Le joueurs qui commence
-	 */
-	setFirstPlayer() { }
+	getValueGrid() { // destructuration pour faire une copie d'un objet complexe (a voir wiki)
+		return this.value_grid // Faire une copie quand tout remarcheras
+	}
 
 	/**
 	 * Commence la partie
@@ -42,20 +40,30 @@ export class TicTacToe_Game {
 		this.setFirstPlayer()
 	}
 
+	/** 
+	 * Choisie aléatoirement ou par le joueur qui a perdu, par qui commence
+	 * @return {number} Le joueurs qui commence
+	 */
+	setFirstPlayer() { }
+
+	/** 
+	 * Mets le choix du joueur dans le tictactoe
+	 * @param {number} idx Numero de la case du Tictactoe
+	 */
+	setChoice(idx) {
+		if (this.status === TicTacToe_Game.STATUS.P1) {
+			this.value_grid[idx] = TicTacToe_Game.SYMBOLE_PLAYER.P1
+		} else {
+			this.value_grid[idx] = TicTacToe_Game.SYMBOLE_PLAYER.P2
+		}
+	}
+
 	/**
 	 * Verifie la condition de victoire
 	 * @return {number} Condition valide
 	 */
 	checkWinCondition() { 
 		// If P1 win / else if P2 / else draw -> return gagnant pour ladder + partie suivante
-		return TicTacToe_Game.WINNER.P2
+		return TicTacToe_Game.WINNER.P1
 	}
-
-	/** 
-	 * Obtiens le choix du joueur dans la grille du tictactoe
-	 * @param {number} idx Le choix du joueur
-	 */
-	setChoice(idx) { }
-
 }
-
