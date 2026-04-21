@@ -39,12 +39,11 @@ export class TicTacToe {
 		this.countWinnerLadder()
 		this.ui.showTicTacToe()
 		this.ui.showLadder(this.ladder)
-		this.currentGame.setChoice(1)
+		this.currentGame.setChoice(2)
 
-		const info = this.currentGame.getValueGrid()
-		this.ui.setCaseSelected(info)
-
-		this.ui.showValueTicTacToe(info)
+		const all_value_grid = this.currentGame.getValueGrid()
+		this.ui.showValueTicTacToe(all_value_grid)
+		this.ui.showGameCursor()
 	}
 
 	main() { }

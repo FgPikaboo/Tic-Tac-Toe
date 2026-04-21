@@ -23,9 +23,9 @@ export class TicTacToe_Game {
 		this.winner
 		/** @type {Array<string>} Les valeurs de la grille du Tictactoe (a voir si un tableau de number est mieux) */
 		this.value_grid = [ 
-			'', '', '',
-			'', '', '',
-			'', '', ''
+			'a', 'a', 'a',
+			'a', 'x', 'a',
+			'a', 'a', 'a'
 		]
 	}
 

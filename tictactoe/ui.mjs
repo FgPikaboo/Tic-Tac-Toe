@@ -70,7 +70,23 @@ export class TicTacToe_UI {
 		}
 	}
 
-	getGameCursorPos() { } /** Dessine le curseur ingame */
+	/**
+	 * Obtiens la position du curseur
+	 * @returns {{x: number, y: number}} Position du curseur actuellement
+	 */
+	getGameCursorPos() {
+		const pos = this.getTicTacToePos()
+		const pos_copy_x = this.caseSelected % 3
+		const pos_copy_y = Math.floor(this.caseSelected/3)
+
+		let pos_x = pos.x + 3 + (8*pos_copy_x)
+		let pos_y = pos.y + 2 + (4*pos_copy_y)
+
+		return {
+			x: pos_x,
+			y: pos_y
+		}
+	}
 
 	/**
 	 * Affiche le menu
@@ -96,7 +112,7 @@ export class TicTacToe_UI {
 			const prevY = pos.y + previous
 			drawString(x, prevY, ' ')
 		}
-		drawString(x, y, '•')
+		drawString(x, y, '')
 	}
 
 	/**
@@ -136,6 +152,10 @@ export class TicTacToe_UI {
 		}
 	}
 
+	/**
+	 * Affiche les valeurs de la grille
+	 * @param {Array<string>} value_grid Valeur de la grille
+	 */
 	showValueTicTacToe(value_grid) {
 		const pos = this.getTicTacToePos()
 		let pos_x = pos.x + 3
@@ -202,7 +222,8 @@ export class TicTacToe_UI {
 	 * Affiche le curseur dans le jeu
 	 */
 	showGameCursor() {
-		this.getGameCursorPos()
+		const pos = this.getGameCursorPos()
+		drawString(pos.x, pos.y, '•')
 	}
 
 	/**
