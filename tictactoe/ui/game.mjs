@@ -2,15 +2,9 @@ import {
 	drawString,
 	getScreenHeight,
 	getScreenWidth
-} from "../terminal-engine.mjs"
+} from "../../terminal-engine.mjs"
 
-export class TicTacToe_UI {
-
-	static MAIN_MENU = [
-		'Start game',
-		'Exit',
-		'Plaisir'
-	]
+export class TicTacToe_Game_UI {
 
 	static TICTACTOE_GRID = {
 		WIDTH: 23,
@@ -18,23 +12,10 @@ export class TicTacToe_UI {
 	}
 
 	static VERSION = '@MrPikaboo -- VERSION 0.4'
-	
+
 	constructor() {
 		/** @type {number} */
-		this.mainMenuOptionSelected = 0
-		/** @type {number} */
 		this.caseSelected = 4
-	}
-	
-	/**
-	 * Obtiens la position du Menu
-	 * @returns {{x: number, y: number}} Position du menu
-	 */
-	getMenuPos() {
-		return { 
-			x: Math.ceil((getScreenWidth()/2)-(TicTacToe_UI.MAIN_MENU[0].length/2)),
-			y: Math.ceil(getScreenHeight()/2)
-		}
 	}
 
 	/**
@@ -48,8 +29,8 @@ export class TicTacToe_UI {
 			width: zone_draw_width/2,
 			height: zone_draw_height/2
 		}
-		const TIC_TAC_TOE_GRID_WIDTH_HALF = TicTacToe_UI.TICTACTOE_GRID.WIDTH/2
-		const TIC_TAC_TOE_GRID_HEIGHT_HALF = TicTacToe_UI.TICTACTOE_GRID.HEIGHT/2
+		const TIC_TAC_TOE_GRID_WIDTH_HALF = TicTacToe_Game_UI.TICTACTOE_GRID.WIDTH/2
+		const TIC_TAC_TOE_GRID_HEIGHT_HALF = TicTacToe_Game_UI.TICTACTOE_GRID.HEIGHT/2
 		const middle_half_grid_width = Math.ceil(middle_tictactoe_grid.width - TIC_TAC_TOE_GRID_WIDTH_HALF)
 		const middle_half_grid_height = Math.ceil(middle_tictactoe_grid.height - TIC_TAC_TOE_GRID_HEIGHT_HALF)
 		/** Return Position 0 of TicTacToe_Grid */
@@ -89,61 +70,12 @@ export class TicTacToe_UI {
 	}
 
 	/**
-	 * Affiche le menu
-	 */
-	showMainScreen() {
-		const pos = this.getMenuPos()
-
-		for (let i = 0; i < TicTacToe_UI.MAIN_MENU.length; i++) {
-			drawString(pos.x, pos.y + i, TicTacToe_UI.MAIN_MENU[i])
-		}
-	}
-
-	/** 
-	 * Affiche le curseur dans le menu
-	 * Supprime egalement l'ancien curseur
-	 */
-	showMenuCursor(previous) {
-		const pos = this.getMenuPos()
-		const y = pos.y + this.mainMenuOptionSelected
-		const x = pos.x - 2
-
-		if (previous !== undefined) {
-			const prevY = pos.y + previous
-			drawString(x, prevY, ' ')
-		}
-		drawString(x, y, '')
-	}
-
-	/**
-	 * Permet de descendre dans le menu du jeu
-	 */
-	moveDown() {
-		const previousMainMenuOptionSelected = this.mainMenuOptionSelected
-		this.mainMenuOptionSelected = (this.mainMenuOptionSelected + 1) % TicTacToe_UI.MAIN_MENU.length
-		this.showMenuCursor(previousMainMenuOptionSelected)
-	}
-
-	/**
-	 * Permet de monter dans le menu du jeu
-	 */
-	moveUp() {
-		const previousMainMenuOptionSelected = this.mainMenuOptionSelected
-		if (this.mainMenuOptionSelected > 0) {
-			this.mainMenuOptionSelected -= 1
-		} else {
-			this.mainMenuOptionSelected = TicTacToe_UI.MAIN_MENU.length - 1
-		}
-		this.showMenuCursor(previousMainMenuOptionSelected)
-	}
-
-	/**
 	 * Affiche le jeu (contenant un TicTacToe)
 	 */
 	showTicTacToe() {
 		const pos = this.getTicTacToePos()
 		const TIC_TAC_TOE = ['-' , '|']
-		const LINE = TicTacToe_UI.TICTACTOE_GRID
+		const LINE = TicTacToe_Game_UI.TICTACTOE_GRID
 		drawString(pos.x , pos.y + (LINE.HEIGHT/3), TIC_TAC_TOE[0].repeat(LINE.WIDTH))
 		drawString(pos.x , pos.y + ((LINE.HEIGHT/3)*2), TIC_TAC_TOE[0].repeat(LINE.WIDTH))
 		for (let i = 0; i < LINE.HEIGHT; i++) {
@@ -171,18 +103,6 @@ export class TicTacToe_UI {
 			drawString(pos_x + next_case, pos_y, copy_grid[i])
 			next_case += 8
 		}
-	}
-
-	/**
-	 * Verifie si le terminal a une bonne taille pour eviter le crash
-	 * @returns {boolean} Bonne taille ou non
-	 */
-	checkSizeTerminal() {
-		const pos = this.getTicTacToePos()
-		if (pos.y < 0) {
-			return false
-		}
-		return true
 	}
 
 	/**
@@ -215,7 +135,7 @@ export class TicTacToe_UI {
 		drawString(pos.x+3, pos.y+4, PLAYER[1])
 
 		/** Version UI */
-		drawString(pos.x+3, height_y-(half_to_half_height_y/2), TicTacToe_UI.VERSION)
+		drawString(pos.x+3, height_y-(half_to_half_height_y/2), TicTacToe_Game_UI.VERSION)
 	}
 
 	/**
@@ -224,6 +144,18 @@ export class TicTacToe_UI {
 	showGameCursor() {
 		const pos = this.getGameCursorPos()
 		drawString(pos.x, pos.y, '•')
+	}
+
+	/**
+	 * Verifie si le terminal a une bonne taille pour eviter le crash
+	 * @returns {boolean} Bonne taille ou non
+	 */
+	checkSizeTerminal() {
+		const pos = this.getTicTacToePos()
+		if (pos.y < 0) {
+			return false
+		}
+		return true
 	}
 
 	/**
@@ -238,10 +170,4 @@ export class TicTacToe_UI {
 	setCaseSelected(idx_case) {
 
 	}
-	
-	/**
-	 * Selectionne la case dans le menu du tictactoe
-	 * @param {number} idx_menu L'option choisie
-	 */
-	setMainMenuOptionSelected(idx_menu) { }
 }
