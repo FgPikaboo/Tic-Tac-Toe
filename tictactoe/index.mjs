@@ -27,11 +27,15 @@ export class TicTacToe {
 			this.ladder.P2 += 1
 		}
 	}
+	
+	manualMenu() {
+		this.ui.menu.showMainScreen()
+		this.ui.menu.moveDown()
+		this.ui.menu.moveDown()
+	}
 
-	/**
-	 * Jeu du tictactoe en cours
-	 */
-	playGame() {
+
+	manualTicTacToe() {
 		if (!this.ui.game.checkSizeTerminal()) {
 			console.log('\nTaille de la fenetre trop petite')
 			process.exit()
@@ -44,6 +48,13 @@ export class TicTacToe {
 		const all_value_grid = this.currentGame.getValueGrid()
 		this.ui.game.showValueTicTacToe(all_value_grid)
 		this.ui.game.showGameCursor()
+	}
+
+	/**
+	 * Jeu du tictactoe en cours
+	 */
+	playGame() {
+		this.manualTicTacToe()
 	}
 
 	main() { }

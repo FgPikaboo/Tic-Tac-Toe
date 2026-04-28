@@ -1,9 +1,14 @@
+import { 
+	drawString,
+	getScreenHeight,
+	getScreenWidth
+} from "../../terminal-engine.mjs"
+
 export class TicTacToe_Menu_UI {
 
 	static MAIN_MENU = [
 		'Start game',
 		'Exit',
-		'Plaisir'
 	]
 	
 	constructor() {
@@ -31,6 +36,8 @@ export class TicTacToe_Menu_UI {
 		for (let i = 0; i < TicTacToe_Menu_UI.MAIN_MENU.length; i++) {
 			drawString(pos.x, pos.y + i, TicTacToe_Menu_UI.MAIN_MENU[i])
 		}
+
+		this.showMenuCursor()
 	}
 
 	/** 
@@ -46,7 +53,7 @@ export class TicTacToe_Menu_UI {
 			const prevY = pos.y + previous
 			drawString(x, prevY, ' ')
 		}
-		drawString(x, y, '')
+		drawString(x, y, '•')
 	}
 
 	/**
