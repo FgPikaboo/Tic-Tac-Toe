@@ -8,7 +8,7 @@ export class TicTacToe_Menu_UI {
 
 	static MAIN_MENU = [
 		'Start game',
-		'Exit',
+		'Exit'
 	]
 	
 	constructor() {

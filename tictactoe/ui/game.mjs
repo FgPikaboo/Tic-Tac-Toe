@@ -141,9 +141,59 @@ export class TicTacToe_Game_UI {
 	/**
 	 * Affiche le curseur dans le jeu
 	 */
-	showGameCursor() {
+	showGameCursor(previous) {
 		const pos = this.getGameCursorPos()
+
+		if (previous !== undefined) {
+			drawString(previous.x,previous.y,' ')
+		}
 		drawString(pos.x, pos.y, '•')
+	}
+
+	/**
+	 * Deplace le curseur du jeu vers le bas
+	 */
+	moveDown() {
+		const previous_pos = this.getGameCursorPos()
+		this.caseSelected = (this.caseSelected + 3) % 9
+		this.showGameCursor(previous_pos)
+	}
+
+	/**
+	 * Deplace le curseur du jeu vers le haut
+	 */
+	moveUp() {
+		const previous_pos = this.getGameCursorPos()
+		if (this.caseSelected >= 3) {
+			// 3 = Nbs de case dans la colonne
+			this.caseSelected -= 3
+		} else {
+			// 6 = Nbs de case a parcourir pour atteindre la derniere case de la colonne
+			this.caseSelected += 6
+		}
+		this.showGameCursor(previous_pos)
+	}
+
+	/**
+	 * Deplace le curseur du jeu vers la gauche
+	 */
+	moveLeft() {
+		const previous_pos = this.getGameCursorPos()
+		if (this.caseSelected > 0) {
+			this.caseSelected -= 1
+		} else {
+			this.caseSelected += 8
+		}
+		this.showGameCursor(previous_pos)
+	}
+
+	/**
+	 * Deplace le curseur du jeu vers la droite
+	 */
+	moveRight() {
+		const previous_pos = this.getGameCursorPos()
+		this.caseSelected = (this.caseSelected + 1) % 9
+		this.showGameCursor(previous_pos)
 	}
 
 	/**

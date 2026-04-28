@@ -31,7 +31,6 @@ export class TicTacToe {
 	manualMenu() {
 		this.ui.menu.showMainScreen()
 		this.ui.menu.moveDown()
-		this.ui.menu.moveDown()
 	}
 
 
@@ -54,7 +53,7 @@ export class TicTacToe {
 	 * Jeu du tictactoe en cours
 	 */
 	playGame() {
-		this.manualTicTacToe()
+		this.manualMenu()
 	}
 
 	main() { }
