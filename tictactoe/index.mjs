@@ -21,9 +21,9 @@ export class TicTacToe {
 	countWinnerLadder() {
 		const winner = this.currentGame.checkWinCondition()
 
-		if (winner === 0) {
+		if (winner === TicTacToe_Game.STATUS.P1) {
 			this.ladder.P1 += 1
-		} else {
+		} else if (winner === TicTacToe_Game.STATUS.P2) {
 			this.ladder.P2 += 1
 		}
 	}
@@ -39,6 +39,7 @@ export class TicTacToe {
 			console.log('\nTaille de la fenetre trop petite')
 			process.exit()
 		}
+		this.currentGame.checkWinCondition()
 		this.countWinnerLadder()
 		this.ui.game.showTicTacToe()
 		this.ui.game.showLadder(this.ladder)
@@ -53,7 +54,7 @@ export class TicTacToe {
 	 * Jeu du tictactoe en cours
 	 */
 	playGame() {
-		this.manualMenu()
+		this.manualTicTacToe()
 	}
 
 	main() { }
