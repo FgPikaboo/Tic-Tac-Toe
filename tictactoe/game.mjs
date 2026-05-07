@@ -33,12 +33,23 @@ export class TicTacToe_Game {
 		return this.value_grid // Faire une copie quand tout remarcheras
 	}
 
+	getStatus() {
+		return this.status
+	}
+
+	getWinner() {
+		return this.winner
+	}
+
+	resetValueGrid() {
+		this.value_grid.fill('')
+	}
+
 	/**
 	 * Commence la partie
 	 */
 	startGame() {
 		this.setFirstPlayer()
-		this.setChoice(0)
 	}
 
 	/** 
@@ -56,16 +67,22 @@ export class TicTacToe_Game {
 	}
 
 	/** 
-	 * Mets le choix du joueur dans le tictactoe
+	 * Mets le choix du joueur dans le tictactoe et change le joueur en cours si le jeu n'est pas terminer
 	 * @param {number} idx Numero de la case du Tictactoe
 	 */
-	setChoice(idx) {
+	playCurrentTurn(idx) {
 		if (this.status === TicTacToe_Game.STATUS.P1) {
 			this.value_grid[idx] = TicTacToe_Game.SYMBOLE_PLAYER.P1
 		} else {
 			this.value_grid[idx] = TicTacToe_Game.SYMBOLE_PLAYER.P2
 		}
-		console.log(this.checkWinCondition())
+		if (typeof(this.checkWinCondition()) !== 'number') {
+			if (this.status === TicTacToe_Game.STATUS.P1) {
+				this.status = TicTacToe_Game.STATUS.P2
+			} else {
+				this.status = TicTacToe_Game.STATUS.P1
+			}
+		}
 	}
 
 	/**

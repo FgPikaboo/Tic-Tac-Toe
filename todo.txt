@@ -1,0 +1,37 @@
+--- UI ---
+
+// InGame
+[x] Dessiner le TicTacToe
+[x] Mettre le TicTacToc au centre du terminal
+[x] Ajuster automatiquement le TicTacToe selon l'affichage du terminal
+[x] Dessiner les limites de l'affichage du ladder
+[x] Faire en sorte que l'UI affiche en direct le compteur de victoire (ladder)
+[x] Afficher le credit de ton jeu
+[x] Afficher le Curseur au centre du TicTacToe
+[x] Afficher les symboles des joueurs au centre des cases du TicTacToe
+[x] Dessiner et Supprimer le curseur quand je fait un mouvement
+[] Faire un ecran de victoire
+[] Afficher a qui c'est le tour
+
+// Menu
+[x] Dessiner les options du menu du TicTacToe
+[x] Afficher le curseur dans le menu
+[x] Dessiner et Supprimer le curseur quand je fait un mouvement dans le menu
+
+[x] Faire une fonction de prevension quand le terminal est trop petit pour afficher le TicTacToe
+
+--- GAME ---
+
+[x] Commence la partie par le perdant ou sinon en aleatoire
+[x] Change le joueur apres chaque tour
+[x] Ajoute le symbole dans le TicTacToe selon le tour
+[x] Reset la grille apres chaque fin de partie
+[x] Code les conditions de victoire du TicTacToe
+[x] Maintenir un histoirique de victoire dans le programme pour le ladder
+[] Confirmer l'option selectionner dans le menu
+[] Dans l'ecran de victoire, demander s'il veut rejouer sinon mets fin au programme
+[] Choisir par les fleches de mon clavier, les cases du TicTacToe et du Menu
+
+--- TEST UNITAIRE ---
+
+[x] Faire le test unitaire du programme

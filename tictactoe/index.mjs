@@ -43,7 +43,7 @@ export class TicTacToe {
 		this.countWinnerLadder()
 		this.ui.game.showTicTacToe()
 		this.ui.game.showLadder(this.ladder)
-		this.currentGame.setChoice(2)
+		this.currentGame.playCurrentTurn(2)
 
 		const all_value_grid = this.currentGame.getValueGrid()
 		this.ui.game.showValueTicTacToe(all_value_grid)
@@ -54,7 +54,10 @@ export class TicTacToe {
 	 * Jeu du tictactoe en cours
 	 */
 	playGame() {
+		this.currentGame.startGame()
 		this.manualTicTacToe()
+		this.countWinnerLadder()
+		// this.currentGame.resetValueGrid()
 	}
 
 	main() { }

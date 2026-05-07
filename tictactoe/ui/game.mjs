@@ -74,13 +74,13 @@ export class TicTacToe_Game_UI {
 	 */
 	showTicTacToe() {
 		const pos = this.getTicTacToePos()
-		const TIC_TAC_TOE = ['-' , '|']
+		const TICTACTOE_BORDER = ['-' , '|']
 		const LINE = TicTacToe_Game_UI.TICTACTOE_GRID
-		drawString(pos.x , pos.y + (LINE.HEIGHT/3), TIC_TAC_TOE[0].repeat(LINE.WIDTH))
-		drawString(pos.x , pos.y + ((LINE.HEIGHT/3)*2), TIC_TAC_TOE[0].repeat(LINE.WIDTH))
+		drawString(pos.x , pos.y + (LINE.HEIGHT/3), TICTACTOE_BORDER[0].repeat(LINE.WIDTH))
+		drawString(pos.x , pos.y + ((LINE.HEIGHT/3)*2), TICTACTOE_BORDER[0].repeat(LINE.WIDTH))
 		for (let i = 0; i < LINE.HEIGHT; i++) {
-			drawString(pos.x + (LINE.WIDTH/3), pos.y + i, TIC_TAC_TOE[1])
-			drawString(pos.x + ((LINE.WIDTH/3)*2), pos.y + i, TIC_TAC_TOE[1])
+			drawString(pos.x + (LINE.WIDTH/3), pos.y + i, TICTACTOE_BORDER[1])
+			drawString(pos.x + ((LINE.WIDTH/3)*2), pos.y + i, TICTACTOE_BORDER[1])
 		}
 	}
 
@@ -148,6 +148,10 @@ export class TicTacToe_Game_UI {
 			drawString(previous.x,previous.y,' ')
 		}
 		drawString(pos.x, pos.y, '•')
+	}
+
+	showOrderTurn() {
+		
 	}
 
 	/**
