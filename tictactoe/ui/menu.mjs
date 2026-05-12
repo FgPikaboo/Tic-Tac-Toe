@@ -15,6 +15,10 @@ export class TicTacToe_Menu_UI {
 		/** @type {number} */
 		this.mainMenuOptionSelected = 0
 	}
+
+	getMenuOptionSelected() {
+		return this.mainMenuOptionSelected
+	}
 	
 	/**
 	 * Obtiens la position du Menu
@@ -77,10 +81,4 @@ export class TicTacToe_Menu_UI {
 		}
 		this.showMenuCursor(previousMainMenuOptionSelected)
 	}
-
-	/**
-	 * Selectionne la case dans le menu du tictactoe
-	 * @param {number} idx_menu L'option choisie
-	 */
-	setMainMenuOptionSelected(idx_menu) { }
 }
