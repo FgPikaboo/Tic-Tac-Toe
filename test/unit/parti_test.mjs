@@ -1,4 +1,6 @@
-import { TicTacToe_Game } from "../tictactoe/game.mjs"
+import { TicTacToe_Game } from "../../tictactoe/game.mjs"
+
+// Ce fichier s'appelle un test unitaire
 
 // Derouler une parti avec des choix defini et confirmer la win ou non
 

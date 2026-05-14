@@ -21,7 +21,7 @@ export class TicTacToe_Game {
 		this.status
 		/** @type {number} L'etat du vainqueur de la partie (P1,P2) */
 		this.winner
-		/** @type {Array<string>} Les valeurs de la grille du Tictactoe (a voir si un tableau de number est mieux) */
+		/** @type {Array<string>} Les valeurs de la grille du Tictactoe */
 		this.value_grid = [ 
 			'', '', '',
 			'', '', '',
@@ -56,10 +56,10 @@ export class TicTacToe_Game {
 	 * Choisie aléatoirement ou par le joueur qui a perdu, par qui commence
 	 * @returns {number} Le joueurs qui commence
 	 */
-	setFirstPlayer() {
-		if (this.winner === TicTacToe_Game.STATUS.P1) {
+	setFirstPlayer(winner) {
+		if (winner === TicTacToe_Game.STATUS.P1) {
 			this.status = TicTacToe_Game.STATUS.P2
-		} else if (this.winner === TicTacToe_Game.STATUS.P2) {
+		} else if (winner === TicTacToe_Game.STATUS.P2) {
 			this.status = TicTacToe_Game.STATUS.P1
 		} else {
 			this.status = Math.random() > 0.50 ? TicTacToe_Game.STATUS.P1 : TicTacToe_Game.STATUS.P2
@@ -71,6 +71,12 @@ export class TicTacToe_Game {
 	 * @param {number} idx Numero de la case du Tictactoe
 	 */
 	playCurrentTurn(idx) {
+		if (idx > 8 || idx < 0) {
+			throw new Error(`idx:(${idx}) dois etre entre 0 et 8`)
+		}
+		if (this.value_grid[idx] !== '') {
+			throw new Error(`La valeur a deja etais saisie`)
+		}
 		if (this.status === TicTacToe_Game.STATUS.P1) {
 			this.value_grid[idx] = TicTacToe_Game.SYMBOLE_PLAYER.P1
 		} else {

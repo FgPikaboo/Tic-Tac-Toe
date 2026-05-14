@@ -12,6 +12,7 @@
 [x] Dessiner et Supprimer le curseur quand je fait un mouvement
 [] Faire un ecran de victoire
 [] Afficher a qui c'est le tour
+[] Faire un emploie de jeu
 
 // Menu
 [x] Dessiner les options du menu du TicTacToe
@@ -31,6 +32,7 @@
 [] Confirmer l'option selectionner dans le menu
 [] Dans l'ecran de victoire, demander s'il veut rejouer sinon mets fin au programme
 [] Choisir par les fleches de mon clavier, les cases du TicTacToe et du Menu
+[] Eviter qu'on puisse redraw sur le symbole
 
 --- TEST UNITAIRE ---
 

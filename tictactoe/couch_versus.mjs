@@ -23,8 +23,7 @@ export class TicTacToe_CouchVersus {
 	 * Détection des entrées pour le menu de sélection
 	 * - Haut/Bas pour naviguer
 	 * - Espace/Entrée pour valider
-	 * @param {{name: string}} key Le nom de la touche du clavier 
-	 * @returns {Promise<'up'|'down'|'confirm'>}
+	 * @param {{name: 'up'|'down'|'confirm'}} key Le nom de la touche du clavier 
 	 */
 	_waitMoveInMenu(key) {
 		let action
@@ -46,6 +45,10 @@ export class TicTacToe_CouchVersus {
 		}
 	}
 
+	/**
+	 * La super fonction de _waitMoveInMenu
+	 * @returns {Promise<'up'|'down'|'confirm'>}
+	 */
 	async waitForMenuSelection() {
 		await waitOnceKey((key) => {
 			return this._waitMoveInMenu(key)
@@ -53,12 +56,48 @@ export class TicTacToe_CouchVersus {
 		return this.selectedAction
 	}
 
-	/** 
-	 * Attend le choix du joueur
-	 * @type {number} 
-	 * @returns {number} Renvoie le choix
+	/**
+	 * Détection des entrées pour le menu de sélection
+	 * - Haut/Bas pour naviguer
+	 * - Espace/Entrée pour valider
+	 * @param {{name: 'up'|'down'|'right'|'left'|'confirm'}} key Le nom de la touche du clavier 
 	 */
-	waitForPlayerChoice() {}
+	_waitForPlayerChoice(key) {
+		let action
+		switch (key.name) {
+			case TicTacToe_CouchVersus.KEY_NAME.DOWN:
+				action = 'down'
+				break
+			case TicTacToe_CouchVersus.KEY_NAME.UP:
+				action = 'up'
+				break
+			case TicTacToe_CouchVersus.KEY_NAME.RIGHT:
+				action = 'right'
+				break
+			case TicTacToe_CouchVersus.KEY_NAME.LEFT:
+				action = 'left'
+				break
+			case TicTacToe_CouchVersus.KEY_NAME.SPACE:
+			case TicTacToe_CouchVersus.KEY_NAME.ENTER:
+				action = 'confirm'
+				break
+		}
+		if (action) {
+			this.selectedAction = action
+			return true
+		}
+	}
+
+	/**
+	 * La super fonction de _waitMoveInMenu
+	 * @returns {Promise<'up'|'down'|'right'|'left'|'confirm'>}
+	 */
+	async waitMoveInGame() {
+		await waitOnceKey((key) => {
+			return this._waitForPlayerChoice(key)
+		})
+		return this.selectedAction
+	}
 
 	/** 
 	 * Attend une double saisie pour aller la suite

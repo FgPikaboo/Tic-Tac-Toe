@@ -18,6 +18,10 @@ export class TicTacToe_Game_UI {
 		this.caseSelected = 4
 	}
 
+	getCaseSelected() {
+		return this.caseSelected
+	}
+
 	/**
 	 * Obtiens la position du TicTacToe
 	 * @returns {{x: number, y: number}} Position du TicTacToe
