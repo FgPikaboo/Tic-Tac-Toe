@@ -76,7 +76,6 @@ export class TicTacToe {
 		let endGame = false
 		while (!endGame) {
 			const action = await this.controller.waitMoveInGame()
-			console.error(new Date().toISOString(),action)
 			switch (action) {
 				case "up":
 					this.ui.game.moveUp()
@@ -93,14 +92,17 @@ export class TicTacToe {
 				case "confirm":
 					currentGame.playCurrentTurn(this.ui.game.getCaseSelected())
 					this.ui.game.showValueTicTacToe(currentGame.getValueGrid())
-					const winner = currentGame.getWinner()
-					if (typeof(winner) === 'number') {
+					if (currentGame.getStatus() === TicTacToe_Game.STATUS.ENDED) {
 						clear()
-						this.countWinnerLadder(winner)
-						this.ui.game.showLadder(this.ladder)
-						this.prevWinner = currentGame.getWinner()
-						this.ui.game.showEndGame(this.prevWinner)
-						this.countGame += 1
+						const winner = currentGame.getWinner()
+						if (winner === TicTacToe_Game.WINNER.DRAW) {
+							console.error(new Date().toISOString(),"draw")
+							console.log('Personne a gagné') // faire proprement
+						} else {
+							this.countWinnerLadder(winner)
+							this.ui.game.showEndGame(winner)
+						}
+						this.prevWinner = winner
 						endGame = true
 					}
 					break

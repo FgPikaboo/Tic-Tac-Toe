@@ -17,6 +17,10 @@ const array_empty = [
 ]
 
 function isFull(array) {
+	// .some compare les index si c'est une chaine vide, si y'en a un, renvoie true
+	// ajout d'un ! pour renvoyer un true car j'ai voulu parcourir tout le array_full pour verifier si c'est bien tout remplie
+	// peut etre ecrit d'une ligne par une fonction anonyme ->
+	// const isFull = (array) => !array.some((element) => element === '')
 	return !array.some(
 		(element) => element === ''
 	)
