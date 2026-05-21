@@ -3,6 +3,7 @@ import {
 	getScreenHeight,
 	getScreenWidth
 } from "../../terminal-engine.mjs"
+import { TicTacToe_CouchVersus } from "../couch_versus.mjs"
 
 export class TicTacToe_Game_UI {
 
@@ -53,6 +54,15 @@ export class TicTacToe_Game_UI {
 			x: Math.ceil((getScreenWidth()/10)*8),
 			y: 0
 		}
+	}
+
+	getPosEndGame() {
+	const zone_draw_width = Math.ceil(getScreenWidth()*0.75)
+	const zone_draw_height = Math.ceil(getScreenHeight()*(2/3))
+	return {
+		x: zone_draw_width/2,
+		y: zone_draw_height/2
+	}
 	}
 
 	/**
@@ -219,7 +229,10 @@ export class TicTacToe_Game_UI {
 	/**
 	 * Affiche l'ecran de fin du jeu (Affichage vainqueur + ladder + press pour continue)
 	 */
-	showEndGame() { }
+	showEndGame(winner) { 
+		const pos = this.getPosEndGame()
+		drawString(pos.x,pos.y,`${winner} as gagné, gg`)
+	}
 
 	/**
 	 * Confirme la case selectionner pour pouvoir le dessiner plus tard

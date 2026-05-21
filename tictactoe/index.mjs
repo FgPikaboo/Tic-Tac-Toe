@@ -7,8 +7,6 @@ export class TicTacToe {
 	constructor() {
 		/** @type {Array<TicTacToe_Game>} Historique des games faites */
 		this.games = [ ]
-		/** @type {TicTacToe_Game} L'instance de la classe Game */
-		this.currentGame = new TicTacToe_Game()
 		this.ui = new TicTacToe_UI() // L'instance de la classe UI (pour l'affichage)
 		this.controller = new TicTacToe_CouchVersus()
 		this.ladder = {
@@ -16,20 +14,23 @@ export class TicTacToe {
 			P2: 0
 		}
 		this.replay = false
+		this.prevWinner = undefined
 	}
 
 	/**
 	 * Ajoute le player gagnant
 	 * @param {number} player Le player gagnant
 	 */
-	countWinnerLadder() {
-		const winner = this.currentGame.checkWinCondition()
-
-		if (winner === TicTacToe_Game.STATUS.P1) {
+	countWinnerLadder(current_winner) {
+		if (current_winner === TicTacToe_Game.STATUS.P1) {
 			this.ladder.P1 += 1
-		} else if (winner === TicTacToe_Game.STATUS.P2) {
+		} else if (current_winner === TicTacToe_Game.STATUS.P2) {
 			this.ladder.P2 += 1
 		}
+	}
+
+	addCountGameFinish() {
+		this.countGame += 1
 	}
 
 	async applyChoiceInMenuSelection() {
@@ -58,13 +59,16 @@ export class TicTacToe {
 		}
 	}
 	
-	async inGridTicTacToe() {
+	async launchTicTacToeGame() {
 		if (!this.ui.game.checkSizeTerminal()) {
 			console.log('\nTaille de la fenetre trop petite')
 			this.exit()
 		}
-		const winner = this.currentGame.getWinner()
-		this.currentGame.setFirstPlayer(winner)
+
+		// Nouvelle instance d'une partie
+		const currentGame = new TicTacToe_Game()
+
+		currentGame.setFirstPlayer(this.prevWinner)
 		this.ui.game.showTicTacToe()
 		this.ui.game.showLadder(this.ladder)
 		this.ui.game.showGameCursor()
@@ -87,12 +91,16 @@ export class TicTacToe {
 					this.ui.game.moveRight()
 					break
 				case "confirm":
-
-					this.currentGame.playCurrentTurn(this.ui.game.getCaseSelected())
-					this.ui.game.showValueTicTacToe(this.currentGame.getValueGrid())
-					if (typeof(this.currentGame.checkWinCondition()) === 'number') {
-						this.countWinnerLadder()
-						// showEndScreen
+					currentGame.playCurrentTurn(this.ui.game.getCaseSelected())
+					this.ui.game.showValueTicTacToe(currentGame.getValueGrid())
+					const winner = currentGame.getWinner()
+					if (typeof(winner) === 'number') {
+						clear()
+						this.countWinnerLadder(winner)
+						this.ui.game.showLadder(this.ladder)
+						this.prevWinner = currentGame.getWinner()
+						this.ui.game.showEndGame(this.prevWinner)
+						this.countGame += 1
 						endGame = true
 					}
 					break
@@ -104,11 +112,10 @@ export class TicTacToe {
 	 * Jeu du tictactoe en cours
 	 */
 	async playGame() {
-		if (this.replay) {
-			this.currentGame.resetValueGrid()
+		while (!this.replay) {
+			await this.applyChoiceInMenuSelection()
+			await this.launchTicTacToeGame()
 		}
-		await this.applyChoiceInMenuSelection()
-		await this.inGridTicTacToe()
 	}
 
 	main() { }

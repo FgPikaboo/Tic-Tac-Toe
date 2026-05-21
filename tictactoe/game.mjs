@@ -1,14 +1,14 @@
 export class TicTacToe_Game {
 	
 	static STATUS = {
-		P1: 0,
-		P2: 1,
-		ENDED: 2
+		P1: 1,
+		P2: 2,
+		ENDED: 3
 	}
 
 	static WINNER = {
-		P1: 0,
-		P2: 1
+		P1: 1,
+		P2: 2
 	}
 
 	static SYMBOLE_PLAYER = {
@@ -17,9 +17,9 @@ export class TicTacToe_Game {
 	}
 
 	constructor() {
-		/** @type {number} L'etat actuel du joueurs (P1,P2,ENDED) */
+		/** @type {number} L'etat actuel du joueurs (P1 = 1, P2 = 2, ENDED = 3) */
 		this.status
-		/** @type {number} L'etat du vainqueur de la partie (P1,P2) */
+		/** @type {number} L'etat du vainqueur de la partie (P1 = 1, P2 = 2) */
 		this.winner
 		/** @type {Array<string>} Les valeurs de la grille du Tictactoe */
 		this.value_grid = [ 
@@ -82,7 +82,8 @@ export class TicTacToe_Game {
 		} else {
 			this.value_grid[idx] = TicTacToe_Game.SYMBOLE_PLAYER.P2
 		}
-		if (typeof(this.checkWinCondition()) !== 'number') {
+		this._checkWinCondition()
+		if (!(this.status === TicTacToe_Game.STATUS.ENDED)) {
 			if (this.status === TicTacToe_Game.STATUS.P1) {
 				this.status = TicTacToe_Game.STATUS.P2
 			} else {
@@ -95,7 +96,7 @@ export class TicTacToe_Game {
 	 * Verifie la condition de victoire
 	 * @returns {number|undefined} Renvoie 0 si P1 a gagner ou 1 si P2 a gagner, undefined dans tout les autres cas
 	 */
-	checkWinCondition() {
+	_checkWinCondition() {
 		const isDiagonalWin = (this.value_grid[0] === this.value_grid[4]) &&
 			(this.value_grid[0] === this.value_grid[8]) && 
 			this.value_grid[0] !== ''
@@ -104,8 +105,7 @@ export class TicTacToe_Game {
 			this.value_grid[2] !== ''
 		if (isDiagonalWin || isOtherDiagonalWin) {
 			this.winner = this.status
-			return this.status
-			// return this.value_grid[0] === TicTacToe_Game.SYMBOLE_PLAYER.P1 ? TicTacToe_Game.STATUS.P1 : TicTacToe_Game.STATUS.P2
+			this.status = TicTacToe_Game.STATUS.ENDED
 		} 
 		for (let n = 0; n < this.value_grid.length; n++) {
 			const isHorizontalWin = (n < this.value_grid.length - 2) && 
@@ -120,10 +120,10 @@ export class TicTacToe_Game {
 				this.value_grid[n] !== ''
 			if (isHorizontalWin || isVerticalWin) {
 				this.winner = this.status
-				return this.status
+				this.status = TicTacToe_Game.STATUS.ENDED
 			}
 		}
-		return undefined
+		return undefined // return parti null si toute les casse sont remplie
 	}
 	// refait la fonction checkwincondition sans un renvoie de si c'est un number ou undefined, renvoyer qu'un seul type
 }
