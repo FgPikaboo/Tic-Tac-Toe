@@ -95,13 +95,11 @@ export class TicTacToe {
 					if (currentGame.getStatus() === TicTacToe_Game.STATUS.ENDED) {
 						clear()
 						const winner = currentGame.getWinner()
-						if (winner === TicTacToe_Game.WINNER.DRAW) {
-							console.error(new Date().toISOString(),"draw")
-							console.log('Personne a gagné') // faire proprement
-						} else {
+						if (winner === TicTacToe_Game.WINNER.P1 || winner === TicTacToe_Game.WINNER.P2) {
 							this.countWinnerLadder(winner)
-							this.ui.game.showEndGame(winner)
 						}
+						this.ui.game.showEndGame(winner)
+						// await double saisie
 						this.prevWinner = winner
 						endGame = true
 					}

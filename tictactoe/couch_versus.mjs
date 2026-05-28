@@ -1,7 +1,25 @@
 import { waitOnceKey } from "../terminal-engine.mjs"
 
+/**
+ * @typedef {'up' | 'down' | 'left' | 'right' | 'confirm'} GameAction
+ * @typedef {'up' | 'down' | 'confirm'} MenuAction
+ */
+
+/**
+ * Object contenant la structure brute d'une touche renvoyée par le terminal-engine.
+ * @typedef {Object} TerminalKey
+ * @property {string} name - Le nom physique de la touche (ex: 'return', 'space', 'up').
+ */
+
+/**
+ * Gère les entrées clavier pour permettre aux joueurs d'interagir avec les menus et le jeu.
+ */
 export class TicTacToe_CouchVersus {
 
+	/**
+	 * Mappage des identifiants de touches du terminal-engine.
+	 * @enum {string}
+	 */
 	static KEY_NAME = {
 		DOWN: 'down',
 		UP: 'up',
@@ -14,16 +32,17 @@ export class TicTacToe_CouchVersus {
 
 	constructor() {
 		/**
-		 * @type {string} Sauvegarde le mouvement du joueur
+		 * Stocke la dernière action validée par l'utilisateur.
+		 * @type {GameAction | MenuAction | undefined}
 		 */
 		this.selectedAction
 	}
 
 	/**
-	 * Détection des entrées pour le menu de sélection
-	 * - Haut/Bas pour naviguer
-	 * - Espace/Entrée pour valider
-	 * @param {{name: 'up'|'down'|'confirm'}} key Le nom de la touche du clavier 
+	 * Intercepte et traduit les touches du clavier en actions pour le menu.
+	 * @param {TerminalKey} key - La touche capturée par le moteur de terminal.
+	 * @returns {boolean|undefined} `true` si une action valide a été traitée, sinon `undefined`.
+	 * @private
 	 */
 	_waitMoveInMenu(key) {
 		let action
@@ -46,8 +65,8 @@ export class TicTacToe_CouchVersus {
 	}
 
 	/**
-	 * La super fonction de _waitMoveInMenu
-	 * @returns {Promise<'up'|'down'|'confirm'>}
+	 * Bloque l'exécution en attendant que l'utilisateur sélectionne une option dans le menu.
+	 * @returns {Promise<MenuAction>} L'action de menu validée.
 	 */
 	async waitForMenuSelection() {
 		await waitOnceKey((key) => {
@@ -57,10 +76,10 @@ export class TicTacToe_CouchVersus {
 	}
 
 	/**
-	 * Détection des entrées pour le menu de sélection
-	 * - Haut/Bas pour naviguer
-	 * - Espace/Entrée pour valider
-	 * @param {{name: 'up'|'down'|'right'|'left'|'confirm'}} key Le nom de la touche du clavier 
+	 * Intercepte et traduit les touches du clavier en mouvements/actions de jeu.
+	 * @param {TerminalKey} key - La touche capturée par le moteur de terminal.
+	 * @returns {boolean|undefined} `true` si une action valide a été traitée, sinon `undefined`.
+	 * @private
 	 */
 	_waitForPlayerChoice(key) {
 		let action
@@ -89,8 +108,8 @@ export class TicTacToe_CouchVersus {
 	}
 
 	/**
-	 * La super fonction de _waitMoveInMenu
-	 * @returns {Promise<'up'|'down'|'right'|'left'|'confirm'>}
+	 * Bloque l'exécution en attendant qu'un joueur effectue un déplacement ou valide son choix en jeu.
+	 * @returns {Promise<GameAction>} L'action de jeu validée.
 	 */
 	async waitMoveInGame() {
 		await waitOnceKey((key) => {
@@ -99,10 +118,12 @@ export class TicTacToe_CouchVersus {
 		return this.selectedAction
 	}
 
-	/** 
-	 * Attend une double saisie pour aller la suite
-	 * @type {boolean} 
-	 * @returns {boolean} Renvoie la confirmation de la saisie
+	/**
+	 * Attend une confirmation spécifique pour passer à la suite.
+	 * @returns {boolean} `true` lorsque la saisie est confirmée.
 	 */
-	waitForNext() {}
+	waitForNext() {
+		// À implémenter
+		return false
+	}
 }

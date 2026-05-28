@@ -1,28 +1,51 @@
 export class TicTacToe_Game {
 	
+	/**
+	 * Énumération des états possibles de la partie.
+	 * @enum {number}
+	 */
 	static STATUS = {
 		P1: 1,
 		P2: 2,
 		ENDED: 3
 	}
 
+	/**
+	 * Énumération des issues possibles d'une partie (Vainqueurs / Match nul).
+	 * @enum {number}
+	 */
 	static WINNER = {
 		P1: 1,
 		P2: 2,
 		DRAW: 3
 	}
 
+	/**
+	 * Énumération des symboles textuels des joueurs.
+	 * @enum {string}
+	 */
 	static SYMBOLE_PLAYER = {
 		P1: 'X',
 		P2: 'O'
 	}
 
 	constructor() {
-		/** @type {number} L'etat actuel du joueurs (P1 = 1, P2 = 2, ENDED = 3) */
+		/**
+		 * L'état actuel de la partie (En cours pour P1, P2 ou terminée).
+		 * @type {number}
+		 */
 		this.status
-		/** @type {number} L'etat du vainqueur de la partie (P1 = 1, P2 = 2) */
-		this.winner
-		/** @type {Array<string>} Les valeurs de la grille du Tictactoe */
+
+		/**
+		 * Le résultat ou vainqueur de la partie.
+		 * @type {number}
+		 */
+		this.winner = null
+
+		/**
+		 * Tableau représentant l'état des 9 cases de la grille du TicTacToe.
+		 * @type {Array<string>}
+		 */
 		this.value_grid = [ 
 			'', '', '',
 			'', '', '',
@@ -30,32 +53,48 @@ export class TicTacToe_Game {
 		]
 	}
 
-	getValueGrid() { // destructuration pour faire une copie d'un objet complexe (a voir wiki)
-		return this.value_grid // Faire une copie quand tout remarcheras
+	/**
+	 * Retourne une copie de sécurité de la grille de jeu actuelle pour éviter les mutations directes.
+	 * @returns {string[]} Une copie du tableau des cases.
+	 */
+	getValueGrid() { 
+		return [...this.value_grid] 
 	}
 
+	/**
+	 * Récupère l'état actuel de la partie.
+	 * @returns {number}
+	 */
 	getStatus() {
 		return this.status
 	}
 
+	/**
+	 * Récupère le vainqueur de la partie.
+	 * @returns {number|null}
+	 */
 	getWinner() {
 		return this.winner
 	}
 
+	/**
+	 * Réinitialise l'état de la grille en vidant toutes les cases.
+	 */
 	resetValueGrid() {
 		this.value_grid.fill('')
 	}
 
 	/**
-	 * Commence la partie
+	 * Initialise et lance une nouvelle partie.
 	 */
 	startGame() {
 		this.setFirstPlayer()
 	}
 
-	/** 
-	 * Choisie aléatoirement ou par le joueur qui a perdu, par qui commence
-	 * @returns {number} Le joueurs qui commence
+	/**
+	 * Détermine quel joueur commence la partie.
+	 * Si un joueur précédent a gagné, la main passe à son adversaire, sinon le choix est aléatoire.
+	 * @param {number|null} [winner] - Le vainqueur de la partie précédente (optionnel).
 	 */
 	setFirstPlayer(winner) {
 		if (winner === TicTacToe_Game.STATUS.P1) {
@@ -67,9 +106,10 @@ export class TicTacToe_Game {
 		}
 	}
 
-	/** 
-	 * Mets le choix du joueur dans le tictactoe et change le joueur en cours si le jeu n'est pas terminer
-	 * @param {number} idx Numero de la case du Tictactoe
+	/**
+	 * Applique le coup du joueur actuel sur la case demandée et passe au tour suivant.
+	 * @param {number} idx - L'index de la case ciblée (0 à 8).
+	 * @throws {Error} Si l'index est hors limites ou si la case est déjà occupée.
 	 */
 	playCurrentTurn(idx) {
 		if (idx > 8 || idx < 0) {
@@ -94,8 +134,9 @@ export class TicTacToe_Game {
 	}
 
 	/**
-	 * Verifie la condition de victoire
-	 * @returns {undefined} Uniquement utiliser pour arreter la condition et eviter des calculs inutile
+	 * Analyse la grille pour valider s'il y a un vainqueur ou un match nul.
+	 * Modifie directement le statut et le vainqueur de l'instance.
+	 * @private
 	 */
 	_checkWinCondition() {
 		const isFull = (array) => !array.some((element) => element === '')
