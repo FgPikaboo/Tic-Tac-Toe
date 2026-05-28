@@ -99,9 +99,10 @@ export class TicTacToe {
 							this.countWinnerLadder(winner)
 						}
 						this.ui.game.showEndGame(winner)
-						// await double saisie
 						this.prevWinner = winner
+						await this.controller.waitDoubleConfirm()
 						endGame = true
+						clear()
 					}
 					break
 			}

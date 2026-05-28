@@ -112,18 +112,28 @@ export class TicTacToe_CouchVersus {
 	 * @returns {Promise<GameAction>} L'action de jeu validée.
 	 */
 	async waitMoveInGame() {
+		// La premiere facon d'ecrire une fonction anomyme, c'est que le this ignore le contexte de l'interieur de la fonction
 		await waitOnceKey((key) => {
 			return this._waitForPlayerChoice(key)
 		})
+
+		/* La Deuxieme facon c'est que this depent du contexte donnée (donc a l'interieur de la fonction)
+		await waitOnceKey(function(key) {
+			return this._waitForPlayerChoice(key)
+		})
+		*/
+		
+		await waitOnceKey(function(key) {
+			return this._waitForPlayerChoice(key)
+		})
+		
 		return this.selectedAction
 	}
 
 	/**
-	 * Attend une confirmation spécifique pour passer à la suite.
-	 * @returns {boolean} `true` lorsque la saisie est confirmée.
+	 * Bloque l'exécution en attendant qu'un joueur effectue une saisie
 	 */
-	waitForNext() {
-		// À implémenter
-		return false
+	async waitDoubleConfirm() {
+		await waitOnceKey(() => true)
 	}
 }
