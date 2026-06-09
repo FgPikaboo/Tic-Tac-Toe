@@ -116,7 +116,7 @@ export class TicTacToe_Game {
 			throw new Error(`idx:(${idx}) dois etre entre 0 et 8`)
 		}
 		if (this.value_grid[idx] !== '') {
-			throw new Error(`La valeur a deja etais saisie, veuillez`)
+			throw new Error(`La valeur a deja etais saisie, veuillez recommencer`)
 		}
 		if (this.status === TicTacToe_Game.STATUS.P1) {
 			this.value_grid[idx] = TicTacToe_Game.SYMBOLE_PLAYER.P1

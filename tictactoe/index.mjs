@@ -74,8 +74,13 @@ export class TicTacToe {
 		this.ui.game.showGameCursor()
 
 		let endGame = false
+		let errorSamePos = false
 		while (!endGame) {
-			this.ui.game.showOrderTurn(currentGame.getStatus())
+			if (!errorSamePos) {
+				this.ui.game.showOrderTurnAndInfo(currentGame.getStatus())
+			} else {
+				errorSamePos = false
+			}
 			const action = await this.controller.waitMoveInGame()
 			switch (action) {
 				case "up":
@@ -91,7 +96,12 @@ export class TicTacToe {
 					this.ui.game.moveRight()
 					break
 				case "confirm":
-					currentGame.playCurrentTurn(this.ui.game.getCaseSelected())
+					try {
+						currentGame.playCurrentTurn(this.ui.game.getCaseSelected())
+					} catch (error) {
+						errorSamePos = true
+						this.ui.game.showOrderTurnAndInfo()
+					}
 					this.ui.game.showValueTicTacToe(currentGame.getValueGrid())
 					if (currentGame.getStatus() === TicTacToe_Game.STATUS.ENDED) {
 						clear()

@@ -188,7 +188,6 @@ export class TicTacToe_Game_UI {
 
 		/** Version UI */
 		drawString(pos.x+3, height_y-(half_to_half_height_y/4), TicTacToe_Game_UI.VERSION)
-		console.error(new Date().toISOString(), height_y-(half_to_half_height_y/4))
 	}
 
 	/**
@@ -228,7 +227,8 @@ export class TicTacToe_Game_UI {
 		const posTicTacToe = this.getTicTacToePos()
 		const height_y = getScreenHeight()
 		const half_to_half_height_y = height_y/4
-		let showTurnPlayer
+		drawString(posTicTacToe.x, height_y-(half_to_half_height_y/4), `                                                             `)
+		let showTurnPlayer = ''
 		if (player === 1) {
 			showTurnPlayer = 'Au tour du joueur 1'
 		} else if (player === 2 ) {
@@ -236,7 +236,7 @@ export class TicTacToe_Game_UI {
 		} else {
 			showTurnPlayer = `La valeur a deja etais saisie, veuillez recommencer`
 		}
-		drawString(posTicTacToe.x, height_y-(half_to_half_height_y/4), `  ${showTurnPlayer}  `)
+		drawString(posTicTacToe.x, height_y-(half_to_half_height_y/4), `  ${showTurnPlayer}`)
 	}
 
 	/**
