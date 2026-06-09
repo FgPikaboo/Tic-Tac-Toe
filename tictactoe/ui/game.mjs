@@ -164,7 +164,7 @@ export class TicTacToe_Game_UI {
 		const height_y = getScreenHeight()
 		const half_to_half_height_y = height_y/4
 		const BORDER = ['-', '|']
-		drawString(pos.x, pos.y + (half_to_half_height_y*3), BORDER[0].repeat(pos.x))
+		drawString(0, pos.y + (half_to_half_height_y*3)+1, BORDER[0].repeat(getScreenWidth()))
 		for (let i = 0; i < height_y; i++) {
 			drawString(pos.x, pos.y + i, BORDER[1])
 		}
@@ -187,7 +187,8 @@ export class TicTacToe_Game_UI {
 		drawString(pos.x+3, pos.y+4, PLAYER[1])
 
 		/** Version UI */
-		drawString(pos.x+3, height_y-(half_to_half_height_y/2), TicTacToe_Game_UI.VERSION)
+		drawString(pos.x+3, height_y-(half_to_half_height_y/4), TicTacToe_Game_UI.VERSION)
+		console.error(new Date().toISOString(), height_y-(half_to_half_height_y/4))
 	}
 
 	/**
@@ -220,10 +221,22 @@ export class TicTacToe_Game_UI {
 	}
 
 	/**
-	 * Affiche l'ordre des tours (Non implémenté).
+	 * Affiche l'ordre des tours.
+	 * @param {number} player Le joueur actuel ou erreur double saisie
 	 */
-	showOrderTurn() {
-		// À implémenter
+	showOrderTurnAndInfo(player) {
+		const posTicTacToe = this.getTicTacToePos()
+		const height_y = getScreenHeight()
+		const half_to_half_height_y = height_y/4
+		let showTurnPlayer
+		if (player === 1) {
+			showTurnPlayer = 'Au tour du joueur 1'
+		} else if (player === 2 ) {
+			showTurnPlayer = 'Au tour du joueur 2'
+		} else {
+			showTurnPlayer = `La valeur a deja etais saisie, veuillez recommencer`
+		}
+		drawString(posTicTacToe.x, height_y-(half_to_half_height_y/4), `  ${showTurnPlayer}  `)
 	}
 
 	/**

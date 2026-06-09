@@ -120,12 +120,16 @@ export class TicTacToe_CouchVersus {
 		/* La Deuxieme facon c'est que this depent du contexte donnée (donc a l'interieur de la fonction)
 		await waitOnceKey(function(key) {
 			return this._waitForPlayerChoice(key)
-		})
+		}) */
+
+		/* f recoit uniquement l'adresse de la fonction, il perd la contexte entre temps
+		const f = this._waitForPlayerChoice
+		f() --- C'est une simple fonction sans contexte, donc il ne vas rien se passer */
+
+		/* Il est appelée correctement s'il n'y a pas de referance a this dans la fonction, si c'est le cas
+		La fonction ne fonctionneras pas au moment d'appeler this. (dans la fonction _waitForPlayerChoice) donc ca va crash
+		await waitOnceKey(this._waitForPlayerChoice)
 		*/
-		
-		await waitOnceKey(function(key) {
-			return this._waitForPlayerChoice(key)
-		})
 		
 		return this.selectedAction
 	}

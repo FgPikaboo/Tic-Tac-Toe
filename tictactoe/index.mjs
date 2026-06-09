@@ -75,6 +75,7 @@ export class TicTacToe {
 
 		let endGame = false
 		while (!endGame) {
+			this.ui.game.showOrderTurn(currentGame.getStatus())
 			const action = await this.controller.waitMoveInGame()
 			switch (action) {
 				case "up":
