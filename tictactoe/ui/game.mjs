@@ -3,6 +3,7 @@ import {
 	getScreenHeight,
 	getScreenWidth
 } from "../../terminal-engine.mjs"
+import { Utils } from "../../utils.mjs"
 
 /**
  * @typedef {Object} PosXY
@@ -58,20 +59,19 @@ export class TicTacToe_Game_UI {
 	 * @returns {PosXY} Position X/Y de la grille.
 	 */
 	getTicTacToePos() {
-		const zone_draw_width = Math.ceil(getScreenWidth()*0.75)
-		const zone_draw_height = Math.ceil(getScreenHeight()*(2/3))
-		const middle_tictactoe_grid = {
-			width: zone_draw_width/2,
-			height: zone_draw_height/2
-		}
+		const zone_draw_width = Math.ceil(getScreenWidth()*0.8)
+		drawString(zone_draw_width,0,'X')
+		const middle_tictactoe_grid_width = zone_draw_width/2
 		const TIC_TAC_TOE_GRID_WIDTH_HALF = TicTacToe_Game_UI.TICTACTOE_GRID.WIDTH/2
-		const TIC_TAC_TOE_GRID_HEIGHT_HALF = TicTacToe_Game_UI.TICTACTOE_GRID.HEIGHT/2
-		const middle_half_grid_width = Math.ceil(middle_tictactoe_grid.width - TIC_TAC_TOE_GRID_WIDTH_HALF)
-		const middle_half_grid_height = Math.ceil(middle_tictactoe_grid.height - TIC_TAC_TOE_GRID_HEIGHT_HALF)
+		const middle_half_grid_width = Math.floor(middle_tictactoe_grid_width - TIC_TAC_TOE_GRID_WIDTH_HALF)
+
+		console.error(new Date().toISOString(), 'longueur du bloc  ' + Math.ceil(getScreenHeight()*0.8))
+		const posY = Utils.center(Math.ceil(getScreenHeight()*0.8),TicTacToe_Game_UI.TICTACTOE_GRID.HEIGHT)
+		
 		/** Return Position 0 of TicTacToe_Grid */
 		return {
 			x: middle_half_grid_width,
-			y: middle_half_grid_height
+			y: posY
 		}
 	}
 
@@ -84,6 +84,50 @@ export class TicTacToe_Game_UI {
 		return { 
 			x: Math.ceil((getScreenWidth()/10)*8),
 			y: 0
+		}
+	}
+
+	/**
+	 * Obtiens la distance de chaque bloc du terminal
+	 * @returns {{x: number, y: number, width: number, height: number}}
+	 */
+	getBlock() { 
+		// Je priviligie Math.ceil plutot que Math.floor car le Tictactoe dois prendre le plus de place
+		const longueurMax = getScreenWidth()
+		const hauteurMax = getScreenHeight()
+		return { 
+			upperLeft: { // 
+				// pos0 du bloc est 
+				x: 0 , 
+				y: 0 ,
+				// La longueur du bloc
+				width: Math.ceil(getScreenWidth()*0.8),
+				height: Math.ceil(getScreenHeight()*0.8)
+			},
+			upperRight: { 
+				// pos0 du bloc est 
+				x: Math.ceil(getScreenWidth()*0.8) + 2 , // (1 pour la barre du tictactoe et 1 pour la pos0)
+				y: 0,
+				// La longueur du bloc
+				width: Math.ceil(getScreenWidth()*0.2) - 1, // (1 pour la barre du tictactoe)
+				height: Math.ceil(getScreenHeight()*0.8)
+			},
+			lowerLeft: { 
+				// pos0 du bloc est 
+				x: 0 , 
+				y: getScreenHeight() - (getScreenHeight()*0.2) + 2 , // (1 pour la barre du tictactoe et 1 pour la pos0)
+				// La longueur du bloc
+				width: Math.ceil(getScreenWidth()*0.8),
+				height: getScreenHeight() - (getScreenHeight()*0.8) - 1
+			},
+			lowerRight: { 
+				// pos0 du bloc est 
+				x: Math.ceil(getScreenWidth()*0.8) + 2 , // (1 pour la barre du tictactoe et 1 pour la pos0) , 
+				y: getScreenHeight() - (getScreenHeight()*0.2) + 2 , // (1 pour la barre du tictactoe et 1 pour la pos0)
+				// La longueur du bloc
+				width: getScreenWidth() - (getScreenWidth()*0.8) - 1,
+				height: getScreenHeight() - (getScreenHeight()*0.8) - 1
+			}
 		}
 	}
 
@@ -221,22 +265,19 @@ export class TicTacToe_Game_UI {
 
 	/**
 	 * Affiche l'ordre des tours.
-	 * @param {number} player Le joueur actuel ou erreur double saisie
+	 * @param {number|undefined} player Le joueur actuel ou erreur double saisie
 	 */
 	showOrderTurnAndInfo(player) {
-		const posTicTacToe = this.getTicTacToePos()
-		const height_y = getScreenHeight()
-		const half_to_half_height_y = height_y/4
-		drawString(posTicTacToe.x, height_y-(half_to_half_height_y/4), `                                                             `)
+		const posY = Math.ceil((((getScreenHeight()/10)*8)-1) + (getScreenHeight()/10))
+		const blocWidth = Math.ceil((getScreenWidth()/10)*8) // exclure la bare vertical pres du ladder
+		drawString(0, posY, ' '.repeat(blocWidth))
 		let showTurnPlayer = ''
-		if (player === 1) {
-			showTurnPlayer = 'Au tour du joueur 1'
-		} else if (player === 2 ) {
-			showTurnPlayer = 'Au tour du joueur 2'
-		} else {
+		if (player === undefined) {
 			showTurnPlayer = `La valeur a deja etais saisie, veuillez recommencer`
+		} else {
+			showTurnPlayer = `Au tour du joueur ${player}`
 		}
-		drawString(posTicTacToe.x, height_y-(half_to_half_height_y/4), `  ${showTurnPlayer}`)
+		const drawMiddleBoxScreen = Utils.drawStringHCentered(0,posY,blocWidth,showTurnPlayer)
 	}
 
 	/**

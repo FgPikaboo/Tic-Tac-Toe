@@ -1,5 +1,8 @@
 --- UI ---
 
+
+[] Dessiner les blocs avec les delimitations
+
 // InGame
 [x] Dessiner le TicTacToe
 [x] Mettre le TicTacToc au centre du terminal
