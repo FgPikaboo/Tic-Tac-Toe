@@ -18,6 +18,22 @@ import { Utils } from "../../utils.mjs"
  */
 
 /**
+ * @typedef {Object} BlockGeometry
+ * @property {number} x - La position X (pos0) de départ du bloc.
+ * @property {number} y - La position Y (pos0) de départ du bloc.
+ * @property {number} width - La largeur du bloc.
+ * @property {number} height - La hauteur du bloc.
+ */
+
+/**
+ * @typedef {Object} Blocks
+ * @property {BlockGeometry} upperLeft
+ * @property {BlockGeometry} upperRight
+ * @property {BlockGeometry} lowerLeft
+ * @property {BlockGeometry} lowerRight
+ */
+
+/**
  * Gère l'affichage et l'interface utilisateur (UI) du jeu TicTacToe dans le terminal.
  */
 export class TicTacToe_Game_UI {
@@ -68,7 +84,7 @@ export class TicTacToe_Game_UI {
 		console.error(new Date().toISOString(), 'longueur du bloc  ' + Math.ceil(getScreenHeight()*0.8))
 		const posY = Utils.center(Math.ceil(getScreenHeight()*0.8),TicTacToe_Game_UI.TICTACTOE_GRID.HEIGHT)
 		
-		/** Return Position 0 of TicTacToe_Grid */
+		// Return Position 0 of TicTacToe_Grid
 		return {
 			x: middle_half_grid_width,
 			y: posY
@@ -89,44 +105,58 @@ export class TicTacToe_Game_UI {
 
 	/**
 	 * Obtiens la distance de chaque bloc du terminal
-	 * @returns {{x: number, y: number, width: number, height: number}}
+	 * @param {number} width Longueur du bloc
+	 * @param {number} height Hauteur du bloc
+	 * @returns {Blocks} Chercher comment documenter 4 objet anonyme en meme temps
 	 */
-	getBlock() { 
+	getBlock(width, height) { 
+
+		// etape: mettre en parametre getscreenwidth et height, si ya pas de paramatre, les valeurs sont les getscreen, sinon prend les parametre en valeurs
+		// ainsi que la pos0 qui est bon, genre upperRight c'est 82 en x:
+
 		// Je priviligie Math.ceil plutot que Math.floor car le Tictactoe dois prendre le plus de place
-		const longueurMax = getScreenWidth()
-		const hauteurMax = getScreenHeight()
-		return { 
-			upperLeft: { // 
+		let longueurMax = width
+		let hauteurMax = height
+
+		if (!longueurMax) {
+			longueurMax = getScreenWidth()
+		}
+		if (!hauteurMax) {
+			hauteurMax = getScreenHeight()
+		}
+
+		return {
+			upperLeft: {
 				// pos0 du bloc est 
 				x: 0 , 
 				y: 0 ,
 				// La longueur du bloc
-				width: Math.ceil(getScreenWidth()*0.8),
-				height: Math.ceil(getScreenHeight()*0.8)
+				width: Math.ceil(longueurMax*0.8),
+				height: Math.ceil(hauteurMax*0.8)
 			},
 			upperRight: { 
 				// pos0 du bloc est 
-				x: Math.ceil(getScreenWidth()*0.8) + 2 , // (1 pour la barre du tictactoe et 1 pour la pos0)
+				x: Math.ceil(longueurMax*0.8) + 2 , // (1 pour la barre du tictactoe et 1 pour la pos0)
 				y: 0,
 				// La longueur du bloc
-				width: Math.ceil(getScreenWidth()*0.2) - 1, // (1 pour la barre du tictactoe)
-				height: Math.ceil(getScreenHeight()*0.8)
+				width: Math.floor(longueurMax*0.2) - 1, // (1 pour la barre du tictactoe)
+				height: Math.ceil(hauteurMax*0.8)
 			},
 			lowerLeft: { 
 				// pos0 du bloc est 
 				x: 0 , 
-				y: getScreenHeight() - (getScreenHeight()*0.2) + 2 , // (1 pour la barre du tictactoe et 1 pour la pos0)
+				y: Math.ceil(hauteurMax*0.8) + 2 , // (1 pour la barre du tictactoe et 1 pour la pos0)
 				// La longueur du bloc
-				width: Math.ceil(getScreenWidth()*0.8),
-				height: getScreenHeight() - (getScreenHeight()*0.8) - 1
+				width: Math.ceil(longueurMax*0.8),
+				height: Math.ceil(hauteurMax*0.2) - 1 // (1 pour la barre du tictactoe)
 			},
 			lowerRight: { 
 				// pos0 du bloc est 
-				x: Math.ceil(getScreenWidth()*0.8) + 2 , // (1 pour la barre du tictactoe et 1 pour la pos0) , 
-				y: getScreenHeight() - (getScreenHeight()*0.2) + 2 , // (1 pour la barre du tictactoe et 1 pour la pos0)
+				x: Math.ceil(longueurMax*0.8) + 2 , // (1 pour la barre du tictactoe et 1 pour la pos0) , 
+				y: Math.ceil(hauteurMax*0.8) + 2 , // (1 pour la barre du tictactoe et 1 pour la pos0)
 				// La longueur du bloc
-				width: getScreenWidth() - (getScreenWidth()*0.8) - 1,
-				height: getScreenHeight() - (getScreenHeight()*0.8) - 1
+				width: Math.ceil(longueurMax*0.2) - 1, // (1 pour la barre du tictactoe)
+				height: Math.floor(hauteurMax*0.2) - 1 // (1 pour la barre du tictactoe)
 			}
 		}
 	}
