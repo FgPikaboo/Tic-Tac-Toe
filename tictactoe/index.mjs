@@ -70,7 +70,8 @@ export class TicTacToe {
 
 		currentGame.setFirstPlayer(this.prevWinner)
 		this.ui.game.showTicTacToe()
-		this.ui.game.showLadder(this.ladder)
+		this.ui.game.showSeparatorBlocks()
+		this.ui.game.showLadderInfo(this.ladder)
 		this.ui.game.showGameCursor()
 
 		let endGame = false

@@ -51,7 +51,7 @@ export class TicTacToe_Game_UI {
 	 * Version actuelle de l'interface.
 	 * @type {string} 
 	 */
-	static VERSION = '@MrPikaboo -- VERSION 0.21'
+	static VERSION = '@MrPikaboo -- VERSION 0.27'
 
 	constructor() {
 		/**
@@ -76,44 +76,25 @@ export class TicTacToe_Game_UI {
 	 */
 	getTicTacToePos() {
 		const zone_draw_width = Math.ceil(getScreenWidth()*0.8)
-		drawString(zone_draw_width,0,'X')
 		const middle_tictactoe_grid_width = zone_draw_width/2
 		const TIC_TAC_TOE_GRID_WIDTH_HALF = TicTacToe_Game_UI.TICTACTOE_GRID.WIDTH/2
-		const middle_half_grid_width = Math.floor(middle_tictactoe_grid_width - TIC_TAC_TOE_GRID_WIDTH_HALF)
-
-		console.error(new Date().toISOString(), 'longueur du bloc  ' + Math.ceil(getScreenHeight()*0.8))
+		const posX = Math.floor(middle_tictactoe_grid_width - TIC_TAC_TOE_GRID_WIDTH_HALF)
 		const posY = Utils.center(Math.ceil(getScreenHeight()*0.8),TicTacToe_Game_UI.TICTACTOE_GRID.HEIGHT)
 		
 		// Return Position 0 of TicTacToe_Grid
 		return {
-			x: middle_half_grid_width,
+			x: posX,
 			y: posY
 		}
 	}
 
 	/**
-	 * Calcule la position d'origine du tableau des scores (Ladder).
-	 * Placé à 80% de la largeur du terminal.
-	 * @returns {PosXY} Position X/Y du Ladder.
-	 */
-	getLadderPos() {
-		return { 
-			x: Math.ceil((getScreenWidth()/10)*8),
-			y: 0
-		}
-	}
-
-	/**
 	 * Obtiens la distance de chaque bloc du terminal
-	 * @param {number} width Longueur du bloc
-	 * @param {number} height Hauteur du bloc
-	 * @returns {Blocks} Chercher comment documenter 4 objet anonyme en meme temps
+	 * @param {number} width Longueur du terminal pour les tests unitaire uniquement
+	 * @param {number} height Hauteur du terminal pour les tests unitaire uniquement
+	 * @returns {Blocks} Objets anonymes représentant les 4 blocs
 	 */
-	getBlock(width, height) { 
-
-		// etape: mettre en parametre getscreenwidth et height, si ya pas de paramatre, les valeurs sont les getscreen, sinon prend les parametre en valeurs
-		// ainsi que la pos0 qui est bon, genre upperRight c'est 82 en x:
-
+	getBlocks(width, height) { 
 		// Je priviligie Math.ceil plutot que Math.floor car le Tictactoe dois prendre le plus de place
 		let longueurMax = width
 		let hauteurMax = height
@@ -136,7 +117,7 @@ export class TicTacToe_Game_UI {
 			},
 			upperRight: { 
 				// pos0 du bloc est 
-				x: Math.ceil(longueurMax*0.8) + 2 , // (1 pour la barre du tictactoe et 1 pour la pos0)
+				x: Math.ceil(longueurMax*0.8) + 1 , // (1 pour la barre du tictactoe)
 				y: 0,
 				// La longueur du bloc
 				width: Math.floor(longueurMax*0.2) - 1, // (1 pour la barre du tictactoe)
@@ -145,17 +126,17 @@ export class TicTacToe_Game_UI {
 			lowerLeft: { 
 				// pos0 du bloc est 
 				x: 0 , 
-				y: Math.ceil(hauteurMax*0.8) + 2 , // (1 pour la barre du tictactoe et 1 pour la pos0)
+				y: Math.ceil(hauteurMax*0.8) + 1 , // (1 pour la barre du tictactoe)
 				// La longueur du bloc
 				width: Math.ceil(longueurMax*0.8),
-				height: Math.ceil(hauteurMax*0.2) - 1 // (1 pour la barre du tictactoe)
+				height: Math.floor(hauteurMax*0.2) - 1 // (1 pour la barre du tictactoe)
 			},
 			lowerRight: { 
 				// pos0 du bloc est 
-				x: Math.ceil(longueurMax*0.8) + 2 , // (1 pour la barre du tictactoe et 1 pour la pos0) , 
-				y: Math.ceil(hauteurMax*0.8) + 2 , // (1 pour la barre du tictactoe et 1 pour la pos0)
+				x: Math.ceil(longueurMax*0.8) + 1 , // (1 pour la barre du tictactoe) , 
+				y: Math.ceil(hauteurMax*0.8) + 1 , // (1 pour la barre du tictactoe)
 				// La longueur du bloc
-				width: Math.ceil(longueurMax*0.2) - 1, // (1 pour la barre du tictactoe)
+				width: Math.floor(longueurMax*0.2) - 1, // (1 pour la barre du tictactoe)
 				height: Math.floor(hauteurMax*0.2) - 1 // (1 pour la barre du tictactoe)
 			}
 		}
@@ -233,16 +214,15 @@ export class TicTacToe_Game_UI {
 	 * Dessine la structure de la section Ladder (scores) sur le côté droit.
 	 * @param {LadderData} ladder - Les données de classement des joueurs.
 	 */
-	showLadder(ladder) {
-		const pos = this.getLadderPos()
-		const height_y = getScreenHeight()
-		const half_to_half_height_y = height_y/4
-		const BORDER = ['-', '|']
-		drawString(0, pos.y + (half_to_half_height_y*3)+1, BORDER[0].repeat(getScreenWidth()))
-		for (let i = 0; i < height_y; i++) {
-			drawString(pos.x, pos.y + i, BORDER[1])
+	showSeparatorBlocks() {
+		const posHeightBarrier = this.getBlocks().upperRight
+		const posWidthBarrier = this.getBlocks().lowerLeft
+		const BORDER = [ '-' , '|' ]
+		drawString(posWidthBarrier.x, posWidthBarrier.y - 1, BORDER[0].repeat(getScreenWidth())) // -1 Pour draw au dessus du block
+		for (let i = 0 ; i < getScreenHeight() ; i++) {
+			drawString(posHeightBarrier.x, posHeightBarrier.y + i, BORDER[1])
 		}
-		this.showLadderInfo(ladder)
+		
 	}
 
 	/**
@@ -250,18 +230,22 @@ export class TicTacToe_Game_UI {
 	 * @param {LadderData} ladder - Les données de classement des joueurs.
 	 */
 	showLadderInfo(ladder) {
-		const pos = this.getLadderPos()
-		const height_y = getScreenHeight()
-		const half_to_half_height_y = height_y/4
+		const posLadder = this.getBlocks().upperRight
+		const posCredit = this.getBlocks().lowerRight
+		const barSpacing = 3
+		let lineBreak = 0
 
 		/** Rank Ladder */
 		const rank_ladder = ladder
 		const PLAYER = [`Player 1: ${rank_ladder.P1}`,`Player 2: ${rank_ladder.P2}`]
-		drawString(pos.x+3, pos.y+2, PLAYER[0])
-		drawString(pos.x+3, pos.y+4, PLAYER[1])
+		for (let i = 0 ; i < PLAYER.length ; i++) {
+			lineBreak += 2
+			drawString(posLadder.x + barSpacing, posLadder.y + lineBreak, PLAYER[i])
+		}
 
 		/** Version UI */
-		drawString(pos.x+3, height_y-(half_to_half_height_y/4), TicTacToe_Game_UI.VERSION)
+		const posY = this.getBlocks().lowerLeft.y + Utils.center(this.getBlocks().lowerLeft.height , 1)
+		drawString(posCredit.x + barSpacing, posY, TicTacToe_Game_UI.VERSION)
 	}
 
 	/**
@@ -298,8 +282,10 @@ export class TicTacToe_Game_UI {
 	 * @param {number|undefined} player Le joueur actuel ou erreur double saisie
 	 */
 	showOrderTurnAndInfo(player) {
-		const posY = Math.ceil((((getScreenHeight()/10)*8)-1) + (getScreenHeight()/10))
-		const blocWidth = Math.ceil((getScreenWidth()/10)*8) // exclure la bare vertical pres du ladder
+		// La globalité du calcul te donne 31 alors que la totaliter du block fait 30, voila pourquoi ca marche pas
+		// const posY = Math.ceil(this.getBlocks().lowerLeft.y + (this.getBlocks().lowerLeft.height/2))
+		const posY = this.getBlocks().lowerLeft.y + Utils.center(this.getBlocks().lowerLeft.height , 1) // 1 car la hauteur de la string est de 1
+		const blocWidth = this.getBlocks().lowerLeft.width
 		drawString(0, posY, ' '.repeat(blocWidth))
 		let showTurnPlayer = ''
 		if (player === undefined) {
@@ -380,3 +366,5 @@ export class TicTacToe_Game_UI {
 		// À implémenter
 	}
 }
+
+

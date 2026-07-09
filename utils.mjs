@@ -20,8 +20,6 @@ export class Utils {
 	 * @returns La position centré de l'element
 	 */
 	static center(blockLength, elementLength) {
-		console.error(new Date().toISOString(),'param  ' + blockLength)
-		console.error(new Date().toISOString(),'param 2   ' + elementLength)
 		const isBlocPair = blockLength % 2 === 0
 		const isElementLengthPair = elementLength % 2 === 0
 		let ajustDiff = 0
