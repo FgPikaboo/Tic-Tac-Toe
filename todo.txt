@@ -1,7 +1,7 @@
 --- UI ---
 
 
-[] Dessiner les blocs avec les delimitations
+[x] Dessiner les blocs avec les delimitations
 
 // InGame
 [x] Dessiner le TicTacToe
@@ -16,11 +16,19 @@
 [x] Faire un ecran de victoire
 [x] Afficher a qui c'est le tour
 [] Faire un emploie de jeu
+[] Changer player par joueurs dans le classement
+[] Definir la longueur minimum pour le lancement du jeu (82)
+[] Definir la hauteur minimum pour le lancement du jeu (17)
+[] Coloriez les elements importants:
+- [] Le chiffre du score
+- [] Le curseur dans la grille
+- [] Le joueur dans l'ordre des tours et l'affichage du vainqueur
 
 // Menu
 [x] Dessiner les options du menu du TicTacToe
 [x] Afficher le curseur dans le menu
 [x] Dessiner et Supprimer le curseur quand je fait un mouvement dans le menu
+[] Classement a faire (UI)
 
 [x] Faire une fonction de prevension quand le terminal est trop petit pour afficher le TicTacToe
 
@@ -34,8 +42,13 @@
 [x] Maintenir un histoirique de victoire dans le programme pour le ladder
 [x] Confirmer l'option selectionner dans le menu
 [x] Choisir par les fleches de mon clavier, les cases du TicTacToe et du Menu
-[] Eviter qu'on puisse redraw sur le symbole
+[x] Eviter qu'on puisse redraw sur le symbole
 
 --- TEST UNITAIRE ---
 
 [x] Faire le test unitaire du programme
+
+--- Fin ---
+
+[] Documenter le code
+[] Relire

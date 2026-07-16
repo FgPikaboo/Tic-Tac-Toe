@@ -12,6 +12,7 @@ function assert(condition, message) {
 
 console.log('First block')
 const valueBlock1 = gameUi.getBlocks(73,20)
+
 assert(valueBlock1.upperLeft.width === 59, 'La longueur du bloc upperLeft correspond')
 assert(valueBlock1.upperLeft.height === 16, 'La hauteur du bloc upperLeft correspond')
 assert(valueBlock1.upperRight.width === 13, 'La longueur du bloc upperRight correspond')
@@ -33,27 +34,32 @@ assert(valueBlock3.upperLeft.height === 44, 'La hauteur du bloc upperLeft corres
 assert(valueBlock3.upperRight.width === 19, 'La longueur du bloc upperRight correspond')
 assert(valueBlock3.lowerRight.height === 10, 'La hauteur du bloc lowerRight correspond')
 
-console.log('Pos0 lowerRight')
-const pos0_4 = gameUi.getBlocks(73,16)
-assert(pos0_4.lowerRight.x === 60, 'La position X est bien placé')
-assert(pos0_4.lowerRight.y === 14, 'La position Y est bien placé')
-
-console.log('Pos0')
-const pos0_5 = gameUi.getBlocks(80,55)
-assert(pos0_5.lowerRight.x === 65, 'La position X est bien placé')
-assert(pos0_5.lowerRight.y === 45, 'La position Y est bien placé')
-
 console.log('Fourth block')
 const valueBlock4 = gameUi.getBlocks(193,31)
 
 assert(valueBlock4.upperLeft.width === 155, 'La longueur du bloc upperLeft.width correspond')
 assert(valueBlock4.upperLeft.height === 25, 'La hauteur du bloc upperLeft.height correspond')
-
 assert(valueBlock4.upperRight.width === 37, 'La longueur du bloc upperRight.width correspond')
 assert(valueBlock4.upperRight.height === 25, 'La longueur du bloc upperRight.height correspond')
-
 assert(valueBlock4.lowerLeft.width === 155, 'La longueur du bloc lowerLeft.width correspond')
 assert(valueBlock4.lowerLeft.height === 5, 'La longueur du bloc lowerLeft.height correspond')
-
 assert(valueBlock4.lowerRight.width === 37, 'La longueur du bloc lowerRight.width correspond')
 assert(valueBlock4.lowerRight.height === 5, 'La longueur du bloc lowerRight.height correspond')
+
+console.log('Pos0 - 1th: Each Block') // Faire marché
+assert(valueBlock4.upperRight.x === 157, 'La Pos0 du upperRight.x est correct')
+assert(valueBlock4.upperRight.y === 0, 'La Pos0 du upperRight.y est correct')
+assert(valueBlock4.lowerLeft.x === 0, 'La Pos0 du lowerLeft.x est correct')
+assert(valueBlock4.lowerLeft.y === 27, 'La Pos0 du lowerLeft.y est correct')
+assert(valueBlock4.lowerRight.x === 157, 'La Pos0 du lowerRight.x est correct')
+assert(valueBlock4.lowerRight.y === 27, 'La Pos0 du lowerRight.y est correct')
+
+console.log('Pos0 - 2th: Each Block')
+const valueBlock5 = gameUi.getBlocks(91,20)
+
+assert(valueBlock5.upperRight.x === 75, 'La Pos0 du upperRight.x est correct')
+assert(valueBlock5.upperRight.y === 0, 'La Pos0 du upperRight.y est correct')
+assert(valueBlock5.lowerLeft.x === 0, 'La Pos0 du lowerLeft.x est correct')
+assert(valueBlock5.lowerLeft.y === 18, 'La Pos0 du lowerLeft.y est correct')
+assert(valueBlock5.lowerRight.x === 75, 'La Pos0 du lowerRight.x est correct')
+assert(valueBlock5.lowerRight.y === 18, 'La Pos0 du lowerRight.y est correct')

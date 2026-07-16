@@ -117,7 +117,7 @@ export class TicTacToe_Game_UI {
 			},
 			upperRight: { 
 				// pos0 du bloc est 
-				x: Math.ceil(longueurMax*0.8) + 1 , // (1 pour la barre du tictactoe)
+				x: Math.ceil(longueurMax*0.8) + 2, // (1 pour la barre du tictactoe et 1 pour aller a l'emplacement 0 du bloc)
 				y: 0,
 				// La longueur du bloc
 				width: Math.floor(longueurMax*0.2) - 1, // (1 pour la barre du tictactoe)
@@ -126,15 +126,15 @@ export class TicTacToe_Game_UI {
 			lowerLeft: { 
 				// pos0 du bloc est 
 				x: 0 , 
-				y: Math.ceil(hauteurMax*0.8) + 1 , // (1 pour la barre du tictactoe)
+				y: Math.ceil(hauteurMax*0.8) + 2 , // (1 pour la barre du tictactoe et 1 pour aller a l'emplacement 0 du bloc)
 				// La longueur du bloc
 				width: Math.ceil(longueurMax*0.8),
 				height: Math.floor(hauteurMax*0.2) - 1 // (1 pour la barre du tictactoe)
 			},
 			lowerRight: { 
 				// pos0 du bloc est 
-				x: Math.ceil(longueurMax*0.8) + 1 , // (1 pour la barre du tictactoe) , 
-				y: Math.ceil(hauteurMax*0.8) + 1 , // (1 pour la barre du tictactoe)
+				x: Math.ceil(longueurMax*0.8) + 2 , // (1 pour la barre du tictactoe et 1 pour aller a l'emplacement 0 du bloc)
+				y: Math.ceil(hauteurMax*0.8) + 2 , // (1 pour la barre du tictactoe et 1 pour aller a l'emplacement 0 du bloc)
 				// La longueur du bloc
 				width: Math.floor(longueurMax*0.2) - 1, // (1 pour la barre du tictactoe)
 				height: Math.floor(hauteurMax*0.2) - 1 // (1 pour la barre du tictactoe)
@@ -220,9 +220,8 @@ export class TicTacToe_Game_UI {
 		const BORDER = [ '-' , '|' ]
 		drawString(posWidthBarrier.x, posWidthBarrier.y - 1, BORDER[0].repeat(getScreenWidth())) // -1 Pour draw au dessus du block
 		for (let i = 0 ; i < getScreenHeight() ; i++) {
-			drawString(posHeightBarrier.x, posHeightBarrier.y + i, BORDER[1])
+			drawString(posHeightBarrier.x - 1, posHeightBarrier.y + i, BORDER[1])
 		}
-		
 	}
 
 	/**
