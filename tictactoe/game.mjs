@@ -1,4 +1,4 @@
-import { I18n } from "./constantes/texts.mjs"
+import { I18n } from "./constantes/I18n.mjs"
 
 export class TicTacToe_Game {
 	

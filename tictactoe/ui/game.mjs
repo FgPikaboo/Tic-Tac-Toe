@@ -4,7 +4,7 @@ import {
 	getScreenWidth
 } from "../../terminal-engine.mjs"
 import { Utils } from "../../utils.mjs"
-import { I18n } from "../constantes/texts.mjs"
+import { I18n } from "../constantes/I18n.mjs"
 
 /**
  * @typedef {Object} PosXY

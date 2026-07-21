@@ -3,7 +3,7 @@ import {
 	getScreenHeight,
 	getScreenWidth
 } from "../../terminal-engine.mjs"
-import { I18n } from "../constantes/texts.mjs"
+import { I18n } from "../constantes/I18n.mjs"
 
 /**
  * @typedef {Object} PosXY
