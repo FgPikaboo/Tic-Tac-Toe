@@ -215,12 +215,12 @@ export class TicTacToe_Game_UI {
 	 * @param {LadderData} ladder - Les données de classement des joueurs.
 	 */
 	showSeparatorBlocks() {
-		const posHeightBarrier = this.getBlocks().upperRight
-		const posWidthBarrier = this.getBlocks().lowerLeft
+		const blockUpperRight = this.getBlocks().upperRight
+		const blockLowerLeft = this.getBlocks().lowerLeft
 		const BORDER = [ '-' , '|' ]
-		drawString(posWidthBarrier.x, posWidthBarrier.y - 1, BORDER[0].repeat(getScreenWidth())) // -1 Pour draw au dessus du block
+		drawString(blockLowerLeft.x, blockUpperRight.height, BORDER[0].repeat(getScreenWidth())) // -1 Pour draw au dessus du block
 		for (let i = 0 ; i < getScreenHeight() ; i++) {
-			drawString(posHeightBarrier.x - 1, posHeightBarrier.y + i, BORDER[1])
+			drawString(blockUpperRight.x - 1, blockUpperRight.y + i, BORDER[1])
 		}
 	}
 
@@ -283,7 +283,7 @@ export class TicTacToe_Game_UI {
 	showOrderTurnAndInfo(player) {
 		// La globalité du calcul te donne 31 alors que la totaliter du block fait 30, voila pourquoi ca marche pas
 		// const posY = Math.ceil(this.getBlocks().lowerLeft.y + (this.getBlocks().lowerLeft.height/2))
-		const posY = this.getBlocks().lowerLeft.y + Utils.center(this.getBlocks().lowerLeft.height , 1) // 1 car la hauteur de la string est de 1
+		const posY = getScreenHeight() - Utils.center(this.getBlocks().lowerLeft.height , 1) // 1 car la hauteur de la string est de 1
 		const blocWidth = this.getBlocks().lowerLeft.width
 		drawString(0, posY, ' '.repeat(blocWidth))
 		let showTurnPlayer = ''

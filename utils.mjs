@@ -28,7 +28,7 @@ export class Utils {
 			ajustDiff += 1
 		}
 		
-		const startXElement = Math.floor(blockLength/2) - Math.floor(elementLength/2) + ajustDiff
-		return startXElement
+		const startPosElement = Math.floor(blockLength/2) - Math.floor(elementLength/2) + ajustDiff
+		return startPosElement
 	}
 }
