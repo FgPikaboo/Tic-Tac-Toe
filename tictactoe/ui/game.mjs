@@ -236,7 +236,7 @@ export class TicTacToe_Game_UI {
 
 		/** Rank Ladder */
 		const rank_ladder = ladder
-		const PLAYER = [`Player 1: ${rank_ladder.P1}`,`Player 2: ${rank_ladder.P2}`]
+		const PLAYER = [`Joueur 1: ${rank_ladder.P1}`,`Joueur 2: ${rank_ladder.P2}`]
 		for (let i = 0 ; i < PLAYER.length ; i++) {
 			lineBreak += 2
 			drawString(posLadder.x + barSpacing, posLadder.y + lineBreak, PLAYER[i])

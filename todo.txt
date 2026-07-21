@@ -16,7 +16,7 @@
 [x] Faire un ecran de victoire
 [x] Afficher a qui c'est le tour
 [] Faire un emploie de jeu
-[] Changer player par joueurs dans le classement
+[x] Changer player par joueurs dans le classement
 [] Definir la longueur minimum pour le lancement du jeu (82)
 [] Definir la hauteur minimum pour le lancement du jeu (17)
 [] Coloriez les elements importants:
