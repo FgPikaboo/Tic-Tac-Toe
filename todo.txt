@@ -17,8 +17,11 @@
 [x] Afficher a qui c'est le tour
 [] Faire un emploie de jeu
 [x] Changer player par joueurs dans le classement
-[] Definir la longueur minimum pour le lancement du jeu (80)
-[] Definir la hauteur minimum pour le lancement du jeu (16)
+[] Tout les textes dans les fonctions, doivent etre dans un dictionnaire
+[x] Tronquer le texte si la longueur maximal autoriser est depasser
+[x] Le rendre operationnel dans le terminal
+[x] Definir la longueur minimum pour le lancement du jeu (95)
+[x] Definir la hauteur minimum pour le lancement du jeu (16)
 [] Coloriez les elements importants:
 - [] Le chiffre du score
 - [] Le curseur dans la grille

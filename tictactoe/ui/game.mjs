@@ -236,7 +236,7 @@ export class TicTacToe_Game_UI {
 
 		/** Rank Ladder */
 		const rank_ladder = ladder
-		const PLAYER = [`Joueur 1: ${rank_ladder.P1}`,`Joueur 2: ${rank_ladder.P2}`]
+		const PLAYER = [`Joueur 1: ${rank_ladder.P1}   `,`Joueur 2: ${rank_ladder.P2}   `]
 		for (let i = 0 ; i < PLAYER.length ; i++) {
 			lineBreak += 2
 			drawString(posLadder.x + barSpacing, posLadder.y + lineBreak, PLAYER[i])
@@ -288,10 +288,14 @@ export class TicTacToe_Game_UI {
 		drawString(0, posY, ' '.repeat(blocWidth))
 		let showTurnPlayer = ''
 		if (player === undefined) {
-			showTurnPlayer = `La valeur a deja etais saisie, veuillez recommencer`
+			showTurnPlayer = `   La valeur a deja etais saisie, veuillez recommencer   `
 		} else {
-			showTurnPlayer = `Au tour du joueur ${player}`
+			showTurnPlayer = `   Au tour du joueur ${player}   `
 		}
+		if (showTurnPlayer.length > this.getBlocks().lowerLeft.width) {
+			showTurnPlayer = showTurnPlayer.substring(0, this.getBlocks().lowerLeft.width)
+		}
+
 		const drawMiddleBoxScreen = Utils.drawStringHCentered(0,posY,blocWidth,showTurnPlayer)
 	}
 
@@ -351,7 +355,7 @@ export class TicTacToe_Game_UI {
 	 */
 	checkSizeTerminal() {
 		const heightMin = 16
-		const widthMin = 80
+		const widthMin = 95
 		if (getScreenHeight() < heightMin || getScreenWidth() < widthMin) {
 			return false
 		}
