@@ -148,12 +148,12 @@ export class TicTacToe_Game_UI {
 	 * @returns {PosXY} Position X/Y du texte de fin.
 	 */
 	getPosEndGame() {
-	const zone_draw_width = Math.ceil(getScreenWidth()*0.75)
-	const zone_draw_height = Math.ceil(getScreenHeight()*(2/3))
-	return {
-		x: zone_draw_width/2,
-		y: zone_draw_height/2
-	}
+		const zone_draw_width = Math.ceil(getScreenWidth()*0.75)
+		const zone_draw_height = Math.ceil(getScreenHeight()*(2/3))
+		return {
+			x: zone_draw_width/2,
+			y: zone_draw_height/2
+		}
 	}
 
 	/**
@@ -350,8 +350,9 @@ export class TicTacToe_Game_UI {
 	 * @returns {boolean} `true` si la taille est correcte, sinon `false`.
 	 */
 	checkSizeTerminal() {
-		const pos = this.getTicTacToePos()
-		if (pos.y < 0) {
+		const heightMin = 16
+		const widthMin = 80
+		if (getScreenHeight() < heightMin || getScreenWidth() < widthMin) {
 			return false
 		}
 		return true

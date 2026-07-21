@@ -17,8 +17,8 @@
 [x] Afficher a qui c'est le tour
 [] Faire un emploie de jeu
 [x] Changer player par joueurs dans le classement
-[] Definir la longueur minimum pour le lancement du jeu (82)
-[] Definir la hauteur minimum pour le lancement du jeu (17)
+[] Definir la longueur minimum pour le lancement du jeu (80)
+[] Definir la hauteur minimum pour le lancement du jeu (16)
 [] Coloriez les elements importants:
 - [] Le chiffre du score
 - [] Le curseur dans la grille
