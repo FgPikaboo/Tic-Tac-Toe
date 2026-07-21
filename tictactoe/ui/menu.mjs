@@ -3,6 +3,7 @@ import {
 	getScreenHeight,
 	getScreenWidth
 } from "../../terminal-engine.mjs"
+import { I18n } from "../constantes/texts.mjs"
 
 /**
  * @typedef {Object} PosXY
@@ -20,8 +21,8 @@ export class TicTacToe_Menu_UI {
 	 * @type {Array<string>}
 	 */
 	static MAIN_MENU = [
-		'Start game',
-		'Exit'
+		I18n.START_GAME,
+		I18n.EXIT
 	]
 	
 	constructor() {

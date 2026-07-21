@@ -4,6 +4,7 @@ import {
 	getScreenWidth
 } from "../../terminal-engine.mjs"
 import { Utils } from "../../utils.mjs"
+import { I18n } from "../constantes/texts.mjs"
 
 /**
  * @typedef {Object} PosXY
@@ -46,12 +47,6 @@ export class TicTacToe_Game_UI {
 		WIDTH: 23,
 		HEIGHT: 11
 	}
-
-	/** 
-	 * Version actuelle de l'interface.
-	 * @type {string} 
-	 */
-	static VERSION = '@MrPikaboo -- VERSION 0.27'
 
 	constructor() {
 		/**
@@ -236,7 +231,7 @@ export class TicTacToe_Game_UI {
 
 		/** Rank Ladder */
 		const rank_ladder = ladder
-		const PLAYER = [`Joueur 1: ${rank_ladder.P1}   `,`Joueur 2: ${rank_ladder.P2}   `]
+		const PLAYER = [I18n.LADDER_P1(rank_ladder.P1),I18n.LADDER_P2(rank_ladder.P2)]
 		for (let i = 0 ; i < PLAYER.length ; i++) {
 			lineBreak += 2
 			drawString(posLadder.x + barSpacing, posLadder.y + lineBreak, PLAYER[i])
@@ -244,7 +239,7 @@ export class TicTacToe_Game_UI {
 
 		/** Version UI */
 		const posY = this.getBlocks().lowerLeft.y + Utils.center(this.getBlocks().lowerLeft.height , 1)
-		drawString(posCredit.x + barSpacing, posY, TicTacToe_Game_UI.VERSION)
+		drawString(posCredit.x + barSpacing, posY, I18n.VERSION)
 	}
 
 	/**
@@ -268,11 +263,11 @@ export class TicTacToe_Game_UI {
 	showEndGame(winner) { 
 		const pos = this.getPosEndGame()
 		if (winner === 1) {
-			drawString(pos.x,pos.y,`Le joueur 1 a gagné !!!`)
+			drawString(pos.x,pos.y,I18n.WIN_P1)
 		} else if (winner === 2) {
-			drawString(pos.x,pos.y,`Le joueur 2 a gagné !!!`)
+			drawString(pos.x,pos.y,I18n.WIN_P2)
 		} else if (winner === 3) {
-			drawString(pos.x,pos.y,`Personne n\'a gagné, c\'est TRISTE, on romet !!`)
+			drawString(pos.x,pos.y,I18n.DRAW)
 		} 
 	}
 
@@ -288,9 +283,9 @@ export class TicTacToe_Game_UI {
 		drawString(0, posY, ' '.repeat(blocWidth))
 		let showTurnPlayer = ''
 		if (player === undefined) {
-			showTurnPlayer = `   La valeur a deja etais saisie, veuillez recommencer   `
+			showTurnPlayer = I18n.RETRY_SEIZURE
 		} else {
-			showTurnPlayer = `   Au tour du joueur ${player}   `
+			showTurnPlayer = I18n.TURN_PLAYER(player)
 		}
 		if (showTurnPlayer.length > this.getBlocks().lowerLeft.width) {
 			showTurnPlayer = showTurnPlayer.substring(0, this.getBlocks().lowerLeft.width)

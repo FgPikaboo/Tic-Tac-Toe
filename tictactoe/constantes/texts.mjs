@@ -1,0 +1,25 @@
+export class I18n {
+	// UI_GAME
+	static VERSION = '@MrPikaboo -- VERSION 0.27'
+	// showOrderTurnAndInfo(player)
+	static TURN_PLAYER = (player) => `Au tour du joueur ${player}`
+	static RETRY_SEIZURE = `La valeur a deja etais saisie, veuillez recommencer`
+	// showEndGame(winner)
+	static WIN_P1 = `Le joueur 1 a gagné !!!`
+	static WIN_P2 = `Le joueur 2 a gagné !!!`
+	static DRAW = `Personne n\'a gagné, c\'est TRISTE, on romet !!`
+	// showLadderInfo(ladder)
+	static LADDER_P1 = (ScoreP1) => `Joueur 1: ${ScoreP1}`
+	static LADDER_P2 = (ScoreP2) => `Joueur 2: ${ScoreP2}`
+
+	// UI_MENU
+	static START_GAME = 'Start game'
+	static EXIT = 'Exit'
+
+	// GAME
+	static ERROR_IDX = (idx) => `idx:(${idx}) dois etre entre 0 et 8`
+	static ERROR_SAME_SEIZURE = `La valeur a deja etais saisie, veuillez recommencer`
+
+	// INDEX
+	static ERROR_TERMINAL_TOO_SMALL = '\nTaille de la fenetre trop petite'
+}

@@ -2,6 +2,7 @@ import { TicTacToe_CouchVersus } from "./couch_versus.mjs"
 import { TicTacToe_Game } from "./game.mjs"
 import { TicTacToe_UI } from "./ui/index.mjs"
 import { destroy, waitOnceKey, clear } from "../terminal-engine.mjs"
+import { I18n } from "./constantes/texts.mjs"
 
 export class TicTacToe {
 	constructor() {
@@ -61,7 +62,7 @@ export class TicTacToe {
 	
 	async launchTicTacToeGame() {
 		if (!this.ui.game.checkSizeTerminal()) {
-			console.log('\nTaille de la fenetre trop petite')
+			console.log(I18n.ERROR_TERMINAL_TOO_SMALL)
 			this.exit()
 		}
 
