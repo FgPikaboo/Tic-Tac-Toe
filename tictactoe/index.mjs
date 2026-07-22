@@ -1,7 +1,7 @@
 import { TicTacToe_CouchVersus } from "./couch_versus.mjs"
 import { TicTacToe_Game } from "./game.mjs"
 import { TicTacToe_UI } from "./ui/index.mjs"
-import { destroy, waitOnceKey, clear } from "../terminal-engine.mjs"
+import { destroy, waitOnceKey, clear, drawString } from "../terminal-engine.mjs"
 import { I18n } from "./constantes/I18n.mjs"
 
 export class TicTacToe {
@@ -48,8 +48,14 @@ export class TicTacToe {
 					this.ui.menu.moveDown()
 					break
 				case "confirm":
-					exitMenu = true
 					clear()
+					if (this.ui.menu.getMenuOptionSelected() === 1) {
+						this.ui.menu.showRules()
+						await this.controller.waitDoubleConfirm()
+						clear()
+						break
+					}
+					exitMenu = true
 					if (this.ui.menu.getMenuOptionSelected() === 0) {
 						nextPhase = true
 					}

@@ -14,7 +14,10 @@ export class I18n {
 
 	// UI_MENU
 	static START_GAME = 'Start game'
+	static RULES = 'Rules'
 	static EXIT = 'Exit'
+	static RULES_EXPLAIN_1 = 'Les regles sont simple...'
+	static RULES_EXPLAIN_2 = 'Sort de ta grotte et vas rechercher sur Google !!!'
 
 	// GAME
 	static ERROR_IDX = (idx) => `idx:(${idx}) dois etre entre 0 et 8`

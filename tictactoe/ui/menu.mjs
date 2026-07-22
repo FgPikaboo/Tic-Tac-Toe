@@ -3,6 +3,7 @@ import {
 	getScreenHeight,
 	getScreenWidth
 } from "../../terminal-engine.mjs"
+import { Utils } from "../../utils.mjs"
 import { I18n } from "../constantes/I18n.mjs"
 
 /**
@@ -22,12 +23,13 @@ export class TicTacToe_Menu_UI {
 	 */
 	static MAIN_MENU = [
 		I18n.START_GAME,
+		I18n.RULES,
 		I18n.EXIT
 	]
 	
 	constructor() {
 		/** 
-		 * Indice de l'option actuellement selectionnée (0 à 1)
+		 * Indice de l'option actuellement selectionnée (0 à 2)
 		 * @type {number}
 		 */
 		this.mainMenuOptionSelected = 0
@@ -50,6 +52,14 @@ export class TicTacToe_Menu_UI {
 			x: Math.ceil((getScreenWidth()/2)-(TicTacToe_Menu_UI.MAIN_MENU[0].length/2)),
 			y: Math.ceil(getScreenHeight()/2)
 		}
+	}
+
+	/**
+	 * Dessine sur le terminal les regles du jeu
+	 */
+	showRules() {
+		Utils.drawStringHCentered(0,getScreenHeight()/2,getScreenWidth(),I18n.RULES_EXPLAIN_1)
+		Utils.drawStringHCentered(0,(getScreenHeight()/2)+1,getScreenWidth(),I18n.RULES_EXPLAIN_2)
 	}
 
 	/**
