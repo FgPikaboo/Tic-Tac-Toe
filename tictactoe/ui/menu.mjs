@@ -48,9 +48,9 @@ export class TicTacToe_Menu_UI {
 	 * @returns {PosXY} Position X/Y du coin supérieur gauche du menu.
 	 */
 	getMenuPos() {
-		return { 
-			x: Math.ceil((getScreenWidth()/2)-(TicTacToe_Menu_UI.MAIN_MENU[0].length/2)),
-			y: Math.ceil(getScreenHeight()/2)
+		return {
+			x: Utils.center(getScreenWidth(), 1),
+			y: Utils.center(getScreenHeight(), 1)
 		}
 	}
 
@@ -67,11 +67,9 @@ export class TicTacToe_Menu_UI {
 	 */
 	showMainScreen() {
 		const pos = this.getMenuPos()
-
 		for (let i = 0; i < TicTacToe_Menu_UI.MAIN_MENU.length; i++) {
 			drawString(pos.x, pos.y + i, TicTacToe_Menu_UI.MAIN_MENU[i])
 		}
-
 		this.showMenuCursor()
 	}
 
