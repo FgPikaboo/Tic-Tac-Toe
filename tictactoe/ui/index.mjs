@@ -1,3 +1,4 @@
+import { TicTacToe_Common_UI } from "./common.mjs"
 import { TicTacToe_Game_UI } from "./game.mjs"
 import { TicTacToe_Menu_UI } from "./menu.mjs"
 
@@ -18,5 +19,10 @@ export class TicTacToe_UI {
 		 * @type {TicTacToe_Menu_UI}
 		 */
 		this.menu = new TicTacToe_Menu_UI()
+		/**
+		 * Fonction identique aux 2 instances
+		 * @type {TicTacToe_Common_UI}
+		 */
+		this.common = new TicTacToe_Common_UI()
 	}
 }

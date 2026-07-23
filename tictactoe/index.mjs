@@ -30,15 +30,12 @@ export class TicTacToe {
 		}
 	}
 
-	addCountGameFinish() {
-		this.countGame += 1
-	}
-
 	async applyChoiceInMenuSelection() {
 		let exitMenu = false
 		let nextPhase = false
 		while (!exitMenu) {
 			this.ui.menu.showMainScreen()
+			this.ui.common.showLadderInfo(this.ladder, 0, 0)
 			const action = await this.controller.waitForMenuSelection()
 			switch (action) {
 				case "up":
@@ -77,8 +74,9 @@ export class TicTacToe {
 
 		currentGame.setFirstPlayer(this.prevWinner)
 		this.ui.game.showTicTacToe()
-		this.ui.game.showSeparatorBlocks()
-		this.ui.game.showLadderInfo(this.ladder)
+		this.ui.game.showSeparatorBlocksInGame()
+		this.ui.common.showLadderInfo(this.ladder, this.ui.game.getBlocks().upperRight.x, this.ui.game.getBlocks().upperRight.y)
+		this.ui.game.showCredits()
 		this.ui.game.showGameCursor()
 
 		let endGame = false

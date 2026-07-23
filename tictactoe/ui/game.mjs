@@ -206,10 +206,20 @@ export class TicTacToe_Game_UI {
 	}
 
 	/**
+	 * Dessine le credit dans le bloc en bas a gauche
+	 */
+	showCredits() {
+		const posCredit = this.getBlocks().lowerRight
+		const posY = getScreenHeight() -  Utils.center(this.getBlocks().lowerLeft.height , 1)
+		const barSpacing = 3
+		drawString(posCredit.x + barSpacing, posY, I18n.VERSION)
+	}
+
+	/**
 	 * Dessine la structure de la section Ladder (scores) sur le côté droit.
 	 * @param {LadderData} ladder - Les données de classement des joueurs.
 	 */
-	showSeparatorBlocks() {
+	showSeparatorBlocksInGame() {
 		const blockUpperRight = this.getBlocks().upperRight
 		const blockLowerLeft = this.getBlocks().lowerLeft
 		const BORDER = [ '-' , '|' ]
@@ -217,29 +227,6 @@ export class TicTacToe_Game_UI {
 		for (let i = 0 ; i < getScreenHeight() ; i++) {
 			drawString(blockUpperRight.x - 1, blockUpperRight.y + i, BORDER[1])
 		}
-	}
-
-	/**
-	 * Affiche le texte des scores et la version de l'UI à l'intérieur du Ladder.
-	 * @param {LadderData} ladder - Les données de classement des joueurs.
-	 */
-	showLadderInfo(ladder) {
-		const posLadder = this.getBlocks().upperRight
-		const posCredit = this.getBlocks().lowerRight
-		const barSpacing = 3
-		let lineBreak = 0
-
-		/** Rank Ladder */
-		const rank_ladder = ladder
-		const PLAYER = [I18n.LADDER_P1(rank_ladder.P1),I18n.LADDER_P2(rank_ladder.P2)]
-		for (let i = 0 ; i < PLAYER.length ; i++) {
-			lineBreak += 2
-			drawString(posLadder.x + barSpacing, posLadder.y + lineBreak, PLAYER[i])
-		}
-
-		/** Version UI */
-		const posY = this.getBlocks().lowerLeft.y + Utils.center(this.getBlocks().lowerLeft.height , 1)
-		drawString(posCredit.x + barSpacing, posY, I18n.VERSION)
 	}
 
 	/**
@@ -355,14 +342,6 @@ export class TicTacToe_Game_UI {
 			return false
 		}
 		return true
-	}
-
-	/**
-	 * Enregistre de force l'index de la case sélectionnée (Non implémenté).
-	 * @param {number} idx_case - L'index de la case choisie (0-8).
-	 */
-	setCaseSelected(idx_case) {
-		// À implémenter
 	}
 }
 
