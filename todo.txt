@@ -31,7 +31,7 @@
 [x] Dessiner les options du menu du TicTacToe
 [x] Afficher le curseur dans le menu
 [x] Dessiner et Supprimer le curseur quand je fait un mouvement dans le menu
-[] Classement a faire (UI)
+[x] Classement a faire (UI)
 
 [x] Faire une fonction de prevension quand le terminal est trop petit pour afficher le TicTacToe
 

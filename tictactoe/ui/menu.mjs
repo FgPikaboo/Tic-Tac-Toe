@@ -1,10 +1,13 @@
 import { 
+	clearColor,
+	setForegroundColor,
 	drawString,
 	getScreenHeight,
 	getScreenWidth
 } from "../../terminal-engine.mjs"
 import { Utils } from "../../utils.mjs"
 import { I18n } from "../constantes/I18n.mjs"
+import { Theme } from "../constantes/theme.mjs"
 
 /**
  * @typedef {Object} PosXY
@@ -87,7 +90,9 @@ export class TicTacToe_Menu_UI {
 			const prevY = pos.y + previous
 			drawString(x, prevY, ' ')
 		}
+		setForegroundColor(Theme.CURSOR_COLOR)
 		drawString(x, y, '•')
+		clearColor()
 	}
 
 	/**

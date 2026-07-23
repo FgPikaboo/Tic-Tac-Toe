@@ -1,6 +1,6 @@
 import { I18n } from "../constantes/I18n.mjs"
 import { Utils } from "../../utils.mjs"
-import { drawString } from "../../terminal-engine.mjs"
+import { clearColor, drawString } from "../../terminal-engine.mjs"
 
 export class TicTacToe_Common_UI {
 
