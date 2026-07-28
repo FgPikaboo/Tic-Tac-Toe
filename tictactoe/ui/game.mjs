@@ -250,11 +250,7 @@ export class TicTacToe_Game_UI {
 				w3: I18n.WIN_3
 			}
 			const posXString = Utils.center(getScreenWidth(), winnerText.w1.length + winnerText.w2.length + winnerText.w3.length)
-			drawString(posXString, posY, winnerText.w1)
-			setForegroundColor(Theme.PLAYER_COLOR)
-			drawString(posXString + winnerText.w1.length, posY, winnerText.w2)
-			clearColor()
-			drawString(posXString + winnerText.w1.length + winnerText.w2.length, posY, winnerText.w3)
+			Utils.drawStringAndColor(posXString, posY, winnerText.w1 + winnerText.w2 + winnerText.w3, winnerText.w2, Theme.PLAYER_COLOR)
 		}
 	}
 
@@ -276,10 +272,7 @@ export class TicTacToe_Game_UI {
 			const TurnPlayerN1 = I18n.TURN_PLAYER_1
 			const TurnPlayerN2 = I18n.TURN_PLAYER_2(player)
 			const posXString = Utils.center(this.getBlocks().lowerLeft.width, TurnPlayerN1.length + TurnPlayerN2.length)
-			drawString(posXString, posY, TurnPlayerN1)
-			setForegroundColor(Theme.PLAYER_COLOR)
-			drawString(posXString + TurnPlayerN1.length, posY, TurnPlayerN2)
-			clearColor()
+			Utils.drawStringAndColor(posXString, posY, TurnPlayerN1 + TurnPlayerN2, TurnPlayerN2, Theme.PLAYER_COLOR)
 			PhraseTurnPlayer = TurnPlayerN1 + TurnPlayerN2
 		}
 
