@@ -26,8 +26,12 @@
 - [x] Le chiffre du score
 - [x] Le curseur dans la grille
 - [x] L'affichage du vainqueur
-- [] Les joueurs des 2 ladders
-[] Faire la fonction drawStringAndColor dans le fichier Utils
+- [x] Les joueurs des 2 ladders
+- [] Corriger le fait que si ya le meme chiffre, il colorie que le score
+[x] Faire la fonction drawStringAndColor dans le fichier Utils
+[] Credits:
+- [] Faire une animation qui change de couleurs CHAQUE caractere du credit
+- [] Si argument dans le terminal (node index.mjs Credits), fait l'animation, sinon non
 
 // Menu
 [x] Dessiner les options du menu du TicTacToe

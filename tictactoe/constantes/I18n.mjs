@@ -11,8 +11,9 @@ export class I18n {
 	static WIN_3 = 'a gagné !!!'
 	static DRAW = `Personne n\'a gagné, c\'est TRISTE, on romet !!`
 	// showLadderInfo(ladder)
-	static LADDER_P1 = (ScoreP1) => `Joueur 1: ${ScoreP1}`
-	static LADDER_P2 = (ScoreP2) => `Joueur 2: ${ScoreP2}`
+	static LADDER_1 = 'Joueur '
+	static LADDER_2_PLAYER = (player) => `${player}: `
+	static LADDER_3_SCORE = (score) => `${score}`
 
 	// UI_MENU
 	static START_GAME = 'Start game'
