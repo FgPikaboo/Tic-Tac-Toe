@@ -31,4 +31,15 @@ export class Utils {
 		const startPosElement = Math.floor(blockLength/2) - Math.floor(elementLength/2) + ajustDiff
 		return startPosElement
 	}
+
+	/**
+	 * @param {string} str La string en entier à afficher
+	 * @param {string} substr_a_colorier La partie de string à changer de couleur
+	 * @param {any} substr_a_colorier La couleur du foreground
+	 */
+	drawStringAndColor(str, substr_a_colorier, couleur) {
+
+
+		
+	}
 }

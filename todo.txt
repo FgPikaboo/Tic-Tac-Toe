@@ -22,10 +22,11 @@
 [x] Le rendre operationnel dans le terminal
 [x] Definir la longueur minimum pour le lancement du jeu (95)
 [x] Definir la hauteur minimum pour le lancement du jeu (16)
-[] Coloriez les elements importants:
+[x] Coloriez les elements importants:
 - [x] Le chiffre du score
 - [x] Le curseur dans la grille
-- [] L'affichage du vainqueur
+- [x] L'affichage du vainqueur
+[] Faire la fonction drawStringAndColor dans le fichier Utils
 
 // Menu
 [x] Dessiner les options du menu du TicTacToe

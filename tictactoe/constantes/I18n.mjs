@@ -6,8 +6,9 @@ export class I18n {
 	static TURN_PLAYER_2 = (player) => `joueur ${player}`
 	static RETRY_SEIZURE = `La valeur a deja etais saisie, veuillez recommencer`
 	// showEndGame(winner)
-	static WIN_P1 = `Le joueur 1 a gagné !!!`
-	static WIN_P2 = `Le joueur 2 a gagné !!!`
+	static WIN_1 = 'Le '
+	static WIN_2 = (winner) => `joueur ${winner} `
+	static WIN_3 = 'a gagné !!!'
 	static DRAW = `Personne n\'a gagné, c\'est TRISTE, on romet !!`
 	// showLadderInfo(ladder)
 	static LADDER_P1 = (ScoreP1) => `Joueur 1: ${ScoreP1}`

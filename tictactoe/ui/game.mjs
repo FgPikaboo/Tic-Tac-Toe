@@ -142,20 +142,6 @@ export class TicTacToe_Game_UI {
 	}
 
 	/**
-	 * Calcule la position du texte de fin de partie.
-	 * Centré par rapport à la zone de dessin principale.
-	 * @returns {PosXY} Position X/Y du texte de fin.
-	 */
-	getPosEndGame() {
-		const zone_draw_width = Math.ceil(getScreenWidth()*0.75)
-		const zone_draw_height = Math.ceil(getScreenHeight()*(2/3))
-		return {
-			x: zone_draw_width/2,
-			y: zone_draw_height/2
-		}
-	}
-
-	/**
 	 * Calcule la position exacte du curseur à l'écran en fonction de la case sélectionnée.
 	 * @returns {PosXY} Position X/Y du curseur.
 	 */
@@ -254,14 +240,20 @@ export class TicTacToe_Game_UI {
 	 * @param {number} winner - `1` pour Joueur 1, `2` pour Joueur 2, `3` pour un match nul.
 	 */
 	showEndGame(winner) { 
-		const pos = this.getPosEndGame()
-		if (winner === 1) {
-			drawString(pos.x,pos.y,I18n.WIN_P1)
-		} else if (winner === 2) {
-			drawString(pos.x,pos.y,I18n.WIN_P2)
-		} else if (winner === 3) {
-			drawString(pos.x,pos.y,I18n.DRAW)
-		} 
+		const posY = Math.ceil(getScreenHeight()/2)
+		if (winner === 3) {
+			drawString(Math.ceil(getScreenWidth()/2),posY,I18n.DRAW)
+		} else {
+			const w1 = I18n.WIN_1
+			const w2 = I18n.WIN_2(winner)
+			const w3 = I18n.WIN_3
+			const posXString = Utils.center(getScreenWidth(), w1.length + w2.length + w3.length)
+			drawString(posXString, posY, w1)
+			setForegroundColor(Theme.PLAYER_COLOR)
+			drawString(posXString + w1.length, posY, w2)
+			clearColor()
+			drawString(posXString + w1.length + w2.length, posY, w3)
+		}
 	}
 
 	/**
