@@ -2,7 +2,8 @@ export class I18n {
 	// UI_GAME
 	static VERSION = '@MrPikaboo -- VERSION 0.27'
 	// showOrderTurnAndInfo(player)
-	static TURN_PLAYER = (player) => `Au tour du joueur ${player}`
+	static TURN_PLAYER_1 = 'Au tour du '
+	static TURN_PLAYER_2 = (player) => `joueur ${player}`
 	static RETRY_SEIZURE = `La valeur a deja etais saisie, veuillez recommencer`
 	// showEndGame(winner)
 	static WIN_P1 = `Le joueur 1 a gagné !!!`

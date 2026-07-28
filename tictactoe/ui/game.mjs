@@ -3,7 +3,8 @@ import {
 	setForegroundColor,
 	drawString,
 	getScreenHeight,
-	getScreenWidth
+	getScreenWidth,
+	COLOR
 } from "../../terminal-engine.mjs"
 import { Utils } from "../../utils.mjs"
 import { I18n } from "../constantes/I18n.mjs"
@@ -273,17 +274,25 @@ export class TicTacToe_Game_UI {
 		const posY = getScreenHeight() - Utils.center(this.getBlocks().lowerLeft.height , 1) // 1 car la hauteur de la string est de 1
 		const blocWidth = this.getBlocks().lowerLeft.width
 		drawString(0, posY, ' '.repeat(blocWidth))
-		let showTurnPlayer = ''
+		let PhraseTurnPlayer = ''
 		if (player === undefined) {
-			showTurnPlayer = I18n.RETRY_SEIZURE
+			PhraseTurnPlayer = I18n.RETRY_SEIZURE
+			const posRetry = Utils.drawStringHCentered(0,posY,blocWidth,I18n.RETRY_SEIZURE)
 		} else {
-			showTurnPlayer = I18n.TURN_PLAYER(player)
-		}
-		if (showTurnPlayer.length > this.getBlocks().lowerLeft.width) {
-			showTurnPlayer = showTurnPlayer.substring(0, this.getBlocks().lowerLeft.width)
+			const TurnPlayerN1 = I18n.TURN_PLAYER_1
+			const TurnPlayerN2 = I18n.TURN_PLAYER_2(player)
+			const posXString = Utils.center(this.getBlocks().lowerLeft.width, TurnPlayerN1.length + TurnPlayerN2.length)
+			drawString(posXString, posY, TurnPlayerN1)
+			setForegroundColor(Theme.PLAYER_COLOR)
+			drawString(posXString + TurnPlayerN1.length, posY, TurnPlayerN2)
+			clearColor()
+			PhraseTurnPlayer = TurnPlayerN1 + TurnPlayerN2
 		}
 
-		const drawMiddleBoxScreen = Utils.drawStringHCentered(0,posY,blocWidth,showTurnPlayer)
+		if (PhraseTurnPlayer.length > this.getBlocks().lowerLeft.width) {
+			PhraseTurnPlayer = PhraseTurnPlayer.substring(0, this.getBlocks().lowerLeft.width)
+		}
+		
 	}
 
 	/**

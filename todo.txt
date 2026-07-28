@@ -23,9 +23,9 @@
 [x] Definir la longueur minimum pour le lancement du jeu (95)
 [x] Definir la hauteur minimum pour le lancement du jeu (16)
 [] Coloriez les elements importants:
-- [] Le chiffre du score
-- [] Le curseur dans la grille
-- [] Le joueur dans l'ordre des tours et l'affichage du vainqueur
+- [x] Le chiffre du score
+- [x] Le curseur dans la grille
+- [] L'affichage du vainqueur
 
 // Menu
 [x] Dessiner les options du menu du TicTacToe
