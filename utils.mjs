@@ -1,4 +1,4 @@
-import { drawString } from "./terminal-engine.mjs"
+import { clearColor, drawString, setForegroundColor } from "./terminal-engine.mjs"
 
 export class Utils {
 	/**
@@ -33,13 +33,25 @@ export class Utils {
 	}
 
 	/**
+	 * @param {number} posX La position X de la string
+	 * @param {number} posY La position Y de la string
 	 * @param {string} str La string en entier à afficher
 	 * @param {string} substr_a_colorier La partie de string à changer de couleur
 	 * @param {any} substr_a_colorier La couleur du foreground
 	 */
-	drawStringAndColor(str, substr_a_colorier, couleur) {
-
-
-		
+	static drawStringAndColor(posX, posY, str, substr_a_colorier, couleur) {
+		const indexWordFindStart = str.indexOf(substr_a_colorier)
+		if (indexWordFindStart < 0) {
+			drawString(posX, posY, str)
+			return
+		}
+		const startString = str.substring(0, indexWordFindStart)
+		const coloredWord = str.substring(indexWordFindStart, indexWordFindStart + substr_a_colorier.length)
+		const endString = str.substring(indexWordFindStart + substr_a_colorier.length)
+		drawString(posX, posY, startString)
+		setForegroundColor(couleur)
+		drawString(posX + startString.length, posY, coloredWord)
+		clearColor()
+		drawString(posX + startString.length + coloredWord.length, posY, endString)
 	}
 }

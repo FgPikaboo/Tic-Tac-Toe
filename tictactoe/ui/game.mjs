@@ -244,15 +244,17 @@ export class TicTacToe_Game_UI {
 		if (winner === 3) {
 			drawString(Math.ceil(getScreenWidth()/2),posY,I18n.DRAW)
 		} else {
-			const w1 = I18n.WIN_1
-			const w2 = I18n.WIN_2(winner)
-			const w3 = I18n.WIN_3
-			const posXString = Utils.center(getScreenWidth(), w1.length + w2.length + w3.length)
-			drawString(posXString, posY, w1)
+			const winnerText = {
+				w1: I18n.WIN_1,
+				w2: I18n.WIN_2(winner),
+				w3: I18n.WIN_3
+			}
+			const posXString = Utils.center(getScreenWidth(), winnerText.w1.length + winnerText.w2.length + winnerText.w3.length)
+			drawString(posXString, posY, winnerText.w1)
 			setForegroundColor(Theme.PLAYER_COLOR)
-			drawString(posXString + w1.length, posY, w2)
+			drawString(posXString + winnerText.w1.length, posY, winnerText.w2)
 			clearColor()
-			drawString(posXString + w1.length + w2.length, posY, w3)
+			drawString(posXString + winnerText.w1.length + winnerText.w2.length, posY, winnerText.w3)
 		}
 	}
 

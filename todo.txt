@@ -26,6 +26,7 @@
 - [x] Le chiffre du score
 - [x] Le curseur dans la grille
 - [x] L'affichage du vainqueur
+- [] Les joueurs des 2 ladders
 [] Faire la fonction drawStringAndColor dans le fichier Utils
 
 // Menu
