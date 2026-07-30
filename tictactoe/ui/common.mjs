@@ -30,22 +30,16 @@ export class TicTacToe_Common_UI {
 		for (let i = 0; i < 2; i++) {
 			const whoDrawingLadder = I18n.LADDER_2_PLAYER(i+1)
 			lineBreak += 2
+			// Pour eviter de changer la fonction DrawString en rajoutant un parametre de position
+			// On rajoute un espace dans la string a colorier pour que joueur 1: {score}, soit bien colorié
+			// dans le cas ou score vaut 1 (car il colorieras le 1 de joueur)
 			Utils.drawStringAndColor(
 				posX + barSpacing, 
 				posY + lineBreak, 
-				startTextLadder + whoDrawingLadder + rankPlayer[i], 
+				startTextLadder + whoDrawingLadder + rankPlayer[i],
 				rankPlayer[i], 
 				Theme.NUMBER_LADDER
 			)
 		}
-		/**
-		const PLAYER = [I18n.LADDER_1(rank_ladder.P1),I18n.LADDER_2(rank_ladder.P2)]
-		
-		for (let i = 0 ; i < PLAYER.length ; i++) {
-			lineBreak += 2
-			
-			drawString(posX + barSpacing, posY + lineBreak, PLAYER[i])
-		}
-		*/
 	}
 }

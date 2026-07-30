@@ -36,6 +36,7 @@ export class Utils {
 	}
 
 	/**
+	 * Met la couleur sur la premiere occurance de substr_a_colorie en affichant un drawString
 	 * @param {number} posX La position X de la string
 	 * @param {number} posY La position Y de la string
 	 * @param {string} str La string en entier à afficher
