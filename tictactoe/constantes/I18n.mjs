@@ -1,3 +1,6 @@
+/**
+ * This class contains static strings for various texts used throughout the application.
+ */
 export class I18n {
 	// UI_GAME
 	static VERSION = '@MrPikaboo -- VERSION 0.27'

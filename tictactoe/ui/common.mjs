@@ -3,6 +3,9 @@ import { Utils } from "../../utils.mjs"
 import { clearColor, drawString } from "../../terminal-engine.mjs"
 import { Theme } from "../constantes/theme.mjs"
 
+/**
+ * Une class de UI qui regroupe toutes les methodes qui sont utiliser au 2 autres class UI (UIGame et UIMenu)
+ */
 export class TicTacToe_Common_UI {
 
 	/**

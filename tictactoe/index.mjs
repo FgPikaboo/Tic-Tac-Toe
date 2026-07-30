@@ -4,6 +4,9 @@ import { TicTacToe_UI } from "./ui/index.mjs"
 import { destroy, waitOnceKey, clear, drawString } from "../terminal-engine.mjs"
 import { I18n } from "./constantes/I18n.mjs"
 
+/**
+ * La class general du TicTacToe
+ */
 export class TicTacToe {
 	constructor() {
 		/** @type {Array<TicTacToe_Game>} Historique des games faites */
@@ -30,6 +33,9 @@ export class TicTacToe {
 		}
 	}
 
+	/**
+	 * Gere l'affichage et le programme du menu
+	 */
 	async applyChoiceInMenuSelection() {
 		let exitMenu = false
 		let nextPhase = false
@@ -63,6 +69,9 @@ export class TicTacToe {
 		}
 	}
 	
+	/**
+	 * Verifie si le terminal a la taille minimal requise
+	 */
 	async launchTicTacToeGame() {
 		if (!this.ui.game.checkSizeTerminal()) {
 			console.log(I18n.ERROR_TERMINAL_TOO_SMALL)

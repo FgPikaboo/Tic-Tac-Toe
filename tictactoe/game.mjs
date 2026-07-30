@@ -1,5 +1,8 @@
 import { I18n } from "./constantes/I18n.mjs"
 
+/**
+ * Gere la partie en cours en fond de jeu
+ */
 export class TicTacToe_Game {
 	
 	/**

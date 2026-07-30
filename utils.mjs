@@ -1,5 +1,8 @@
 import { clearColor, drawString, setForegroundColor } from "./terminal-engine.mjs"
 
+/**
+ * Regroupe les methodes de class utile dans la plupart des programmes
+ */
 export class Utils {
 	/**
 	 * Permet de centré un texte dans un bloc donner
