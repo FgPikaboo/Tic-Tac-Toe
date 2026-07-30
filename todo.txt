@@ -27,7 +27,7 @@
 - [x] Le curseur dans la grille
 - [x] L'affichage du vainqueur
 - [x] Les joueurs des 2 ladders
-- [] Corriger le fait que si ya le meme chiffre, il colorie que le score
+- [x] Corriger le fait que si ya le meme chiffre, il colorie que le score
 [x] Faire la fonction drawStringAndColor dans le fichier Utils
 [] Credits:
 - [] Faire une animation qui change de couleurs CHAQUE caractere du credit

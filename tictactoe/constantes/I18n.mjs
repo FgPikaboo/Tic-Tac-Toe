@@ -13,7 +13,7 @@ export class I18n {
 	// showLadderInfo(ladder)
 	static LADDER_1 = 'Joueur '
 	static LADDER_2_PLAYER = (player) => `${player}: `
-	static LADDER_3_SCORE = (score) => `${score}`
+	static LADDER_3_SCORE = (score) => `${score} `
 
 	// UI_MENU
 	static START_GAME = 'Start game'

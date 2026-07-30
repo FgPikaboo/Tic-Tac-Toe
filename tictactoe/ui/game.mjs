@@ -239,10 +239,10 @@ export class TicTacToe_Game_UI {
 	 * Affichage de l'écran de fin avec le résultat de la partie.
 	 * @param {number} winner - `1` pour Joueur 1, `2` pour Joueur 2, `3` pour un match nul.
 	 */
-	showEndGame(winner) { 
+	showEndGame(winner) {
 		const posY = Math.ceil(getScreenHeight()/2)
 		if (winner === 3) {
-			drawString(Math.ceil(getScreenWidth()/2),posY,I18n.DRAW)
+			Utils.drawStringHCentered(0,posY,getScreenWidth(),I18n.DRAW)
 		} else {
 			const winnerText = {
 				w1: I18n.WIN_1,
