@@ -5,25 +5,38 @@ import { destroy, waitOnceKey, clear, drawString } from "../terminal-engine.mjs"
 import { I18n } from "./constantes/I18n.mjs"
 
 /**
- * La class general du TicTacToe
+ * Main application class orchestrating the TicTacToe game lifecycle, UI, input controls, and score tracking.
  */
 export class TicTacToe {
 	constructor() {
-		/** @type {Array<TicTacToe_Game>} Historique des games faites */
+		/** @type {Array<TicTacToe_Game>} History of completed game sessions. */
 		this.games = [ ]
-		this.ui = new TicTacToe_UI() // L'instance de la classe UI (pour l'affichage)
+		
+		/** @type {TicTacToe_UI} Instance of the user interface management class. */
+		this.ui = new TicTacToe_UI()
+		
+		/** @type {TicTacToe_CouchVersus} Instance handling user input and key bindings. */
 		this.controller = new TicTacToe_CouchVersus()
+		
+		/** 
+		 * Match score tracking for both players.
+		 * @type {{P1: number, P2: number}} 
+		 */
 		this.ladder = {
 			P1: 0,
 			P2: 0
 		}
+		
+		/** @type {boolean} Flag indicating if a rematch was requested. */
 		this.replay = false
+		
+		/** @type {number|undefined} The winner status from the preceding round. */
 		this.prevWinner = undefined
 	}
 
 	/**
-	 * Ajoute le player gagnant
-	 * @param {number} player Le player gagnant
+	 * Increments the score counter for the winning player.
+	 * @param {number} current_winner - The status code representing the winning player.
 	 */
 	countWinnerLadder(current_winner) {
 		if (current_winner === TicTacToe_Game.STATUS.P1) {
@@ -34,7 +47,7 @@ export class TicTacToe {
 	}
 
 	/**
-	 * Gere l'affichage et le programme du menu
+	 * Manages menu rendering and navigation execution flow.
 	 */
 	async applyChoiceInMenuSelection() {
 		let exitMenu = false
@@ -70,7 +83,7 @@ export class TicTacToe {
 	}
 	
 	/**
-	 * Verifie si le terminal a la taille minimal requise
+	 * Validates terminal dimensions and initializes a new game session.
 	 */
 	async launchTicTacToeGame() {
 		if (!this.ui.game.checkSizeTerminal()) {
@@ -78,7 +91,7 @@ export class TicTacToe {
 			this.exit()
 		}
 
-		// Nouvelle instance d'une partie
+		// New game instance
 		const currentGame = new TicTacToe_Game()
 
 		currentGame.setFirstPlayer(this.prevWinner)
@@ -136,7 +149,7 @@ export class TicTacToe {
 	}
 
 	/**
-	 * Jeu du tictactoe en cours
+	 * Main application loop handling menu selection and active game execution until replay is requested.
 	 */
 	async playGame() {
 		while (!this.replay) {
@@ -145,8 +158,6 @@ export class TicTacToe {
 		}
 	}
 
-	main() { }
-
 	/**
 	 * Exit game
 	 */
@@ -154,4 +165,6 @@ export class TicTacToe {
 		destroy()
 		process.exit()
 	}
+
+	main() {}
 }

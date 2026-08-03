@@ -4,15 +4,15 @@ import { clearColor, drawString } from "../../terminal-engine.mjs"
 import { Theme } from "../constantes/theme.mjs"
 
 /**
- * Une class de UI qui regroupe toutes les methodes qui sont utiliser au 2 autres class UI (UIGame et UIMenu)
+ * Base UI class regrouping shared rendering methods used by UI sub-modules (UIGame and UIMenu).
  */
 export class TicTacToe_Common_UI {
 
 	/**
-	 * Affiche le texte des scores et la version de l'UI à l'intérieur du Ladder.
-	 * @param {LadderData} ladder - Les données de classement des joueurs.
-	 * @param posLadderX - Position X du Ladder
-	 * @param posLadderY - Position Y du Ladder
+	 * Renders leaderboard scores and game version information inside the ladder component.
+	 * @param {LadderData} ladder - Leaderboard data object containing player scores.
+	 * @param {number} posLadderX - X-axis coordinate for ladder positioning.
+	 * @param {number} posLadderY - Y-axis coordinate for ladder positioning.
 	 */
 	showLadderInfo(ladder, posLadderX, posLadderY) {
 		const posX = posLadderX
@@ -30,9 +30,8 @@ export class TicTacToe_Common_UI {
 		for (let i = 0; i < 2; i++) {
 			const whoDrawingLadder = I18n.LADDER_2_PLAYER(i+1)
 			lineBreak += 2
-			// Pour eviter de changer la fonction DrawString en rajoutant un parametre de position
-			// On rajoute un espace dans la string a colorier pour que joueur 1: {score}, soit bien colorié
-			// dans le cas ou score vaut 1 (car il colorieras le 1 de joueur)
+			// Trailing space in string ensures accurate target string targeting 
+			// during color rendering to avoid accidental index matches (e.g., Player 1 vs score 1).
 			Utils.drawStringAndColor(
 				posX + barSpacing, 
 				posY + lineBreak, 

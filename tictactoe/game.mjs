@@ -1,12 +1,12 @@
 import { I18n } from "./constantes/I18n.mjs"
 
 /**
- * Gere la partie en cours en fond de jeu
+ * Manages the core game state and logic behind the scenes.
  */
 export class TicTacToe_Game {
-	
+
 	/**
-	 * Énumération des états possibles de la partie.
+	 * Enumeration of possible game lifecycle states.
 	 * @enum {number}
 	 */
 	static STATUS = {
@@ -16,7 +16,7 @@ export class TicTacToe_Game {
 	}
 
 	/**
-	 * Énumération des issues possibles d'une partie (Vainqueurs / Match nul).
+	 * Enumeration of possible match outcomes (Winners / Draw).
 	 * @enum {number}
 	 */
 	static WINNER = {
@@ -26,7 +26,7 @@ export class TicTacToe_Game {
 	}
 
 	/**
-	 * Énumération des symboles textuels des joueurs.
+	 * Enumeration of player visual symbols.
 	 * @enum {string}
 	 */
 	static SYMBOLE_PLAYER = {
@@ -36,19 +36,19 @@ export class TicTacToe_Game {
 
 	constructor() {
 		/**
-		 * L'état actuel de la partie (En cours pour P1, P2 ou terminée).
+		 * Current turn or state of the match (Player 1 turn, Player 2 turn, or finished).
 		 * @type {number}
 		 */
 		this.status
 
 		/**
-		 * Le résultat ou vainqueur de la partie.
-		 * @type {number}
+		 * Final match result or winner.
+		 * @type {number|null}
 		 */
 		this.winner = null
 
 		/**
-		 * Tableau représentant l'état des 9 cases de la grille du TicTacToe.
+		 * Array representing the state of all 9 board slots in the grid.
 		 * @type {Array<string>}
 		 */
 		this.value_grid = [ 
@@ -59,47 +59,47 @@ export class TicTacToe_Game {
 	}
 
 	/**
-	 * Retourne une copie de sécurité de la grille de jeu actuelle pour éviter les mutations directes.
-	 * @returns {string[]} Une copie du tableau des cases.
+	 * Returns a shallow copy of the current grid state to prevent direct mutation.
+	 * @returns {string[]} A shallow copy of the board array.
 	 */
 	getValueGrid() { 
 		return [...this.value_grid] 
 	}
 
 	/**
-	 * Récupère l'état actuel de la partie.
-	 * @returns {number}
+	 * Retrieves the current game lifecycle status.
+	 * @returns {number} The active status code.
 	 */
 	getStatus() {
 		return this.status
 	}
 
 	/**
-	 * Récupère le vainqueur de la partie.
-	 * @returns {number|null}
+	 * Retrieves the match winner or outcome status.
+	 * @returns {number|null} Winner status identifier, or `null` if the game is still active.
 	 */
 	getWinner() {
 		return this.winner
 	}
 
 	/**
-	 * Réinitialise l'état de la grille en vidant toutes les cases.
+	 * Resets the board array by clearing all cell values.
 	 */
 	resetValueGrid() {
 		this.value_grid.fill('')
 	}
 
 	/**
-	 * Initialise et lance une nouvelle partie.
+	 * Initializes and starts a new game session.
 	 */
 	startGame() {
 		this.setFirstPlayer()
 	}
 
 	/**
-	 * Détermine quel joueur commence la partie.
-	 * Si un joueur précédent a gagné, la main passe à son adversaire, sinon le choix est aléatoire.
-	 * @param {number|null} [winner] - Le vainqueur de la partie précédente (optionnel).
+	 * Determines which player starts the game.
+	 * If a winner exists from the previous match, priority goes to the opponent; otherwise, chooses randomly.
+	 * @param {number|null} [winner] - The winner of the previous game (optional).
 	 */
 	setFirstPlayer(winner) {
 		if (winner === TicTacToe_Game.STATUS.P1) {
@@ -112,9 +112,9 @@ export class TicTacToe_Game {
 	}
 
 	/**
-	 * Applique le coup du joueur actuel sur la case demandée et passe au tour suivant.
-	 * @param {number} idx - L'index de la case ciblée (0 à 8).
-	 * @throws {Error} Si l'index est hors limites ou si la case est déjà occupée.
+	 * Places current player's symbol on target cell and advances turn sequence.
+	 * @param {number} idx - Zero-based index of targeted board cell (0 to 8).
+	 * @throws {Error} If index is out of bounds or targeted cell is already occupied.
 	 */
 	playCurrentTurn(idx) {
 		if (idx > 8 || idx < 0) {
@@ -139,8 +139,8 @@ export class TicTacToe_Game {
 	}
 
 	/**
-	 * Analyse la grille pour valider s'il y a un vainqueur ou un match nul.
-	 * Modifie directement le statut et le vainqueur de l'instance.
+	 * Evaluates the board state to check for win conditions or draw scenarios.
+	 * Updates instance status and winner properties directly upon finding a result.
 	 * @private
 	 */
 	_checkWinCondition() {

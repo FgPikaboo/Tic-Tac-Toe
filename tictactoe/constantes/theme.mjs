@@ -1,5 +1,5 @@
 /**
- * This class contains static object for various colors(RGB) used throughout the application.
+ * Theme configuration class containing static RGB color definitions for core application elements and UI states.
  */
 export class Theme {
 	static CURSOR_COLOR = { red: 20, green: 225, blue: 20 }

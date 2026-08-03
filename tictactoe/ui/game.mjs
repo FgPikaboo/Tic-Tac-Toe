@@ -12,22 +12,22 @@ import { Theme } from "../constantes/theme.mjs"
 
 /**
  * @typedef {Object} PosXY
- * @property {number} x - Position sur l'axe horizontal.
- * @property {number} y - Position sur l'axe vertical.
+ * @property {number} x - Position on the horizontal axis.
+ * @property {number} y - Position on the vertical axis.
  */
 
 /**
  * @typedef {Object} LadderData
- * @property {number} P1 - Score ou données du Joueur 1.
- * @property {number} P2 - Score ou données du Joueur 2.
+ * @property {number} P1 - Score or data for Player 1.
+ * @property {number} P2 - Score or data for Player 2.
  */
 
 /**
  * @typedef {Object} BlockGeometry
- * @property {number} x - La position X (pos0) de départ du bloc.
- * @property {number} y - La position Y (pos0) de départ du bloc.
- * @property {number} width - La largeur du bloc.
- * @property {number} height - La hauteur du bloc.
+ * @property {number} x - Starting X-coordinate (pos0) of the block.
+ * @property {number} y - Starting Y-coordinate (pos0) of the block.
+ * @property {number} width - Width of the block.
+ * @property {number} height - Height of the block.
  */
 
 /**
@@ -39,12 +39,12 @@ import { Theme } from "../constantes/theme.mjs"
  */
 
 /**
- * Gère l'affichage et l'interface utilisateur (UI) du jeu TicTacToe dans le terminal.
+ * Manages the rendering and user interface (UI) for the terminal-based TicTacToe game.
  */
 export class TicTacToe_Game_UI {
 
 	/** 
-	 * Dimensions de la grille de jeu.
+	 * Game grid dimensions.
 	 * @type {{WIDTH: number, HEIGHT: number}} 
 	 */
 	static TICTACTOE_GRID = {
@@ -54,30 +54,30 @@ export class TicTacToe_Game_UI {
 
 	constructor() {
 		/**
-		 * Indice de la case actuellement sélectionnée (0 à 8).
+		 * Index of the currently selected cell (0 to 8).
 		 * @type {number} 
 		 */
 		this.caseSelected = 4
 	}
 
 	/**
-	 * Récupère l'indice de la case sélectionnée par le joueur.
-	 * @returns {number} L'indice de la case (0-8).
+	 * Retrieves the index of the cell currently selected by the player.
+	 * @returns {number} The cell index (0-8).
 	 */
 	getCaseSelected() {
 		return this.caseSelected
 	}
 
 	/**
-	 * Calcule la position d'origine (top-left) de la grille du TicTacToe.
-	 * La grille est centrée dans la zone de dessin (75% de la largeur, 2/3 de la hauteur).
-	 * @returns {PosXY} Position X/Y de la grille.
+	 * Calculates the top-left origin coordinates for the TicTacToe grid.
+	 * The grid is centered within the main rendering area (80% width, 80% height).
+	 * @returns {PosXY} X/Y origin position of the grid.
 	 */
 	getTicTacToePos() {
-		const zone_draw_width = Math.ceil(getScreenWidth()*0.8)
-		const middle_tictactoe_grid_width = zone_draw_width/2
-		const TIC_TAC_TOE_GRID_WIDTH_HALF = TicTacToe_Game_UI.TICTACTOE_GRID.WIDTH/2
-		const posX = Math.floor(middle_tictactoe_grid_width - TIC_TAC_TOE_GRID_WIDTH_HALF)
+		const zoneDrawingWidth = Math.ceil(getScreenWidth()*0.8)
+		const middleTictactoeGridWidth = zoneDrawingWidth/2
+		const tictactoeGridWidthHalf = TicTacToe_Game_UI.TICTACTOE_GRID.WIDTH/2
+		const posX = Math.floor(middleTictactoeGridWidth - tictactoeGridWidthHalf)
 		const posY = Utils.center(Math.ceil(getScreenHeight()*0.8),TicTacToe_Game_UI.TICTACTOE_GRID.HEIGHT)
 		
 		// Return Position 0 of TicTacToe_Grid
@@ -88,62 +88,62 @@ export class TicTacToe_Game_UI {
 	}
 
 	/**
-	 * Obtiens la distance de chaque bloc du terminal
-	 * @param {number} width Longueur du terminal pour les tests unitaire uniquement
-	 * @param {number} height Hauteur du terminal pour les tests unitaire uniquement
-	 * @returns {Blocks} Objets anonymes représentant les 4 blocs
+	 * Computes the layout dimensions and positions for the four terminal grid blocks.
+	 * @param {number} [width] - Terminal screen width override (unit testing only).
+	 * @param {number} [height] - Terminal screen height override (unit testing only).
+	 * @returns {{upperLeft: BlockGeometry, upperRight: BlockGeometry, lowerLeft: BlockGeometry, lowerRight: BlockGeometry}} Object containing geometry for all 4 UI blocks.
 	 */
 	getBlocks(width, height) { 
-		// Je priviligie Math.ceil plutot que Math.floor car le Tictactoe dois prendre le plus de place
-		let longueurMax = width
-		let hauteurMax = height
+		// Math.ceil is prioritized over Math.floor to ensure the main game area maximizes space
+		let widthMax = width
+		let heightMax = height
 
-		if (!longueurMax) {
-			longueurMax = getScreenWidth()
+		if (!widthMax) {
+			widthMax = getScreenWidth()
 		}
-		if (!hauteurMax) {
-			hauteurMax = getScreenHeight()
+		if (!heightMax) {
+			heightMax = getScreenHeight()
 		}
 
 		return {
 			upperLeft: {
-				// pos0 du bloc est 
+				// Block origin (pos0)
 				x: 0 , 
 				y: 0 ,
-				// La longueur du bloc
-				width: Math.ceil(longueurMax*0.8),
-				height: Math.ceil(hauteurMax*0.8)
+				// Block dimensions
+				width: Math.ceil(widthMax*0.8),
+				height: Math.ceil(heightMax*0.8)
 			},
 			upperRight: { 
-				// pos0 du bloc est 
-				x: Math.ceil(longueurMax*0.8) + 2, // (1 pour la barre du tictactoe et 1 pour aller a l'emplacement 0 du bloc)
+				// Block origin (pos0)
+				x: Math.ceil(widthMax*0.8) + 2, // (1 cell for border divider + 1 cell to reach index 0)
 				y: 0,
-				// La longueur du bloc
-				width: Math.floor(longueurMax*0.2) - 1, // (1 pour la barre du tictactoe)
-				height: Math.ceil(hauteurMax*0.8)
+				// Block dimensions
+				width: Math.floor(widthMax*0.2) - 1, // (1 cell offset for border divider)
+				height: Math.ceil(heightMax*0.8)
 			},
 			lowerLeft: { 
-				// pos0 du bloc est 
+				// Block origin (pos0) 
 				x: 0 , 
-				y: Math.ceil(hauteurMax*0.8) + 2 , // (1 pour la barre du tictactoe et 1 pour aller a l'emplacement 0 du bloc)
-				// La longueur du bloc
-				width: Math.ceil(longueurMax*0.8),
-				height: Math.floor(hauteurMax*0.2) - 1 // (1 pour la barre du tictactoe)
+				y: Math.ceil(heightMax*0.8) + 2 , // (1 cell for border divider + 1 cell to reach index 0)
+				// Block dimensions
+				width: Math.ceil(widthMax*0.8),
+				height: Math.floor(heightMax*0.2) - 1 // (1 cell offset for border divider)
 			},
 			lowerRight: { 
-				// pos0 du bloc est 
-				x: Math.ceil(longueurMax*0.8) + 2 , // (1 pour la barre du tictactoe et 1 pour aller a l'emplacement 0 du bloc)
-				y: Math.ceil(hauteurMax*0.8) + 2 , // (1 pour la barre du tictactoe et 1 pour aller a l'emplacement 0 du bloc)
-				// La longueur du bloc
-				width: Math.floor(longueurMax*0.2) - 1, // (1 pour la barre du tictactoe)
-				height: Math.floor(hauteurMax*0.2) - 1 // (1 pour la barre du tictactoe)
+				// Block origin (pos0)
+				x: Math.ceil(widthMax*0.8) + 2 , // (1 cell for border divider + 1 cell to reach index 0)
+				y: Math.ceil(heightMax*0.8) + 2 , // (1 cell for border divider + 1 cell to reach index 0)
+				// Block dimensions
+				width: Math.floor(widthMax*0.2) - 1, // (1 cell offset for border divider)
+				height: Math.floor(heightMax*0.2) - 1 // (1 cell offset for border divider)
 			}
 		}
 	}
 
 	/**
-	 * Calcule la position exacte du curseur à l'écran en fonction de la case sélectionnée.
-	 * @returns {PosXY} Position X/Y du curseur.
+	 * Calculates the exact screen coordinates for the cursor based on the selected grid cell.
+	 * @returns {PosXY} X/Y screen position for the cursor.
 	 */
 	getGameCursorPos() {
 		const pos = this.getTicTacToePos()
@@ -160,23 +160,23 @@ export class TicTacToe_Game_UI {
 	}
 
 	/**
-	 * Dessine les lignes de la grille vide du TicTacToe.
+	 * Renders the empty TicTacToe grid borders and separator lines in the terminal.
 	 */
 	showTicTacToe() {
 		const pos = this.getTicTacToePos()
 		const TICTACTOE_BORDER = ['-' , '|']
-		const LINE = TicTacToe_Game_UI.TICTACTOE_GRID
-		drawString(pos.x , pos.y + (LINE.HEIGHT/3), TICTACTOE_BORDER[0].repeat(LINE.WIDTH))
-		drawString(pos.x , pos.y + ((LINE.HEIGHT/3)*2), TICTACTOE_BORDER[0].repeat(LINE.WIDTH))
-		for (let i = 0; i < LINE.HEIGHT; i++) {
-			drawString(pos.x + (LINE.WIDTH/3), pos.y + i, TICTACTOE_BORDER[1])
-			drawString(pos.x + ((LINE.WIDTH/3)*2), pos.y + i, TICTACTOE_BORDER[1])
+		const line = TicTacToe_Game_UI.TICTACTOE_GRID
+		drawString(pos.x , pos.y + (line.HEIGHT/3), TICTACTOE_BORDER[0].repeat(line.WIDTH))
+		drawString(pos.x , pos.y + ((line.HEIGHT/3)*2), TICTACTOE_BORDER[0].repeat(line.WIDTH))
+		for (let i = 0; i < line.HEIGHT; i++) {
+			drawString(pos.x + (line.WIDTH/3), pos.y + i, TICTACTOE_BORDER[1])
+			drawString(pos.x + ((line.WIDTH/3)*2), pos.y + i, TICTACTOE_BORDER[1])
 		}
 	}
 
 	/**
-	 * Remplit la grille du TicTacToe avec les symboles des joueurs (X, O ou vide).
-	 * @param {Array<string>} value_grid - Tableau contenant l'état des 9 cases.
+	 * Renders player markers (X, O, or empty) across the 9 slots of the TicTacToe grid.
+	 * @param {Array<string>} value_grid - Array representing the current state of all 9 board slots.
 	 */
 	showValueTicTacToe(value_grid) {
 		const pos = this.getTicTacToePos()
@@ -196,18 +196,17 @@ export class TicTacToe_Game_UI {
 	}
 
 	/**
-	 * Dessine le credit dans le bloc en bas a gauche
+	 * Renders application version and credits within the bottom-left UI container.
 	 */
 	showCredits() {
 		const posCredit = this.getBlocks().lowerRight
 		const posY = getScreenHeight() -  Utils.center(this.getBlocks().lowerLeft.height , 1)
-		const barSpacing = 3
-		drawString(posCredit.x + barSpacing, posY, I18n.VERSION)
+		const BAR_SPACING = 3
+		drawString(posCredit.x + BAR_SPACING, posY, I18n.VERSION)
 	}
 
 	/**
-	 * Dessine la structure de la section Ladder (scores) sur le côté droit.
-	 * @param {LadderData} ladder - Les données de classement des joueurs.
+	 * Renders border divider lines delimiting the four main terminal layout sections.
 	 */
 	showSeparatorBlocksInGame() {
 		const blockUpperRight = this.getBlocks().upperRight
@@ -220,13 +219,11 @@ export class TicTacToe_Game_UI {
 	}
 
 	/**
-	 * Met à jour visuellement la position du curseur de sélection.
-	 * Efface l'ancienne position si elle est fournie.
-	 * @param {PosXY} [previous] - L'ancienne position du curseur à effacer.
+	 * Updates selection cursor screen position and clears its prior coordinates if specified.
+	 * @param {PosXY} [previous] - Previous cursor coordinates to erase prior to redraw.
 	 */
 	showGameCursor(previous) {
 		const pos = this.getGameCursorPos()
-
 		if (previous !== undefined) {
 			drawString(previous.x,previous.y,' ')
 		}
@@ -236,8 +233,8 @@ export class TicTacToe_Game_UI {
 	}
 
 	/**
-	 * Affichage de l'écran de fin avec le résultat de la partie.
-	 * @param {number} winner - `1` pour Joueur 1, `2` pour Joueur 2, `3` pour un match nul.
+	 * Renders the game-over screen displaying the outcome (victory or draw).
+	 * @param {number} winner - Game result indicator: `1` for Player 1, `2` for Player 2, or `3` for a draw.
 	 */
 	showEndGame(winner) {
 		const posY = Math.ceil(getScreenHeight()/2)
@@ -255,13 +252,13 @@ export class TicTacToe_Game_UI {
 	}
 
 	/**
-	 * Affiche l'ordre des tours.
-	 * @param {number|undefined} player Le joueur actuel ou erreur double saisie
+	 * Renders current player turn indicator or input error messages in the UI info section.
+	 * @param {number} [player] - Active player ID (1 or 2), or undefined if displaying a repeat-input warning.
 	 */
 	showOrderTurnAndInfo(player) {
-		// La globalité du calcul te donne 31 alors que la totaliter du block fait 30, voila pourquoi ca marche pas
+		// Height calculation offset ensures text aligns correctly within lower-left block bounds
 		// const posY = Math.ceil(this.getBlocks().lowerLeft.y + (this.getBlocks().lowerLeft.height/2))
-		const posY = getScreenHeight() - Utils.center(this.getBlocks().lowerLeft.height , 1) // 1 car la hauteur de la string est de 1
+		const posY = getScreenHeight() - Utils.center(this.getBlocks().lowerLeft.height , 1) // 1 accounts for single-line string height
 		const blocWidth = this.getBlocks().lowerLeft.width
 		drawString(0, posY, ' '.repeat(blocWidth))
 		let PhraseTurnPlayer = ''
@@ -283,8 +280,8 @@ export class TicTacToe_Game_UI {
 	}
 
 	/**
-	 * Déplace le curseur vers le bas avec un bouclage vertical par ligne.
-	 * (ex: de la case 8, passe à la case 1).
+	 * Moves the selection cursor down with vertical column wrapping.
+	 * (e.g., moving down from index 8 wraps to index 2).
 	 */
 	moveDown() {
 		const previous_pos = this.getGameCursorPos()
@@ -293,24 +290,24 @@ export class TicTacToe_Game_UI {
 	}
 
 	/**
-	 * Déplace le curseur vers le haut avec un bouclage vertical par ligne.
-	 * (ex: de la case 1, passe à la case 8).
+	 * Moves the selection cursor up with vertical column wrapping.
+	 * (e.g., moving up from index 1 wraps to index 7).
 	 */
 	moveUp() {
 		const previous_pos = this.getGameCursorPos()
 		if (this.caseSelected >= 3) {
-			// 3 = Nbs de case dans la colonne
+			// 3 = Number of cells per column
 			this.caseSelected -= 3
 		} else {
-			// 6 = Nbs de case a parcourir pour atteindre la derniere case de la colonne
+			// 6 = Offset required to wrap to the bottom cell of the column
 			this.caseSelected += 6
 		}
 		this.showGameCursor(previous_pos)
 	}
 
 	/**
-	 * Déplace le curseur vers la gauche avec un bouclage horizontal par ligne.
-	 * (ex: de la case 3, passe à la case 5).
+	 * Moves the selection cursor left with horizontal line wrapping.
+	 * (e.g., moving left from index 0 wraps to index 8).
 	 */
 	moveLeft() {
 		const previous_pos = this.getGameCursorPos()
@@ -323,8 +320,8 @@ export class TicTacToe_Game_UI {
 	}
 
 	/**
-	 * Déplace le curseur vers la droite avec un bouclage horizontal par ligne.
-	 * (ex: de la case 5, passe à la case 3).
+	 * Moves the selection cursor right with horizontal line wrapping.
+	 * (e.g., moving right from index 8 wraps to index 0).
 	 */
 	moveRight() {
 		const previous_pos = this.getGameCursorPos()
@@ -333,13 +330,13 @@ export class TicTacToe_Game_UI {
 	}
 
 	/**
-	 * Valide si les dimensions du terminal sont suffisantes pour afficher l'interface.
-	 * @returns {boolean} `true` si la taille est correcte, sinon `false`.
+	 * Validates whether terminal window dimensions meet minimum display requirements.
+	 * @returns {boolean} `true` if current terminal dimensions are sufficient, otherwise `false`.
 	 */
 	checkSizeTerminal() {
-		const heightMin = 16
-		const widthMin = 95
-		if (getScreenHeight() < heightMin || getScreenWidth() < widthMin) {
+		const HEIGHT_MIN = 16
+		const WIDTH_MIN = 95
+		if (getScreenHeight() < HEIGHT_MIN || getScreenWidth() < WIDTH_MIN) {
 			return false
 		}
 		return true

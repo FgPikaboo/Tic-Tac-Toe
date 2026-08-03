@@ -3,24 +3,26 @@ import { TicTacToe_Game_UI } from "./game.mjs"
 import { TicTacToe_Menu_UI } from "./menu.mjs"
 
 /**
- * Point d'entrée principal des interfaces utilisateur (UI) du TicTacToe.
- * Centralise et gère les instances du menu et du jeu.
+ * Primary entry point for TicTacToe user interface (UI) controllers.
+ * Centralizes and manages instances for active gameplay, menu, and shared UI components.
  */
 export class TicTacToe_UI {
 
 	constructor() {
-		/**
-		 * Interface utilisateur dédiée à la gestion des parties en cours.
+		/** 
+		 * UI controller instance dedicated to active gameplay rendering and states.
 		 * @type {TicTacToe_Game_UI}
 		 */
 		this.game = new TicTacToe_Game_UI()
+
 		/**
-		 * Interface utilisateur dédiée au menu.
+		 * UI controller instance dedicated to menu rendering and navigation.
 		 * @type {TicTacToe_Menu_UI}
 		 */
 		this.menu = new TicTacToe_Menu_UI()
+
 		/**
-		 * Fonction identique aux 2 instances
+		 * Shared UI utility instance providing common rendering methods across sub-modules.
 		 * @type {TicTacToe_Common_UI}
 		 */
 		this.common = new TicTacToe_Common_UI()

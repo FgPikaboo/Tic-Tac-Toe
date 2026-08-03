@@ -11,17 +11,17 @@ import { Theme } from "../constantes/theme.mjs"
 
 /**
  * @typedef {Object} PosXY
- * @property {number} x - Position sur l'axe horizontal.
- * @property {number} y - Position sur l'axe vertical.
+ * @property {number} x - Position on the horizontal axis.
+ * @property {number} y - Position on the vertical axis.
  */
 
 /**
- * Gère l'affichage et l'interface utilisateur (UI) du menu TicTacToe
+ * Manages rendering and user interface (UI) interactions for the TicTacToe menu system.
  */
 export class TicTacToe_Menu_UI {
 
 	/**
-	 * Options textuelles du menu principal.
+	 * Textual options for the main menu.
 	 * @type {Array<string>}
 	 */
 	static MAIN_MENU = [
@@ -29,26 +29,26 @@ export class TicTacToe_Menu_UI {
 		I18n.RULES,
 		I18n.EXIT
 	]
-	
+
 	constructor() {
 		/** 
-		 * Indice de l'option actuellement selectionnée (0 à 2)
+		 * Index of the currently selected menu option (0 to 2).
 		 * @type {number}
 		 */
 		this.mainMenuOptionSelected = 0
 	}
 
 	/**
-	 * Récupère l'indice de l'option sélectionnée par le joueur.
-	 * @returns {number} L'index de l'option (0 pour le premier élément).
+	 * Retrieves the index of the menu option currently selected by the player.
+	 * @returns {number} The zero-based index of the selected option.
 	 */
 	getMenuOptionSelected() {
 		return this.mainMenuOptionSelected
 	}
-	
+
 	/**
-	 * Calcule la position d'origine (top-left) pour centrer le menu dans le terminal.
-	 * @returns {PosXY} Position X/Y du coin supérieur gauche du menu.
+	 * Calculates the top-left origin position to center the menu within the terminal window.
+	 * @returns {PosXY} X/Y screen coordinates for the menu origin.
 	 */
 	getMenuPos() {
 		return {
@@ -58,15 +58,15 @@ export class TicTacToe_Menu_UI {
 	}
 
 	/**
-	 * Dessine sur le terminal les regles du jeu
+	 * Renders game rules explanation centered on the terminal screen.
 	 */
 	showRules() {
-		Utils.drawStringHCentered(0,getScreenHeight()/2,getScreenWidth(),I18n.RULES_EXPLAIN_1)
-		Utils.drawStringHCentered(0,(getScreenHeight()/2)+1,getScreenWidth(),I18n.RULES_EXPLAIN_2)
+		Utils.drawStringHCentered(0, getScreenHeight() / 2, getScreenWidth(), I18n.RULES_EXPLAIN_1)
+		Utils.drawStringHCentered(0, (getScreenHeight() / 2) + 1, getScreenWidth(), I18n.RULES_EXPLAIN_2)
 	}
 
 	/**
-	 * Dessine le menu principal au centre du terminal
+	 * Renders the main menu options centered on the terminal screen and displays the initial selection cursor.
 	 */
 	showMainScreen() {
 		const pos = this.getMenuPos()
@@ -77,9 +77,8 @@ export class TicTacToe_Menu_UI {
 	}
 
 	/** 
-	 * Met à jour visuellement la position du curseur dans le menu.
-	 * Efface l'ancienne position du curseur si elle est spécifiée.
-	 * @param {number} [previous] - L'index de l'ancienne option sélectionnée à effacer.
+	 * Visually updates selection cursor position in the menu and clears its previous position if specified.
+	 * @param {number} [previous] - Index of the previously selected menu option to erase.
 	 */
 	showMenuCursor(previous) {
 		const pos = this.getMenuPos()
@@ -96,8 +95,8 @@ export class TicTacToe_Menu_UI {
 	}
 
 	/**
-	 * Déplace le curseur vers le bas avec un bouclage vertical par ligne.
-	 * (ex: de la case 1, passe à la case 0).
+	 * Moves the selection cursor down with menu cyclic wrapping.
+	 * (e.g., moving down from the last item wraps back to index 0).
 	 */
 	moveDown() {
 		const previousMainMenuOptionSelected = this.mainMenuOptionSelected
@@ -106,8 +105,8 @@ export class TicTacToe_Menu_UI {
 	}
 
 	/**
-	 * Déplace le curseur vers le haut avec un bouclage vertical par ligne.
-	 * (ex: de la case 0, passe à la case 1).
+	 * Moves the selection cursor up with menu cyclic wrapping.
+	 * (e.g., moving up from index 0 wraps to the last item).
 	 */
 	moveUp() {
 		const previousMainMenuOptionSelected = this.mainMenuOptionSelected

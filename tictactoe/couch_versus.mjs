@@ -6,18 +6,18 @@ import { waitOnceKey } from "../terminal-engine.mjs"
  */
 
 /**
- * Object contenant la structure brute d'une touche renvoyée par le terminal-engine.
+ * Raw key object structure emitted by terminal-engine.
  * @typedef {Object} TerminalKey
- * @property {string} name - Le nom physique de la touche (ex: 'return', 'space', 'up').
+ * @property {string} name - Physical name identifier of the key (e.g., 'return', 'space', 'up').
  */
 
 /**
- * Gère les entrées clavier pour permettre aux joueurs d'interagir avec les menus et le jeu.
+ * Manages keyboard input mapping to handle user interactions within menus and active gameplay.
  */
 export class TicTacToe_CouchVersus {
 
 	/**
-	 * Mappage des identifiants de touches du terminal-engine.
+	 * Key identifier mappings for terminal-engine input events.
 	 * @enum {string}
 	 */
 	static KEY_NAME = {
@@ -32,16 +32,16 @@ export class TicTacToe_CouchVersus {
 
 	constructor() {
 		/**
-		 * Stocke la dernière action validée par l'utilisateur.
+		 * Stores the most recent validated action performed by the user.
 		 * @type {GameAction | MenuAction | undefined}
-		 */
+		*/
 		this.selectedAction
 	}
 
 	/**
-	 * Intercepte et traduit les touches du clavier en actions pour le menu.
-	 * @param {TerminalKey} key - La touche capturée par le moteur de terminal.
-	 * @returns {boolean|undefined} `true` si une action valide a été traitée, sinon `undefined`.
+	 * Intercepts raw key events and maps them to menu navigation actions.
+	 * @param {TerminalKey} key - Key event object captured by the terminal engine.
+	 * @returns {boolean|undefined} `true` if a valid action was mapped, otherwise `undefined`.
 	 * @private
 	 */
 	_waitMoveInMenu(key) {
@@ -65,8 +65,8 @@ export class TicTacToe_CouchVersus {
 	}
 
 	/**
-	 * Bloque l'exécution en attendant que l'utilisateur sélectionne une option dans le menu.
-	 * @returns {Promise<MenuAction>} L'action de menu validée.
+	 * Halts execution and waits asynchronously for the user to make a menu selection.
+	 * @returns {Promise<MenuAction>} Resolved menu action choice.
 	 */
 	async waitForMenuSelection() {
 		await waitOnceKey((key) => {
@@ -76,9 +76,9 @@ export class TicTacToe_CouchVersus {
 	}
 
 	/**
-	 * Intercepte et traduit les touches du clavier en mouvements/actions de jeu.
-	 * @param {TerminalKey} key - La touche capturée par le moteur de terminal.
-	 * @returns {boolean|undefined} `true` si une action valide a été traitée, sinon `undefined`.
+	 * Intercepts raw key events and maps them to in-game directional movements and actions.
+	 * @param {TerminalKey} key - Key event object captured by the terminal engine.
+	 * @returns {boolean|undefined} `true` if a valid action was mapped, otherwise `undefined`.
 	 * @private
 	 */
 	_waitForPlayerChoice(key) {
@@ -108,26 +108,26 @@ export class TicTacToe_CouchVersus {
 	}
 
 	/**
-	 * Bloque l'exécution en attendant qu'un joueur effectue un déplacement ou valide son choix en jeu.
-	 * @returns {Promise<GameAction>} L'action de jeu validée.
+	 * Halts execution asynchronously until a player makes an in-game movement or action confirmation.
+	 * @returns {Promise<GameAction>} Resolved in-game action.
 	 */
 	async waitMoveInGame() {
-		// La premiere facon d'ecrire une fonction anomyme, c'est que le this ignore le contexte de l'interieur de la fonction
+		// Arrow function preserves lexical 'this' binding from the surrounding context
 		await waitOnceKey((key) => {
 			return this._waitForPlayerChoice(key)
 		})
 
-		/* La Deuxieme facon c'est que this depent du contexte donnée (donc a l'interieur de la fonction)
+		/* Traditional function expression binds 'this' dynamically to its execution caller:
 		await waitOnceKey(function(key) {
 			return this._waitForPlayerChoice(key)
 		}) */
 
-		/* f recoit uniquement l'adresse de la fonction, il perd la contexte entre temps
+		/* Direct method reference loses its class instance context ('this'):
 		const f = this._waitForPlayerChoice
-		f() --- C'est une simple fonction sans contexte, donc il ne vas rien se passer */
+		f() // Invoked as a free function without context, causing runtime scope failure */
 
-		/* Il est appelée correctement s'il n'y a pas de referance a this dans la fonction, si c'est le cas
-		La fonction ne fonctionneras pas au moment d'appeler this. (dans la fonction _waitForPlayerChoice) donc ca va crash
+		/* Passing method reference directly works only if it does not access 'this' internally; 
+		otherwise, calling this._waitForPlayerChoice inside will throw a TypeError:
 		await waitOnceKey(this._waitForPlayerChoice)
 		*/
 		
@@ -135,9 +135,10 @@ export class TicTacToe_CouchVersus {
 	}
 
 	/**
-	 * Bloque l'exécution en attendant qu'un joueur effectue une saisie
+	 * Halts execution asynchronously until any key is pressed to confirm an prompt/action.
+	 * @returns {Promise<void>}
 	 */
 	async waitDoubleConfirm() {
 		await waitOnceKey(() => true)
 	}
-}
+	}
