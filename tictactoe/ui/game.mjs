@@ -91,7 +91,7 @@ export class TicTacToe_Game_UI {
 	 * Computes the layout dimensions and positions for the four terminal grid blocks.
 	 * @param {number} [width] - Terminal screen width override (unit testing only).
 	 * @param {number} [height] - Terminal screen height override (unit testing only).
-	 * @returns {{upperLeft: BlockGeometry, upperRight: BlockGeometry, lowerLeft: BlockGeometry, lowerRight: BlockGeometry}} Object containing geometry for all 4 UI blocks.
+	 * @returns {Blocks} Object containing geometry for all 4 UI blocks.
 	 */
 	getBlocks(width, height) { 
 		// Math.ceil is prioritized over Math.floor to ensure the main game area maximizes space
@@ -200,7 +200,7 @@ export class TicTacToe_Game_UI {
 	 */
 	showCredits() {
 		const posCredit = this.getBlocks().lowerRight
-		const posY = getScreenHeight() -  Utils.center(this.getBlocks().lowerLeft.height , 1)
+		const posY = getScreenHeight() -  Utils.center(this.getBlocks().lowerLeft.height , 1) - 1
 		const BAR_SPACING = 3
 		drawString(posCredit.x + BAR_SPACING, posY, I18n.VERSION)
 	}
@@ -257,8 +257,7 @@ export class TicTacToe_Game_UI {
 	 */
 	showOrderTurnAndInfo(player) {
 		// Height calculation offset ensures text aligns correctly within lower-left block bounds
-		// const posY = Math.ceil(this.getBlocks().lowerLeft.y + (this.getBlocks().lowerLeft.height/2))
-		const posY = getScreenHeight() - Utils.center(this.getBlocks().lowerLeft.height , 1) // 1 accounts for single-line string height
+		const posY = getScreenHeight() - Utils.center(this.getBlocks().lowerLeft.height , 1) - 1 // 1 accounts for single-line string height
 		const blocWidth = this.getBlocks().lowerLeft.width
 		drawString(0, posY, ' '.repeat(blocWidth))
 		let PhraseTurnPlayer = ''
