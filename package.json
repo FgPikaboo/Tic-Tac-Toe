@@ -1,0 +1,14 @@
+{
+  "name": "discord-basic",
+  "version": "1.0.0",
+  "description": "Un projet Discord simple pour débutant",
+  "main": "index.js",
+  "author": "Kev le dev",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.17.3"
+  },
+  "engines": {
+    "node": ">=22.2.0"
+  }
+}
