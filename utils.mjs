@@ -1,15 +1,15 @@
 import { clearColor, drawString, getScreenHeight, getScreenWidth, setForegroundColor } from "./terminal-engine.mjs"
 
 /**
- * Regroupe les methodes de class utile dans la plupart des programmes
+ * Regroupe les méthodes de classe utiles dans la plupart des programmes
  */
 export class Utils {
 	/**
-	 * Permet de centré un texte dans un bloc donner
+	 * Permet de centrer un texte dans un bloc donné
 	 * @param {number} xBlock Position 0 du bloc
 	 * @param {number} y Position hauteur du string
 	 * @param {number} blockWidth La longueur total du bloc
-	 * @param {string} str Le texte a affiché
+	 * @param {string} str Le texte à afficher
 	 */
 	static drawStringHCentered(xBlock, y, blockWidth, str) {
 		const startXString = this.center(blockWidth, str.length)
@@ -17,10 +17,10 @@ export class Utils {
 	}
 
 	/**
-	 * Permet de centré un element dans un block defini
+	 * Permet de centrer un élement dans un bloc défini
 	 * @param {number} blockLength La taille du block
 	 * @param {number} elementLength La taille de l'element
-	 * @returns La position centré de l'element
+	 * @returns La position centrée de l'element
 	 */
 	static center(blockLength, elementLength) {
 		const isBlocPair = blockLength % 2 === 0
@@ -36,12 +36,12 @@ export class Utils {
 	}
 
 	/**
-	 * Met la couleur sur la premiere occurance de substr_a_colorie en affichant un drawString
+	 * Met la couleur sur la première occurrence de substr_a_colorie en affichant un drawString
 	 * @param {number} posX La position X de la string
 	 * @param {number} posY La position Y de la string
 	 * @param {string} str La string en entier à afficher
 	 * @param {string} substr_a_colorier La partie de string à changer de couleur
-	 * @param {any} substr_a_colorier La couleur du foreground
+	 * @param {any} couleur La couleur du foreground
 	 */
 	static drawStringAndColor(posX, posY, str, substr_a_colorier, couleur) {
 		const indexWordFindStart = str.indexOf(substr_a_colorier)
