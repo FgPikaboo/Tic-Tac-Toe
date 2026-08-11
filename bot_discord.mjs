@@ -1,11 +1,12 @@
 // Ce sont les outils qu'on a besoin pour le bot
-const { Client, GatewayIntentBits } = require('discord.js')
+import { Client, GatewayIntentBits } from 'discord.js'
 // Le token du bot
-const { token } = require(__dirname + '/../config.json')
+import configToken from './config.json' with {type:'json'}
+
+const { token } = configToken
 
 function $require(module) {
-    delete require.cache[require.resolve(module)]
-    return require(module)
+    import(module + '?' + Date.now()) 
 }
 
 // Création du client du bot
@@ -29,21 +30,20 @@ client.on('messageCreate', (message) => {
 	// Si c'est notre propre message, on ne fait rien, cela évite le spam à l'infini (et l'au dela)
 	if (message.author.id === client.user.id) return
 	lastMessage = message
-	$require('./test_discord.js')
+	$require('file:///' + import.meta.dirname + '/test/' + 'test_discord.mjs')
 })
 
 // Login à Discord avec le token du bot
 client.login(token)
 
-module.exports = {
-	/**
-	 * @type {import('discord.js').Message}
-	 */
-	get message() { return lastMessage.content },
-	envoyerMessage: (m) => {
-		return lastMessage && lastMessage.channel.send(m)
-	},
-	get username() {
-		return lastMessage && lastMessage.author.username
-	}
+export function envoyerMessage(message) {
+	return lastMessage && lastMessage.channel.send(message)
+}
+
+export function getMessage() {
+	return lastMessage.content
+}
+
+export function getUsername() {
+	return lastMessage && lastMessage.author.username
 }
