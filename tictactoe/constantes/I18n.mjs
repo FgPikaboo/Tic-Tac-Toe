@@ -23,8 +23,10 @@ export class I18n {
 
 	// UI_MENU
 	static START_GAME = 'Start game'
+	static TEST_DISCORD = 'Test Discord'
 	static RULES = 'Rules'
 	static EXIT = 'Exit'
+	static TEST_DISCORD_SEIZURE = (date) => `test depuis TicTacToe...${date}`
 	static RULES_EXPLAIN_1 = 'Rules are simple...'
 	static RULES_EXPLAIN_2 = 'Come out of your cave and search on Google!'
 

@@ -30,7 +30,7 @@ client.on('messageCreate', (message) => {
 	// Si c'est notre propre message, on ne fait rien, cela évite le spam à l'infini (et l'au dela)
 	if (message.author.id === client.user.id) return
 	lastMessage = message
-	$require('file:///' + import.meta.dirname + '/test/' + 'test_discord.mjs')
+	$require('file:///' + import.meta.dirname + '/tictactoe/' + 'test_discord.mjs')
 })
 
 // Login à Discord avec le token du bot

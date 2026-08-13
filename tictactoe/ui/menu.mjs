@@ -26,6 +26,7 @@ export class TicTacToe_Menu_UI {
 	 */
 	static MAIN_MENU = [
 		I18n.START_GAME,
+		I18n.TEST_DISCORD,
 		I18n.RULES,
 		I18n.EXIT
 	]
