@@ -67,6 +67,14 @@ export class TicTacToe_Menu_UI {
 	}
 
 	/**
+	 * Show in the terminal a bot discord connecting
+	 */
+	showDiscordTest() {
+		const date = new Date().toISOString()
+		Utils.drawStringHCentered(0, getScreenHeight() / 2, getScreenWidth(), I18n.TEST_DISCORD_SEIZURE(date))
+	}
+
+	/**
 	 * Renders the main menu options centered on the terminal screen and displays the initial selection cursor.
 	 */
 	showMainScreen() {

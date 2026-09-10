@@ -1,7 +1,6 @@
 import { TicTacToe_CouchVersus } from "./couch_versus.mjs"
 import { TicTacToe_Game } from "./game.mjs"
 import { TicTacToe_UI } from "./ui/index.mjs"
-import { Test_Discord } from "./test_discord.mjs"
 import { destroy, waitOnceKey, clear, drawString } from "../terminal-engine.mjs"
 import { I18n } from "./constantes/I18n.mjs"
 
@@ -67,8 +66,7 @@ export class TicTacToe {
 				case "confirm":
 					clear()
 					if (this.ui.menu.getMenuOptionSelected() === 1) {
-						const botDiscord = new Test_Discord()
-						botDiscord.showDiscordTest()
+						this.ui.menu.showDiscordTest()
 						await this.controller.waitDoubleConfirm()
 						clear()
 						break

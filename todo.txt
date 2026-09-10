@@ -58,6 +58,14 @@
 
 [x] Faire le test unitaire du programme
 
+--- A FAIRE ---
+[x] Dans bot_discord:
+  [x] Faire en sorte de connecter le bot en meme temps que le message soit envoyer (je suis connecter)
+  [x] Faire envoyer un message sur discord
+[] Modifié le Tictactoe afain de rajouter des evenements:
+  [] Faire une Todo/excalidraw pour savoir ce qui peut etre modifier en evenement
+  [] Le coder pour que ca fonctionne
+
 --- Fin ---
 
 [x] Documenter le code

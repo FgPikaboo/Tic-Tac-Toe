@@ -17,7 +17,7 @@ export class Utils {
 	}
 
 	/**
-	 * Permet de centré un element dans un block defini
+	 * Permet de centré un element dans un bloc défini
 	 * @param {number} blockLength La taille du block
 	 * @param {number} elementLength La taille de l'element
 	 * @returns La position centré de l'element
