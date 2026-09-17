@@ -1,14 +1,17 @@
 import { TicTacToe_CouchVersus } from "./couch_versus.mjs"
 import { TicTacToe_Game } from "./game.mjs"
 import { TicTacToe_UI } from "./ui/index.mjs"
-import { destroy, waitOnceKey, clear, drawString } from "../terminal-engine.mjs"
+import { destroy, clear } from "../terminal-engine.mjs"
 import { I18n } from "./constantes/I18n.mjs"
+import EventEmitter from 'node:events'
+import { Bot_Discord } from "../bot_discord.mjs"
 
 /**
  * Main application class orchestrating the TicTacToe game lifecycle, UI, input controls, and score tracking.
  */
-export class TicTacToe {
+export class TicTacToe extends EventEmitter {
 	constructor() {
+		super()
 		/** @type {Array<TicTacToe_Game>} History of completed game sessions. */
 		this.games = [ ]
 		
@@ -17,6 +20,9 @@ export class TicTacToe {
 		
 		/** @type {TicTacToe_CouchVersus} Instance handling user input and key bindings. */
 		this.controller = new TicTacToe_CouchVersus()
+
+		/** @type {Bot_Discord} */
+		this.bot = new Bot_Discord()
 		
 		/** 
 		 * Match score tracking for both players.
@@ -65,13 +71,14 @@ export class TicTacToe {
 					break
 				case "confirm":
 					clear()
+					/* Pas certain que j'ai besoin d'un bouton bot dans le menu 
 					if (this.ui.menu.getMenuOptionSelected() === 1) {
 						this.ui.menu.showDiscordTest()
 						await this.controller.waitDoubleConfirm()
 						clear()
 						break
-					}
-					if (this.ui.menu.getMenuOptionSelected() === 2) {
+					} */
+					if (this.ui.menu.getMenuOptionSelected() === 1) { // === 2 si le bot est activé
 						this.ui.menu.showRules()
 						await this.controller.waitDoubleConfirm()
 						clear()
@@ -144,6 +151,7 @@ export class TicTacToe {
 							this.countWinnerLadder(winner)
 						}
 						this.ui.game.showEndGame(winner)
+						this.bot.sendMessage(I18n.BOT_DISCORD_WINNER(winner))
 						this.prevWinner = winner
 						await this.controller.waitDoubleConfirm()
 						endGame = true
@@ -159,6 +167,7 @@ export class TicTacToe {
 	 */
 	async playGame() {
 		while (!this.replay) {
+			this.bot.initBot()
 			await this.applyChoiceInMenuSelection()
 			await this.launchTicTacToeGame()
 		}

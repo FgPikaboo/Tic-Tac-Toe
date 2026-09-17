@@ -15,6 +15,7 @@ export class I18n {
 	static WIN_2 = (winner) => `Player ${winner} `
 	static WIN_3 = 'won!'
 	static DRAW = "It's a draw! Nobody won, let's remaking!"
+	static BOT_DISCORD_WINNER = (winner) => `The winner it's the player... ${winner} !!!`
 
 	// showLadderInfo(ladder)
 	static LADDER_1 = 'Player '
@@ -26,7 +27,7 @@ export class I18n {
 	static TEST_DISCORD = 'Test Discord'
 	static RULES = 'Rules'
 	static EXIT = 'Exit'
-	static TEST_DISCORD_SEIZURE = (date) => `test depuis TicTacToe...${date}`
+	// static INFO_DISCORD_LAST_WINNER = (date) => `Affichage du vainqueur dans discord.... ${date}`
 	static RULES_EXPLAIN_1 = 'Rules are simple...'
 	static RULES_EXPLAIN_2 = 'Come out of your cave and search on Google!'
 

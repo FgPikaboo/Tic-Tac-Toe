@@ -38,7 +38,6 @@
 [x] Afficher le curseur dans le menu
 [x] Dessiner et Supprimer le curseur quand je fait un mouvement dans le menu
 [x] Classement a faire (UI)
-[] Faire un menu pour dit a l'utilisateur que 'un message a bien etais envoyer sur discord, veuillez appuyer sur une touche'
 
 [x] Faire une fonction de prevension quand le terminal est trop petit pour afficher le TicTacToe
 
@@ -62,7 +61,10 @@
 [x] Dans bot_discord:
   [x] Faire en sorte de connecter le bot en meme temps que le message soit envoyer (je suis connecter)
   [x] Faire envoyer un message sur discord
-[] Modifié le Tictactoe afain de rajouter des evenements:
+  [x] L'implementer dans le tictactoe pour qui puisse dire qui est le vainqueur
+  [x] Essayer de voir si c'est possible d'envoyer un message sur discord dés que le bot soit connecter:
+    [x] Expliquer pourquoi
+[] Modifié le Tictactoe afin de rajouter des evenements:
   [] Faire une Todo/excalidraw pour savoir ce qui peut etre modifier en evenement
   [] Le coder pour que ca fonctionne
 

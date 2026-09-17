@@ -26,7 +26,6 @@ export class TicTacToe_Menu_UI {
 	 */
 	static MAIN_MENU = [
 		I18n.START_GAME,
-		I18n.TEST_DISCORD,
 		I18n.RULES,
 		I18n.EXIT
 	]
@@ -69,10 +68,12 @@ export class TicTacToe_Menu_UI {
 	/**
 	 * Show in the terminal a bot discord connecting
 	 */
+	/* A VOIR SI JE GARDE L'OPTION
 	showDiscordTest() {
 		const date = new Date().toISOString()
-		Utils.drawStringHCentered(0, getScreenHeight() / 2, getScreenWidth(), I18n.TEST_DISCORD_SEIZURE(date))
+		Utils.drawStringHCentered(0, getScreenHeight() / 2, getScreenWidth(), I18n.INFO_DISCORD_LAST_WINNER(date))
 	}
+	*/
 
 	/**
 	 * Renders the main menu options centered on the terminal screen and displays the initial selection cursor.
