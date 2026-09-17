@@ -67,6 +67,10 @@
 [] Modifié le Tictactoe afin de rajouter des evenements:
   [] Faire une Todo/excalidraw pour savoir ce qui peut etre modifier en evenement
   [] Le coder pour que ca fonctionne
+[] Desactive ton internet (SADGE):
+  Regarder comment le bot reagit:
+  [] Dire pourquoi ca crash ou non
+  [] Regler le probleme
 
 --- Fin ---
 

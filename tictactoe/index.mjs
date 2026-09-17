@@ -71,13 +71,6 @@ export class TicTacToe extends EventEmitter {
 					break
 				case "confirm":
 					clear()
-					/* Pas certain que j'ai besoin d'un bouton bot dans le menu 
-					if (this.ui.menu.getMenuOptionSelected() === 1) {
-						this.ui.menu.showDiscordTest()
-						await this.controller.waitDoubleConfirm()
-						clear()
-						break
-					} */
 					if (this.ui.menu.getMenuOptionSelected() === 1) { // === 2 si le bot est activé
 						this.ui.menu.showRules()
 						await this.controller.waitDoubleConfirm()

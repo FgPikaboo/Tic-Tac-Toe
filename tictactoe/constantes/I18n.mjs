@@ -27,7 +27,6 @@ export class I18n {
 	static TEST_DISCORD = 'Test Discord'
 	static RULES = 'Rules'
 	static EXIT = 'Exit'
-	// static INFO_DISCORD_LAST_WINNER = (date) => `Affichage du vainqueur dans discord.... ${date}`
 	static RULES_EXPLAIN_1 = 'Rules are simple...'
 	static RULES_EXPLAIN_2 = 'Come out of your cave and search on Google!'
 

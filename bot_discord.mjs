@@ -27,29 +27,24 @@ export class Bot_Discord extends EventEmitter {
 	*/
 
 	/**
-	 * Permet de verifié si le bot a bien etais connecter dans le channel discord
+	 * Launcher 'du bot discord'
 	 */
-	debugBot() {
-		this._client.once('ready', () => {
+	initBot() {
+		const { token } = configToken
+
+		this._client.once('ready', async () => {
 			try {
+				this.channel = await this._client.channels.fetch(Bot_Discord.CHANNEL)
 				// Récupération de l'instance du salon textuel
 				if (this.channel && this.channel.isTextBased()) {
+					// Pour eviter le flood dans un channel discord, peut etre mis plutot dans un console.error
 					this.channel.send('Le bot est désormais en ligne !')
 				}
 			} catch (error) {
 				console.error('Erreur lors de l\'envoi du message de connexion : ', error)
 			}
 		})
-	}
 
-	/**
-	 * Launcher 'du bot discord'
-	 */
-	initBot() {
-		const { token } = configToken
-		this._client.once('ready', async () => {
-			this.channel = await this._client.channels.fetch(Bot_Discord.CHANNEL)
-		})
 		// Quand un message est envoyé
 		this._client.on('messageCreate', (message) => {
 		// Si c'est notre propre message, on ne fait rien, cela évite le spam à l'infini (et l'au dela)
