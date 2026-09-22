@@ -29,7 +29,7 @@ export class Bot_Discord extends EventEmitter {
 	/**
 	 * Launcher 'du bot discord'
 	 */
-	initBot() {
+	async initBot() {
 		const { token } = configToken
 
 		this._client.once('ready', async () => {
@@ -53,8 +53,10 @@ export class Bot_Discord extends EventEmitter {
 			this.envoyerMessage(message)
 		})
 
-		// Login à Discord avec le token du bot
-		this._client.login(token)
+		console.error('Verification de la connexion')
+		this._client.login(token).catch(error => {
+			console.error("Erreur lors du login du bot :", error.message)
+		})
 	}
 
 	/**
