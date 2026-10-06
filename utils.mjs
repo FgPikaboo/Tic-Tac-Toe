@@ -58,4 +58,12 @@ export class Utils {
 		clearColor()
 		drawString(posX + startString.length + coloredWord.length, posY, endString)
 	}
+
+	/**
+	 * Affiche la variable avec la date de l'execution
+	 * @param  {...any} args Parametres a vérifié 
+	 */
+	static log(...args) {
+		console.error(new Date().toISOString(), ...args)
+	}
 }

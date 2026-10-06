@@ -78,7 +78,7 @@ export class TicTacToe_Game {
 	 * Retrieves the match winner or outcome status.
 	 * @returns {number|null} Winner status identifier, or `null` if the game is still active.
 	 */
-	getWinner() {
+	getWinner() { // EMIT vainqueur
 		return this.winner
 	}
 

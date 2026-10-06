@@ -65,8 +65,10 @@
   [x] Essayer de voir si c'est possible d'envoyer un message sur discord dés que le bot soit connecter:
     [x] Expliquer pourquoi
 [] Modifié le Tictactoe afin de rajouter des evenements:
-  [] Faire une Todo/excalidraw pour savoir ce qui peut etre modifier en evenement
+  [x] Faire une Todo/excalidraw pour savoir ce qui peut etre modifier en evenement
   [] Le coder pour que ca fonctionne
+  [] Faire 2 partie de suite pour tester les evenements
+  [] La saisie de l'option du menu est un evenement, change le en consenquence
 [x] Desactive ton internet (SADGE):
   Regarder comment le bot reagit:
   [x] Dire pourquoi ca crash ou non

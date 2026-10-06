@@ -8,6 +8,7 @@ import {
 import { Utils } from "../../utils.mjs"
 import { I18n } from "../constantes/I18n.mjs"
 import { Theme } from "../constantes/theme.mjs"
+import EventEmitter from "node:events"
 
 /**
  * @typedef {Object} PosXY
@@ -18,7 +19,7 @@ import { Theme } from "../constantes/theme.mjs"
 /**
  * Manages rendering and user interface (UI) interactions for the TicTacToe menu system.
  */
-export class TicTacToe_Menu_UI {
+export class TicTacToe_Menu_UI extends EventEmitter {
 
 	/**
 	 * Textual options for the main menu.
@@ -31,6 +32,7 @@ export class TicTacToe_Menu_UI {
 	]
 
 	constructor() {
+		super()
 		/** 
 		 * Index of the currently selected menu option (0 to 2).
 		 * @type {number}
@@ -44,6 +46,22 @@ export class TicTacToe_Menu_UI {
 	 */
 	getMenuOptionSelected() {
 		return this.mainMenuOptionSelected
+	}
+
+	emitMenuOptionSelected() {
+		let option
+		switch (this.mainMenuOptionSelected) {
+			case 0: 
+				option = 'start'
+				break
+			case 1:
+				option = 'rules'
+				break
+			case 2: 
+				option = 'exit'
+				break
+		}
+		this.emit('menu:option', option) // a mettre les on once ou off dans index pour recup la selection
 	}
 
 	/**

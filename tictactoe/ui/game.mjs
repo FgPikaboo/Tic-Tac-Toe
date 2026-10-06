@@ -64,7 +64,7 @@ export class TicTacToe_Game_UI {
 	 * Retrieves the index of the cell currently selected by the player.
 	 * @returns {number} The cell index (0-8).
 	 */
-	getCaseSelected() {
+	getCaseSelected() { // EVENT emit
 		return this.caseSelected
 	}
 
@@ -93,7 +93,7 @@ export class TicTacToe_Game_UI {
 	 * @param {number} [height] - Terminal screen height override (unit testing only).
 	 * @returns {Blocks} Object containing geometry for all 4 UI blocks.
 	 */
-	getBlocks(width, height) { 
+	getBlocks(width, height) {
 		// Math.ceil is prioritized over Math.floor to ensure the main game area maximizes space
 		let widthMax = width
 		let heightMax = height

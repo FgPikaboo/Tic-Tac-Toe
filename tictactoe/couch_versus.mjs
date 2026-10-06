@@ -1,4 +1,7 @@
-import { waitOnceKey } from "../terminal-engine.mjs"
+import { onkey, waitOnceKey } from "../terminal-engine.mjs"
+import EventEmitter from 'node:events'
+
+import { Utils } from "../utils.mjs"
 
 /**
  * @typedef {'up' | 'down' | 'left' | 'right' | 'confirm'} GameAction
@@ -14,7 +17,7 @@ import { waitOnceKey } from "../terminal-engine.mjs"
 /**
  * Manages keyboard input mapping to handle user interactions within menus and active gameplay.
  */
-export class TicTacToe_CouchVersus {
+export class TicTacToe_CouchVersus extends EventEmitter {
 
 	/**
 	 * Key identifier mappings for terminal-engine input events.
@@ -31,11 +34,43 @@ export class TicTacToe_CouchVersus {
 	}
 
 	constructor() {
+		super()
 		/**
 		 * Stores the most recent validated action performed by the user.
 		 * @type {GameAction | MenuAction | undefined}
 		*/
 		this.selectedAction
+	}
+
+
+
+	_onProcessMoveInMenu(key) {
+		let action
+		switch (key.name) {
+			case TicTacToe_CouchVersus.KEY_NAME.DOWN:
+				action = 'down'
+				break
+			case TicTacToe_CouchVersus.KEY_NAME.UP:
+				action = 'up'
+				break
+			case TicTacToe_CouchVersus.KEY_NAME.SPACE:
+			case TicTacToe_CouchVersus.KEY_NAME.ENTER:
+				action = 'confirm'
+				break
+		}
+		this.emit('move:menu:input', action)
+	}
+
+	onKeyMenu() {
+		onkey((key) => {
+			this._onProcessMoveInMenu(key)
+		})
+	}
+
+	onKeyDoubleConfirm() {
+		onkey(() => {
+			this.emit('double:confirm')
+		})
 	}
 
 	/**
@@ -44,7 +79,7 @@ export class TicTacToe_CouchVersus {
 	 * @returns {boolean|undefined} `true` if a valid action was mapped, otherwise `undefined`.
 	 * @private
 	 */
-	_waitMoveInMenu(key) {
+	_waitMoveInMenu(key) { // mettre les emit specifique par move // EVENT
 		let action
 		switch (key.name) {
 			case TicTacToe_CouchVersus.KEY_NAME.DOWN:
@@ -68,7 +103,7 @@ export class TicTacToe_CouchVersus {
 	 * Halts execution and waits asynchronously for the user to make a menu selection.
 	 * @returns {Promise<MenuAction>} Resolved menu action choice.
 	 */
-	async waitForMenuSelection() {
+	async waitForMenuSelection() { // n'as pu besoin de return // EVENT
 		await waitOnceKey((key) => {
 			return this._waitMoveInMenu(key)
 		})
@@ -81,7 +116,7 @@ export class TicTacToe_CouchVersus {
 	 * @returns {boolean|undefined} `true` if a valid action was mapped, otherwise `undefined`.
 	 * @private
 	 */
-	_waitForPlayerChoice(key) {
+	_waitForPlayerChoice(key) { // faire cette fonction en controlleur general, a besoin de recevoir un emit pour savoir sil est dans le menu ou non
 		let action
 		switch (key.name) {
 			case TicTacToe_CouchVersus.KEY_NAME.DOWN:
@@ -90,10 +125,10 @@ export class TicTacToe_CouchVersus {
 			case TicTacToe_CouchVersus.KEY_NAME.UP:
 				action = 'up'
 				break
-			case TicTacToe_CouchVersus.KEY_NAME.RIGHT:
+			case TicTacToe_CouchVersus.KEY_NAME.RIGHT: // EVENT emit droite
 				action = 'right'
 				break
-			case TicTacToe_CouchVersus.KEY_NAME.LEFT:
+			case TicTacToe_CouchVersus.KEY_NAME.LEFT: // EVENT emit gauche
 				action = 'left'
 				break
 			case TicTacToe_CouchVersus.KEY_NAME.SPACE:
@@ -138,7 +173,7 @@ export class TicTacToe_CouchVersus {
 	 * Halts execution asynchronously until any key is pressed to confirm an prompt/action.
 	 * @returns {Promise<void>}
 	 */
-	async waitDoubleConfirm() {
+	async waitDoubleConfirm() { // EVENT, emet true pour continué
 		await waitOnceKey(() => true)
 	}
-	}
+}
