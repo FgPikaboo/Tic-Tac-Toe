@@ -1,9 +1,10 @@
 import { I18n } from "./constantes/I18n.mjs"
+import EventEmitter from "node:events"
 
 /**
  * Manages the core game state and logic behind the scenes.
  */
-export class TicTacToe_Game {
+export class TicTacToe_Game extends EventEmitter {
 
 	/**
 	 * Enumeration of possible game lifecycle states.
@@ -35,6 +36,7 @@ export class TicTacToe_Game {
 	}
 
 	constructor() {
+		super()
 		/**
 		 * Current turn or state of the match (Player 1 turn, Player 2 turn, or finished).
 		 * @type {number}
@@ -78,7 +80,7 @@ export class TicTacToe_Game {
 	 * Retrieves the match winner or outcome status.
 	 * @returns {number|null} Winner status identifier, or `null` if the game is still active.
 	 */
-	getWinner() { // EMIT vainqueur
+	getWinner() {
 		return this.winner
 	}
 
@@ -123,11 +125,18 @@ export class TicTacToe_Game {
 		if (this.value_grid[idx] !== '') {
 			throw new Error(I18n.ERROR_SAME_SEIZURE)
 		}
+
 		if (this.status === TicTacToe_Game.STATUS.P1) {
 			this.value_grid[idx] = TicTacToe_Game.SYMBOLE_PLAYER.P1
 		} else {
 			this.value_grid[idx] = TicTacToe_Game.SYMBOLE_PLAYER.P2
 		}
+
+		this.emit('turn', {
+			who: this.status, 
+			caseSelected: idx
+		})
+
 		this._checkWinCondition()
 		if (!(this.status === TicTacToe_Game.STATUS.ENDED)) {
 			if (this.status === TicTacToe_Game.STATUS.P1) {
@@ -143,7 +152,7 @@ export class TicTacToe_Game {
 	 * Updates instance status and winner properties directly upon finding a result.
 	 * @private
 	 */
-	_checkWinCondition() {
+	_checkWinCondition() { // emit le winner ici
 		const isFull = (array) => !array.some((element) => element === '')
 		if (isFull(this.value_grid)) {
 			this.winner = TicTacToe_Game.WINNER.DRAW

@@ -3,12 +3,12 @@ import {
 	setForegroundColor,
 	drawString,
 	getScreenHeight,
-	getScreenWidth,
-	COLOR
+	getScreenWidth
 } from "../../terminal-engine.mjs"
 import { Utils } from "../../utils.mjs"
 import { I18n } from "../constantes/I18n.mjs"
 import { Theme } from "../constantes/theme.mjs"
+import EventEmitter from 'node:events'
 
 /**
  * @typedef {Object} PosXY
@@ -41,7 +41,7 @@ import { Theme } from "../constantes/theme.mjs"
 /**
  * Manages the rendering and user interface (UI) for the terminal-based TicTacToe game.
  */
-export class TicTacToe_Game_UI {
+export class TicTacToe_Game_UI extends EventEmitter {
 
 	/** 
 	 * Game grid dimensions.
@@ -53,6 +53,7 @@ export class TicTacToe_Game_UI {
 	}
 
 	constructor() {
+		super()
 		/**
 		 * Index of the currently selected cell (0 to 8).
 		 * @type {number} 
@@ -263,7 +264,7 @@ export class TicTacToe_Game_UI {
 		let PhraseTurnPlayer = ''
 		if (player === undefined) {
 			PhraseTurnPlayer = I18n.RETRY_SEIZURE
-			const posRetry = Utils.drawStringHCentered(0,posY,blocWidth,I18n.RETRY_SEIZURE)
+			Utils.drawStringHCentered(0,posY,blocWidth,I18n.RETRY_SEIZURE)
 		} else {
 			const TurnPlayerN1 = I18n.TURN_PLAYER_1
 			const TurnPlayerN2 = I18n.TURN_PLAYER_2(player)
@@ -330,15 +331,16 @@ export class TicTacToe_Game_UI {
 
 	/**
 	 * Validates whether terminal window dimensions meet minimum display requirements.
-	 * @returns {boolean} `true` if current terminal dimensions are sufficient, otherwise `false`.
+	 * @returns {boolean} `false` if current terminal dimensions are sufficient, otherwise `true`.
 	 */
 	checkSizeTerminal() {
 		const HEIGHT_MIN = 16
 		const WIDTH_MIN = 95
-		if (getScreenHeight() < HEIGHT_MIN || getScreenWidth() < WIDTH_MIN) {
-			return false
+		if (getScreenHeight() >= HEIGHT_MIN && getScreenWidth() >= WIDTH_MIN) {
+			this.emit('window:work')
+			return true
 		}
-		return true
+		return false
 	}
 }
 

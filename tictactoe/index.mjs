@@ -5,9 +5,8 @@ import { destroy, clear, onkey } from "../terminal-engine.mjs"
 import { I18n } from "./constantes/I18n.mjs"
 import EventEmitter from 'node:events'
 import { Bot_Discord } from "../bot_discord.mjs"
-
+import { Bus } from "./bus.mjs"
 import { Utils } from "../utils.mjs"
-import { start } from "node:repl"
 
 /**
  * Main application class orchestrating the TicTacToe game lifecycle, UI, input controls, and score tracking.
@@ -27,6 +26,9 @@ export class TicTacToe extends EventEmitter {
 
 		/** @type {Bot_Discord} */
 		this.bot = new Bot_Discord()
+
+		/** @type {Bus} */
+		this.bus = new Bus()
 		
 		/** 
 		 * Match score tracking for both players.
@@ -59,14 +61,16 @@ export class TicTacToe extends EventEmitter {
 	/**
 	 * Manages menu rendering and navigation execution flow.
 	 */
-	async menuOptionSelection() { // change le nom quand event fini
-		let exitMenu = false // a supprimer, sert a rien
-		let nextPhase = false // a supprimer, sert a rien
+	async menuOptionSelection() {
+		let isNotInMenu = false
+		let nextPhase = false
 		// Grace au evenement, je n'aurais pu besoin de boucle
 		this.ui.menu.showMainScreen()
 		this.ui.common.showLadderInfo(this.ladder, 0, 0)
 		
 		this.controller.on('move:menu:input', (action) => {
+			if (isNotInMenu) return 
+
 			switch (action) {
 				case "up":
 					Utils.log(action + ' is up (menu)')
@@ -96,7 +100,7 @@ export class TicTacToe extends EventEmitter {
 			}
 		})
 
-		while (!exitMenu) {
+		while (!isNotInMenu) {
 			this.ui.menu.showMainScreen()
 
 			const action = await this.controller.waitForMenuSelection()
@@ -120,12 +124,13 @@ export class TicTacToe extends EventEmitter {
 						break
 					}
 					
-					exitMenu = true
+					isNotInMenu = true
+
 					if (this.ui.menu.getMenuOptionSelected() === 0) {
 						nextPhase = true
 					}
 			}
-			if (exitMenu && !nextPhase) {
+			if (isNotInMenu && !nextPhase) {
 				this.exit()
 			}
 		}
@@ -135,6 +140,12 @@ export class TicTacToe extends EventEmitter {
 	 * Validates terminal dimensions and initializes a new game session.
 	 */
 	async launchTicTacToeGame() {
+
+		this.ui.game.once('window:work', () => {
+			Utils.log('Window work')
+		})
+		this.ui.game.checkSizeTerminal()
+
 		if (!this.ui.game.checkSizeTerminal()) {
 			console.log(I18n.ERROR_TERMINAL_TOO_SMALL)
 			this.exit()
@@ -142,6 +153,32 @@ export class TicTacToe extends EventEmitter {
 
 		// New game instance
 		const currentGame = new TicTacToe_Game()
+
+		this.controller.on('move:game:input', (action) => {
+			switch (action) {
+				case "up":
+					Utils.log(action + ' is up (game)')
+					break
+				case "down":
+					Utils.log(action + ' is down ? (game)')
+					break
+				case "left":
+					Utils.log(action + ' is left (game)')
+					break
+				case "right":
+					Utils.log(action + ' is right ? (game)')
+					break
+				case "confirm":
+					Utils.log(action + ' is confirm ? (game)')
+					break
+			}
+		})
+
+		this.controller.onKeyGame()
+
+		currentGame.on('turn', (player) => {
+			Utils.log(`Fin du tour du joueur ${player.who}`)
+		})
 
 		currentGame.setFirstPlayer(this.prevWinner)
 		this.ui.game.showTicTacToe()
@@ -153,11 +190,13 @@ export class TicTacToe extends EventEmitter {
 		let endGame = false
 		let errorSamePos = false
 		while (!endGame) {
+
 			if (!errorSamePos) {
 				this.ui.game.showOrderTurnAndInfo(currentGame.getStatus())
 			} else {
 				errorSamePos = false
 			}
+
 			const action = await this.controller.waitMoveInGame()
 			switch (action) {
 				case "up":
@@ -173,7 +212,7 @@ export class TicTacToe extends EventEmitter {
 					this.ui.game.moveRight()
 					break
 				case "confirm":
-					try { // EVENT bus.emit pour informer l'ui qu'un tour est completer
+					try {
 						currentGame.playCurrentTurn(this.ui.game.getCaseSelected())
 					} catch (error) {
 						errorSamePos = true
@@ -182,7 +221,7 @@ export class TicTacToe extends EventEmitter {
 					this.ui.game.showValueTicTacToe(currentGame.getValueGrid())
 					if (currentGame.getStatus() === TicTacToe_Game.STATUS.ENDED) {
 						clear()
-						const winner = currentGame.getWinner() // EVENT pour avoir le vainqueur
+						const winner = currentGame.getWinner() // EVENT pour avoir le vainqueur // 	FAIRE CA BESOIN EMIT
 						if (winner === TicTacToe_Game.WINNER.P1 || winner === TicTacToe_Game.WINNER.P2) {
 							this.countWinnerLadder(winner)
 						}

@@ -1,8 +1,6 @@
 import { onkey, waitOnceKey } from "../terminal-engine.mjs"
 import EventEmitter from 'node:events'
 
-import { Utils } from "../utils.mjs"
-
 /**
  * @typedef {'up' | 'down' | 'left' | 'right' | 'confirm'} GameAction
  * @typedef {'up' | 'down' | 'confirm'} MenuAction
@@ -29,8 +27,7 @@ export class TicTacToe_CouchVersus extends EventEmitter {
 		LEFT: 'left',
 		RIGHT: 'right',
 		SPACE: 'space',
-		ENTER: 'return',
-		ESCAPE: 'escape'
+		ENTER: 'return'
 	}
 
 	constructor() {
@@ -42,7 +39,28 @@ export class TicTacToe_CouchVersus extends EventEmitter {
 		this.selectedAction
 	}
 
-
+	_onProcessMoveInGame(key) {
+		let action
+		switch (key.name) {
+			case TicTacToe_CouchVersus.KEY_NAME.DOWN:
+				action = 'down'
+				break
+			case TicTacToe_CouchVersus.KEY_NAME.UP:
+				action = 'up'
+				break
+			case TicTacToe_CouchVersus.KEY_NAME.LEFT:
+				action = 'left'
+				break
+			case TicTacToe_CouchVersus.KEY_NAME.RIGHT:
+				action = 'right'
+				break
+			case TicTacToe_CouchVersus.KEY_NAME.SPACE:
+			case TicTacToe_CouchVersus.KEY_NAME.ENTER:
+				action = 'confirm'
+				break
+		}
+		this.emit('move:game:input', action)
+	}
 
 	_onProcessMoveInMenu(key) {
 		let action
@@ -59,6 +77,12 @@ export class TicTacToe_CouchVersus extends EventEmitter {
 				break
 		}
 		this.emit('move:menu:input', action)
+	}
+
+	onKeyGame() {
+		onkey((key) => {
+			this._onProcessMoveInGame(key)
+		})
 	}
 
 	onKeyMenu() {

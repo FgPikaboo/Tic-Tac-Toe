@@ -1,6 +1,5 @@
 import { I18n } from "../constantes/I18n.mjs"
 import { Utils } from "../../utils.mjs"
-import { clearColor, drawString } from "../../terminal-engine.mjs"
 import { Theme } from "../constantes/theme.mjs"
 
 /**
