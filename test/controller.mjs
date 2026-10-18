@@ -1,6 +1,7 @@
 import { TicTacToe_CouchVersus } from "../tictactoe/couch_versus.mjs"
 import EventsEmitter from 'node:events'
 import { Utils } from "../utils.mjs"
+import { initKeyboard } from "../terminal-engine.mjs"
 
 class Controller extends EventsEmitter {
 	constructor() {
@@ -8,23 +9,24 @@ class Controller extends EventsEmitter {
 		this.input = new TicTacToe_CouchVersus()
 	}
 
-	initKeyboard() {
+	testInput() {
+		initKeyboard()
 		this.input.on('action', (action) => {
 			switch (action) {
 				case "up":
-					Utils.log(action + ' is up (playgame)')
+					Utils.log(action + ' is up')
 					break
 				case "down":
-					Utils.log(action + ' is down ? (playgame)')
+					Utils.log(action + ' is down ?')
 					break
 				case "left":
-					Utils.log(action + ' is left (playgame)')
+					Utils.log(action + ' is left')
 					break
 				case "right":
-					Utils.log(action + ' is right ? (playgame)')
+					Utils.log(action + ' is right ?')
 					break
 				case "confirm":
-					Utils.log(action + ' is confirm ? (playgame)')
+					Utils.log(action + ' is confirm ?')
 					break
 			}
 		})
@@ -32,3 +34,5 @@ class Controller extends EventsEmitter {
 	}
 }
 
+const test = new Controller()
+test.testInput()

@@ -57,8 +57,8 @@ export class TicTacToe_CouchVersus extends EventEmitter {
 
 	listen() {
 		onkey((key) => {
-			if (typeof this._keyToAction(key) === 'string') {
-				const action = this._keyToAction(key)
+			const action = this._keyToAction(key)
+			if (action) {
 				this.emit('action', action)
 			} else { return }
 		})
