@@ -39,61 +39,28 @@ export class TicTacToe_CouchVersus extends EventEmitter {
 		this.selectedAction
 	}
 
-	_onProcessMoveInGame(key) {
-		let action
+	_keyToAction(key) {
 		switch (key.name) {
 			case TicTacToe_CouchVersus.KEY_NAME.DOWN:
-				action = 'down'
-				break
+				return 'down'
 			case TicTacToe_CouchVersus.KEY_NAME.UP:
-				action = 'up'
-				break
+				return 'up'
 			case TicTacToe_CouchVersus.KEY_NAME.LEFT:
-				action = 'left'
-				break
+				return 'left'
 			case TicTacToe_CouchVersus.KEY_NAME.RIGHT:
-				action = 'right'
-				break
+				return 'right'
 			case TicTacToe_CouchVersus.KEY_NAME.SPACE:
 			case TicTacToe_CouchVersus.KEY_NAME.ENTER:
-				action = 'confirm'
-				break
+				return 'confirm'
 		}
-		this.emit('move:game:input', action)
 	}
 
-	_onProcessMoveInMenu(key) {
-		let action
-		switch (key.name) {
-			case TicTacToe_CouchVersus.KEY_NAME.DOWN:
-				action = 'down'
-				break
-			case TicTacToe_CouchVersus.KEY_NAME.UP:
-				action = 'up'
-				break
-			case TicTacToe_CouchVersus.KEY_NAME.SPACE:
-			case TicTacToe_CouchVersus.KEY_NAME.ENTER:
-				action = 'confirm'
-				break
-		}
-		this.emit('move:menu:input', action)
-	}
-
-	onKeyGame() {
+	listen() {
 		onkey((key) => {
-			this._onProcessMoveInGame(key)
-		})
-	}
-
-	onKeyMenu() {
-		onkey((key) => {
-			this._onProcessMoveInMenu(key)
-		})
-	}
-
-	onKeyDoubleConfirm() {
-		onkey(() => {
-			this.emit('double:confirm')
+			if (typeof this._keyToAction(key) === 'string') {
+				const action = this._keyToAction(key)
+				this.emit('action', action)
+			} else { return }
 		})
 	}
 

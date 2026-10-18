@@ -67,25 +67,6 @@ export class TicTacToe extends EventEmitter {
 		// Grace au evenement, je n'aurais pu besoin de boucle
 		this.ui.menu.showMainScreen()
 		this.ui.common.showLadderInfo(this.ladder, 0, 0)
-		
-		this.controller.on('move:menu:input', (action) => {
-			if (isNotInMenu) return 
-
-			switch (action) {
-				case "up":
-					Utils.log(action + ' is up (menu)')
-					break
-				case "down":
-					Utils.log(action + ' is down ? (menu)')
-					break
-				case "confirm":
-					Utils.log(action + ' is confirm ? (menu)')
-					break
-			}
-		})
-
-		this.controller.onKeyMenu()
-		this.controller.onKeyDoubleConfirm()
 
 		this.ui.menu.on('menu:option', (option) => {
 			if (option === 'start') {
@@ -154,28 +135,6 @@ export class TicTacToe extends EventEmitter {
 		// New game instance
 		const currentGame = new TicTacToe_Game()
 
-		this.controller.on('move:game:input', (action) => {
-			switch (action) {
-				case "up":
-					Utils.log(action + ' is up (game)')
-					break
-				case "down":
-					Utils.log(action + ' is down ? (game)')
-					break
-				case "left":
-					Utils.log(action + ' is left (game)')
-					break
-				case "right":
-					Utils.log(action + ' is right ? (game)')
-					break
-				case "confirm":
-					Utils.log(action + ' is confirm ? (game)')
-					break
-			}
-		})
-
-		this.controller.onKeyGame()
-
 		currentGame.on('turn', (player) => {
 			Utils.log(`Fin du tour du joueur ${player.who}`)
 		})
@@ -241,6 +200,29 @@ export class TicTacToe extends EventEmitter {
 	 * Main application loop handling menu selection and active game execution until replay is requested.
 	 */
 	async playGame() {
+
+		this.controller.on('action', (action) => {
+			switch (action) {
+				case "up":
+					Utils.log(action + ' is up (playgame)')
+					break
+				case "down":
+					Utils.log(action + ' is down ? (playgame)')
+					break
+				case "left":
+					Utils.log(action + ' is left (playgame)')
+					break
+				case "right":
+					Utils.log(action + ' is right ? (playgame)')
+					break
+				case "confirm":
+					Utils.log(action + ' is confirm ? (playgame)')
+					break
+			}
+		})
+		
+		this.controller.listen()
+
 		while (!this.replay) {
 			this.bot.initBot()
 			await this.menuOptionSelection()
