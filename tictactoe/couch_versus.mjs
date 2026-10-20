@@ -71,25 +71,12 @@ export class TicTacToe_CouchVersus extends EventEmitter {
 	 * @private
 	 */
 	_waitMoveInMenu(key) { // mettre les emit specifique par move // EVENT
-		let action
-		switch (key.name) {
-			case TicTacToe_CouchVersus.KEY_NAME.DOWN:
-				action = 'down'
-				break
-			case TicTacToe_CouchVersus.KEY_NAME.UP:
-				action = 'up'
-				break
-			case TicTacToe_CouchVersus.KEY_NAME.SPACE:
-			case TicTacToe_CouchVersus.KEY_NAME.ENTER:
-				action = 'confirm'
-				break
-		}
+		const action = this._keyToAction(key)
 		if (action) {
 			this.selectedAction = action
 			return true
 		}
 	}
-
 	/**
 	 * Halts execution and waits asynchronously for the user to make a menu selection.
 	 * @returns {Promise<MenuAction>} Resolved menu action choice.
@@ -108,25 +95,7 @@ export class TicTacToe_CouchVersus extends EventEmitter {
 	 * @private
 	 */
 	_waitForPlayerChoice(key) { // faire cette fonction en controlleur general, a besoin de recevoir un emit pour savoir sil est dans le menu ou non
-		let action
-		switch (key.name) {
-			case TicTacToe_CouchVersus.KEY_NAME.DOWN:
-				action = 'down'
-				break
-			case TicTacToe_CouchVersus.KEY_NAME.UP:
-				action = 'up'
-				break
-			case TicTacToe_CouchVersus.KEY_NAME.RIGHT: // EVENT emit droite
-				action = 'right'
-				break
-			case TicTacToe_CouchVersus.KEY_NAME.LEFT: // EVENT emit gauche
-				action = 'left'
-				break
-			case TicTacToe_CouchVersus.KEY_NAME.SPACE:
-			case TicTacToe_CouchVersus.KEY_NAME.ENTER:
-				action = 'confirm'
-				break
-		}
+		const action = this._keyToAction(key)
 		if (action) {
 			this.selectedAction = action
 			return true
