@@ -65,30 +65,6 @@ export class TicTacToe_CouchVersus extends EventEmitter {
 	}
 
 	/**
-	 * Intercepts raw key events and maps them to menu navigation actions.
-	 * @param {TerminalKey} key - Key event object captured by the terminal engine.
-	 * @returns {boolean|undefined} `true` if a valid action was mapped, otherwise `undefined`.
-	 * @private
-	 */
-	_waitMoveInMenu(key) { // mettre les emit specifique par move // EVENT
-		const action = this._keyToAction(key)
-		if (action) {
-			this.selectedAction = action
-			return true
-		}
-	}
-	/**
-	 * Halts execution and waits asynchronously for the user to make a menu selection.
-	 * @returns {Promise<MenuAction>} Resolved menu action choice.
-	 */
-	async waitForMenuSelection() { // n'as pu besoin de return // EVENT
-		await waitOnceKey((key) => {
-			return this._waitMoveInMenu(key)
-		})
-		return this.selectedAction
-	}
-
-	/**
 	 * Intercepts raw key events and maps them to in-game directional movements and actions.
 	 * @param {TerminalKey} key - Key event object captured by the terminal engine.
 	 * @returns {boolean|undefined} `true` if a valid action was mapped, otherwise `undefined`.
@@ -127,13 +103,5 @@ export class TicTacToe_CouchVersus extends EventEmitter {
 		*/
 		
 		return this.selectedAction
-	}
-
-	/**
-	 * Halts execution asynchronously until any key is pressed to confirm an prompt/action.
-	 * @returns {Promise<void>}
-	 */
-	async waitDoubleConfirm() { // EVENT, emet true pour continué
-		await waitOnceKey(() => true)
 	}
 }

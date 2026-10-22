@@ -5,7 +5,7 @@ async function main() {
 	initTerminal2DEngine()
 	initKeyboard()
 	const start_program = new TicTacToe()
-	start_program.playGame()
+	start_program.start()
 }
 
 main()

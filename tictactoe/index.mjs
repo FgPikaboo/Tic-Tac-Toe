@@ -44,7 +44,33 @@ export class TicTacToe extends EventEmitter {
 		
 		/** @type {number|undefined} The winner status from the preceding round. */
 		this.prevWinner = undefined // EVENT
-	} 
+
+		/** @type {{onAction: Function}|null} Le composant qui reçoit les actions */
+		this.focused = null
+	}
+
+	focus(component) {
+		if (this.focused) { // Debranche le focus
+			this.bus.off('action', this.focused.onAction)
+		}
+		this.focused = component
+		if (component) { // Branche le focus
+			this.bus.on('action', component.onAction)
+		}
+	}
+
+	showMenu() {
+		clear()
+		this.ui.menu.showMainScreen()
+		this.ui.common.showLadderInfo(this.ladder, 0, 0)
+	}
+
+	async startGame() {
+		this.focus(null)                  // le menu n'écoute plus
+		clear()
+		await this.launchTicTacToeGame()  // l'ancienne partie, avec son while
+		this.showMenu()
+	}
 
 	/**
 	 * Increments the score counter for the winning player.
@@ -55,65 +81,6 @@ export class TicTacToe extends EventEmitter {
 			this.ladder.P1 += 1
 		} else if (current_winner === TicTacToe_Game.STATUS.P2) {
 			this.ladder.P2 += 1
-		}
-	}
-
-	/**
-	 * Manages menu rendering and navigation execution flow.
-	 */
-	async menuOptionSelection() {
-		let isNotInMenu = false
-		let nextPhase = false
-		// Grace au evenement, je n'aurais pu besoin de boucle
-		this.ui.menu.showMainScreen()
-		this.ui.common.showLadderInfo(this.ladder, 0, 0)
-
-		this.ui.menu.on('menu:option', (option) => {
-			if (option === 'start') {
-				Utils.log('Next Game')
-			} else if (option === 'rules') {
-				Utils.log('rules selected')
-				this.controller.once('double:confirm', () => {
-					Utils.log('double confirm')
-				})
-			} else {
-				Utils.log('Exit game')
-			}
-		})
-
-		while (!isNotInMenu) {
-			this.ui.menu.showMainScreen()
-
-			const action = await this.controller.waitForMenuSelection()
-
-			switch (action) {
-				case "up":
-					this.ui.menu.moveUp()
-					break
-				case "down":
-					this.ui.menu.moveDown()
-					break
-				case "confirm":
-					clear()
-
-					this.ui.menu.emitMenuOptionSelected()
-
-					if (this.ui.menu.getMenuOptionSelected() === 1) {
-						this.ui.menu.showRules()
-						await this.controller.waitDoubleConfirm()
-						clear()
-						break
-					}
-					
-					isNotInMenu = true
-
-					if (this.ui.menu.getMenuOptionSelected() === 0) {
-						nextPhase = true
-					}
-			}
-			if (isNotInMenu && !nextPhase) {
-				this.exit()
-			}
 		}
 	}
 	
@@ -194,6 +161,29 @@ export class TicTacToe extends EventEmitter {
 					break
 			}
 		}
+	}
+
+	/**
+	 * Branche les écouteurs une seule fois, puis affiche le menu.
+	 */
+	start() { // Faire le schema de l'achevisement sur escalidraw
+		this.controller.on('action', (action) => this.bus.emit('action', action))
+		Utils.log()
+		this.ui.menu.on('menu:option', (option) => {
+			if (option === 'start') {
+				this.startGame()
+			} else if (option === 'rules') {
+				clear()
+				this.ui.menu.showRules()
+				this.focus(null)
+				this.bus.once('action', () => this.showMenu())
+			} else {
+				this.exit()
+			}
+		})
+		this.bot.initBot()
+		this.controller.listen()
+		this.showMenu()
 	}
 
 	/**

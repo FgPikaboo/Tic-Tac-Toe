@@ -5,8 +5,4 @@ export class Bus extends EventEmitter {
 	constructor() {
 		super()
 	}
-
-	busEvent() {
-		
-	}
 }

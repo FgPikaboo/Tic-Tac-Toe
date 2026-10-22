@@ -38,6 +38,25 @@ export class TicTacToe_Menu_UI extends EventEmitter {
 		 * @type {number}
 		 */
 		this.mainMenuOptionSelected = 0
+
+		/**
+		 * Écouteur des actions, branché sur le Bus par Main quand le menu est affiché.
+		 * Fonction fléchée : elle garde le this du menu, même appelée par le Bus.
+		 * @param {string} action
+		 */
+		this.onAction = (action) => {
+			switch (action) {
+				case 'up':
+					this.moveUp()
+					break
+				case 'down':
+					this.moveDown()
+					break
+				case 'confirm':
+					this.emitMenuOptionSelected()
+					break
+			}
+		}
 	}
 
 	/**
@@ -61,7 +80,7 @@ export class TicTacToe_Menu_UI extends EventEmitter {
 				option = 'exit'
 				break
 		}
-		this.emit('menu:option', option) // a mettre les on once ou off dans index pour recup la selection
+		this.emit('menu:option', option)
 	}
 
 	/**
