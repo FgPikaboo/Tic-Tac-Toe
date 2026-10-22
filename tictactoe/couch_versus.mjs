@@ -104,4 +104,12 @@ export class TicTacToe_CouchVersus extends EventEmitter {
 		
 		return this.selectedAction
 	}
+
+	/**
+	 * Halts execution asynchronously until any key is pressed to confirm an prompt/action.
+	 * @returns {Promise<void>}
+	 */
+	async waitDoubleConfirm() { // EVENT, emet true pour continué
+		await waitOnceKey(() => true)
+	}
 }
