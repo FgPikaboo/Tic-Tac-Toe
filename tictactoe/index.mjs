@@ -63,7 +63,7 @@ export class TicTacToe extends EventEmitter {
 		// New game instance
 		this.currentGame = new TicTacToe_Game()
 
-		this.currentGame.on('refuse:case', (refuse) => {
+		this.currentGame.on('refused', (refuse) => {
 			this.ui.game.showOrderTurnAndInfo()
 		})
 

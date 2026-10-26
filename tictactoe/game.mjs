@@ -124,7 +124,7 @@ export class TicTacToe_Game extends EventEmitter {
 			throw new Error(I18n.ERROR_IDX(idx))
 		}
 		if (this.value_grid[idx] !== '') {
-			this.emit('refuse:case', idx)
+			this.emit('refused', idx)
 			return
 		}
 
