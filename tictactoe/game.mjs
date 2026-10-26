@@ -1,4 +1,3 @@
-import { Utils } from "../utils.mjs"
 import { I18n } from "./constantes/I18n.mjs"
 import EventEmitter from "node:events"
 
@@ -129,8 +128,7 @@ export class TicTacToe_Game extends EventEmitter {
 		}
 
 		const who = this.status
-
-		if (this.status === TicTacToe_Game.STATUS.P1) {
+		if (who === TicTacToe_Game.STATUS.P1) {
 			this.value_grid[idx] = TicTacToe_Game.SYMBOLE_PLAYER.P1
 		} else {
 			this.value_grid[idx] = TicTacToe_Game.SYMBOLE_PLAYER.P2
@@ -139,13 +137,14 @@ export class TicTacToe_Game extends EventEmitter {
 		this._checkWinCondition()
 		const isEnded = this.status === TicTacToe_Game.STATUS.ENDED
 		if (!isEnded) {
-			if (this.status === TicTacToe_Game.STATUS.P1) {
+			if (who === TicTacToe_Game.STATUS.P1) {
 				this.status = TicTacToe_Game.STATUS.P2
 			} else {
 				this.status = TicTacToe_Game.STATUS.P1
 			}
 		}
 
+		// chaque coup joué émet 'turn', même le dernier : qui a joué, où, la grille, qui suit
 		this.emit('turn', {
 			who, 
 			caseSelected: idx,

@@ -2,18 +2,12 @@ import { onkey } from "../terminal-engine.mjs"
 import EventEmitter from 'node:events'
 
 /**
- * @typedef {'up' | 'down' | 'left' | 'right' | 'confirm'} GameAction
- * @typedef {'up' | 'down' | 'confirm'} MenuAction
+ * @typedef {'up' | 'down' | 'left' | 'right' | 'confirm'} Action
  */
 
 /**
- * Raw key object structure emitted by terminal-engine.
- * @typedef {Object} TerminalKey
- * @property {string} name - Physical name identifier of the key (e.g., 'return', 'space', 'up').
- */
-
-/**
- * Manages keyboard input mapping to handle user interactions within menus and active gameplay.
+ * Transforme les touches du clavier en actions.
+ * Il ne sait pas si on est dans le menu ou en jeu : il annonce l'action, point.
  */
 export class TicTacToe_CouchVersus extends EventEmitter {
 
@@ -55,7 +49,7 @@ export class TicTacToe_CouchVersus extends EventEmitter {
 			const action = this._keyToAction(key)
 			if (action) {
 				this.emit('action', action)
-			} else { return }
+			}
 		})
 	}
 }

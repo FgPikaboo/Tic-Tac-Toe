@@ -1,7 +1,6 @@
-import EventEmitter from 'node:events'
-import { Utils } from '../utils.mjs'
+import EventsEmitter from 'node:events'
 
-export class Bus extends EventEmitter {
+export class Bus extends EventsEmitter {
 	constructor() {
 		super()
 	}

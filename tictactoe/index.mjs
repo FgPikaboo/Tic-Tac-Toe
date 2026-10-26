@@ -1,27 +1,24 @@
 import { TicTacToe_CouchVersus } from "./couch_versus.mjs"
 import { TicTacToe_Game } from "./game.mjs"
 import { TicTacToe_UI } from "./ui/index.mjs"
-import { destroy, clear, onkey } from "../terminal-engine.mjs"
+import { destroy, clear } from "../terminal-engine.mjs"
 import { I18n } from "./constantes/I18n.mjs"
 import EventEmitter from 'node:events'
 import { Bot_Discord } from "../bot_discord.mjs"
 import { Bus } from "./bus.mjs"
-import { Utils } from "../utils.mjs"
 
 /**
- * Main application class orchestrating the TicTacToe game lifecycle, UI, input controls, and score tracking.
+ * Le chef d'orchestre : il écoute tout le monde et décide qui fait quoi.
+ * Personne d'autre ne connaît personne.
  */
 export class TicTacToe extends EventEmitter {
 
 	constructor() {
 		super()
-		/** @type {Array<TicTacToe_Game>} History of completed game sessions. */
-		this.games = [ ]
-		
-		/** @type {TicTacToe_UI} Instance of the user interface management class. */
+		/** @type {TicTacToe_UI} */
 		this.ui = new TicTacToe_UI()
-		
-		/** @type {TicTacToe_CouchVersus} Instance handling user input and key bindings. */
+
+		/** @type {TicTacToe_CouchVersus} */
 		this.controller = new TicTacToe_CouchVersus()
 
 		/** @type {Bot_Discord} */
@@ -29,65 +26,105 @@ export class TicTacToe extends EventEmitter {
 
 		/** @type {Bus} */
 		this.bus = new Bus()
-		
-		/** 
-		 * Match score tracking for both players.
-		 * @type {{P1: number, P2: number}} 
-		 */
-		this.ladder = { // EVENT
+
+		/** @type {TicTacToe_Game|null} La partie en cours */
+		this.currentGame = null
+
+		/** @type {{onAction: Function}|null} Le composant d'UI qui reçoit les actions */
+		this.focused = null
+
+		/** @type {{P1: number, P2: number}} */
+		this.ladder = {
 			P1: 0,
 			P2: 0
 		}
-		
-		/** @type {boolean} Flag indicating if a rematch was requested. */
-		this.replay = false
-		
-		/** @type {number|undefined} The winner status from the preceding round. */
-		this.prevWinner = undefined // EVENT
 
-		/** @type {{onAction: Function}|null} Le composant qui reçoit les actions */
-		this.focused = null
+		/** @type {number|undefined} */
+		this.prevWinner = undefined
+	}
 
-		/** @type {null|TicTacToe_Game} */
-		this.currentGame = null
+	/**
+	 * Branche les écouteurs (une seule fois !) puis affiche le menu.
+	 */
+	start() {
+		// Main transmet les actions au Bus : l'UI ne connaît pas le Controller
+		this.controller.on('action', (action) => this.bus.emit('action', action))
+		this.ui.menu.on('menu:option', (option) => this.onMenuOption(option))
+		this.ui.game.on('case', (idx) => this.currentGame.playCurrentTurn(idx))
+		this.bus.on('game:end', (winner) => this.bot.sendMessage(I18n.BOT_DISCORD_WINNER(winner)))
+
+		this.bot.initBot()
+		this.controller.listen()
+		this.showMenu()
+	}
+
+	/**
+	 * Donne les actions à un seul composant d'UI : celui de l'écran affiché.
+	 * @param {{onAction: Function}|null} component null = personne
+	 */
+	focus(component) {
+		if (this.focused) {
+			this.bus.off('action', this.focused.onAction)
+		}
+		this.focused = component
+		if (component) {
+			this.bus.on('action', component.onAction)
+		}
+	}
+
+	/**
+	 * Écran sans composant (règles, fin) : la prochaine action ramène au menu.
+	 */
+	waitAnyActionThenMenu() {
+		this.focus(null)
+		this.bus.once('action', () => this.showMenu())
+	}
+
+	showMenu() {
+		clear()
+		this.ui.menu.showMainScreen()
+		this.ui.common.showLadderInfo(this.ladder, 0, 0)
+		this.focus(this.ui.menu)
+	}
+
+	/**
+	 * @param {'start'|'rules'|'exit'} option
+	 */
+	onMenuOption(option) {
+		if (option === 'start') {
+			this.startGame()
+		} else if (option === 'rules') {
+			clear()
+			this.ui.menu.showRules()
+			this.waitAnyActionThenMenu()
+		} else {
+			this.exit()
+		}
 	}
 
 	startGame() {
-		clear()
-
 		if (!this.ui.game.checkSizeTerminal()) {
 			console.log(I18n.ERROR_TERMINAL_TOO_SMALL)
 			this.exit()
+			return
 		}
 
-		// New game instance
+		// Une nouvelle partie = un nouvel émetteur, donc de nouveaux écouteurs.
+		// L'ancienne partie part à la poubelle avec les siens : pas de fuite.
 		this.currentGame = new TicTacToe_Game()
-
-		this.currentGame.on('refused', (refuse) => {
+		this.currentGame.on('turn', (turn) => {
+			this.ui.game.showValueTicTacToe(turn.grid)
+			if (turn.nextPlayer) {
+				this.ui.game.showOrderTurnAndInfo(turn.nextPlayer)
+			}
+		})
+		this.currentGame.on('refused', () => {
 			this.ui.game.showOrderTurnAndInfo()
 		})
-
-		this.currentGame.on('turn', ({who, caseSelected, grid, nextPlayer}) => {
-			this.ui.game.showValueTicTacToe(grid)
-			if (nextPlayer) {
-				this.ui.game.showOrderTurnAndInfo(nextPlayer)
-			}
-
-		})
-
-		this.currentGame.on('end', (winner) => {
-			clear()
-			if (winner === TicTacToe_Game.WINNER.P1 || winner === TicTacToe_Game.WINNER.P2) {
-				this.countWinnerLadder(winner)
-			}
-			this.ui.game.showEndGame(winner)
-			this.bus.emit('game:end', winner)
-			this.prevWinner = winner
-			this.focus(null)
-			this.bus.once('action', () => this.showMenu())
-		})
+		this.currentGame.on('end', (winner) => this.onGameEnd(winner))
 
 		this.currentGame.setFirstPlayer(this.prevWinner)
+		clear()
 		this.ui.game.showTicTacToe()
 		this.ui.game.showSeparatorBlocksInGame()
 		this.ui.common.showLadderInfo(this.ladder, this.ui.game.getBlocks().upperRight.x, this.ui.game.getBlocks().upperRight.y)
@@ -97,21 +134,16 @@ export class TicTacToe extends EventEmitter {
 		this.focus(this.ui.game)
 	}
 
-	focus(component) {
-		if (this.focused) { // Debranche le focus
-			this.bus.off('action', this.focused.onAction)
-		}
-		this.focused = component
-		if (component) { // Branche le focus
-			this.bus.on('action', component.onAction)
-		}
-	}
-
-	showMenu() {
+	/**
+	 * @param {number} winner Un des TicTacToe_Game.WINNER
+	 */
+	onGameEnd(winner) {
+		this.countWinnerLadder(winner)
+		this.prevWinner = winner
 		clear()
-		this.ui.menu.showMainScreen()
-		this.focus(this.ui.menu)
-		this.ui.common.showLadderInfo(this.ladder, 0, 0)
+		this.ui.game.showEndGame(winner)
+		this.waitAnyActionThenMenu()
+		this.bus.emit('game:end', winner)
 	}
 
 	/**
@@ -119,42 +151,11 @@ export class TicTacToe extends EventEmitter {
 	 * @param {number} current_winner - The status code representing the winning player.
 	 */
 	countWinnerLadder(current_winner) {
-		if (current_winner === TicTacToe_Game.STATUS.P1) {
+		if (current_winner === TicTacToe_Game.WINNER.P1) {
 			this.ladder.P1 += 1
-		} else if (current_winner === TicTacToe_Game.STATUS.P2) {
+		} else if (current_winner === TicTacToe_Game.WINNER.P2) {
 			this.ladder.P2 += 1
 		}
-	}
-
-	/**
-	 * Branche les écouteurs une seule fois, puis affiche le menu.
-	 */
-	start() { // Faire le schema de l'achevisement sur escalidraw
-		this.controller.on('action', (action) => this.bus.emit('action', action))
-		Utils.log()
-		this.ui.menu.on('menu:option', (option) => {
-			if (option === 'start') {
-				this.startGame()
-			} else if (option === 'rules') {
-				clear()
-				this.ui.menu.showRules()
-				this.focus(null)
-				this.bus.once('action', () => this.showMenu())
-			} else {
-				this.exit()
-			}
-		})
-		this.bot.initBot()
-		this.controller.listen()
-		this.showMenu()
-
-		this.ui.game.on('case', (caseSelected) => {
-			this.currentGame.playCurrentTurn(caseSelected)
-		})
-
-		this.bus.on('game:end', (winner) => {
-			this.bot.sendMessage(I18n.BOT_DISCORD_WINNER(winner))
-		}) 
 	}
 
 	/**
@@ -164,6 +165,4 @@ export class TicTacToe extends EventEmitter {
 		destroy()
 		process.exit()
 	}
-	
-	main() {}
 }
