@@ -356,7 +356,7 @@ export class TicTacToe_Game_UI extends EventEmitter {
 	checkSizeTerminal() {
 		const HEIGHT_MIN = 16
 		const WIDTH_MIN = 95
-		if (HEIGHT_MIN >= getScreenHeight() && WIDTH_MIN >= getScreenWidth()) {
+		if (HEIGHT_MIN >= getScreenHeight() || WIDTH_MIN >= getScreenWidth()) {
 			return false
 		}
 		return true

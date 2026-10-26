@@ -1,3 +1,4 @@
+import { Utils } from "../utils.mjs"
 import { I18n } from "./constantes/I18n.mjs"
 import EventEmitter from "node:events"
 
@@ -124,10 +125,10 @@ export class TicTacToe_Game extends EventEmitter {
 		}
 		if (this.value_grid[idx] !== '') {
 			this.emit('refuse:case', idx)
+			return
 		}
 
 		const who = this.status
-		const isEnded = this.status === TicTacToe_Game.STATUS.ENDED
 
 		if (this.status === TicTacToe_Game.STATUS.P1) {
 			this.value_grid[idx] = TicTacToe_Game.SYMBOLE_PLAYER.P1
@@ -136,6 +137,7 @@ export class TicTacToe_Game extends EventEmitter {
 		}
 
 		this._checkWinCondition()
+		const isEnded = this.status === TicTacToe_Game.STATUS.ENDED
 		if (!isEnded) {
 			if (this.status === TicTacToe_Game.STATUS.P1) {
 				this.status = TicTacToe_Game.STATUS.P2

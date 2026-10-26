@@ -3,7 +3,7 @@
  */
 export class I18n {
 	// UI_GAME
-	static VERSION = '@MrPikaboo -- VERSION 1.0.1'
+	static VERSION = 'VERSION 1.19'
 
 	// showOrderTurnAndInfo(player)
 	static TURN_PLAYER_1 = 'Turn for '

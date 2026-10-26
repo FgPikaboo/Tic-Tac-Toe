@@ -38,7 +38,7 @@ export class Bot_Discord extends EventEmitter {
 				// Récupération de l'instance du salon textuel
 				if (this.channel && this.channel.isTextBased()) {
 					// Pour eviter le flood dans un channel discord, peut etre mis plutot dans un console.error
-					this.channel.send('Le bot est désormais en ligne !')
+					// this.channel.send('Le bot est désormais en ligne !')
 				}
 			} catch (error) {
 				console.error('Erreur lors de l\'envoi du message de connexion : ', error)

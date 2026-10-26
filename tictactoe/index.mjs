@@ -63,7 +63,7 @@ export class TicTacToe extends EventEmitter {
 		// New game instance
 		this.currentGame = new TicTacToe_Game()
 
-		this.currentGame.on('refuse:case', (caseRefuse) => {
+		this.currentGame.on('refuse:case', (refuse) => {
 			this.ui.game.showOrderTurnAndInfo()
 		})
 
@@ -72,30 +72,28 @@ export class TicTacToe extends EventEmitter {
 			if (nextPlayer) {
 				this.ui.game.showOrderTurnAndInfo(nextPlayer)
 			}
+
 		})
 
 		this.currentGame.on('end', (winner) => {
-			if (this.currentGame.getStatus() === TicTacToe_Game.STATUS.ENDED) {
-				clear()
-				if (winner === TicTacToe_Game.WINNER.P1 || winner === TicTacToe_Game.WINNER.P2) {
-					this.countWinnerLadder(winner)
-				}
-				this.ui.game.showEndGame(winner)
-				this.bus.emit('game:end', winner)
-				this.prevWinner = winner
-				this.focus(null)
-				this.bus.once('action', () => this.showMenu())
-				this.currentGame.setFirstPlayer(this.prevWinner)
-				clear()
+			clear()
+			if (winner === TicTacToe_Game.WINNER.P1 || winner === TicTacToe_Game.WINNER.P2) {
+				this.countWinnerLadder(winner)
 			}
+			this.ui.game.showEndGame(winner)
+			this.bus.emit('game:end', winner)
+			this.prevWinner = winner
+			this.focus(null)
+			this.bus.once('action', () => this.showMenu())
 		})
 
+		this.currentGame.setFirstPlayer(this.prevWinner)
 		this.ui.game.showTicTacToe()
 		this.ui.game.showSeparatorBlocksInGame()
 		this.ui.common.showLadderInfo(this.ladder, this.ui.game.getBlocks().upperRight.x, this.ui.game.getBlocks().upperRight.y)
 		this.ui.game.showCredits()
 		this.ui.game.showGameCursor()
-		this.ui.game.showOrderTurnAndInfo()
+		this.ui.game.showOrderTurnAndInfo(this.currentGame.getStatus())
 		this.focus(this.ui.game)
 	}
 
@@ -154,7 +152,7 @@ export class TicTacToe extends EventEmitter {
 			this.currentGame.playCurrentTurn(caseSelected)
 		})
 
-		this.bus.on('game:end', (winner) => {
+		this.bus.once('game:end', (winner) => {
 			this.bot.sendMessage(this.bot.sendMessage(I18n.BOT_DISCORD_WINNER(winner)))
 		}) 
 	}
