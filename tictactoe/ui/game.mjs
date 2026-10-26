@@ -59,6 +59,26 @@ export class TicTacToe_Game_UI extends EventEmitter {
 		 * @type {number} 
 		 */
 		this.caseSelected = 4
+
+		this.onAction = (action) => {
+			switch (action) {
+				case 'up':
+					this.moveUp()
+					break
+				case 'down':
+					this.moveDown()
+					break
+				case 'left':
+					this.moveLeft()
+					break
+				case 'right':
+					this.moveRight()
+					break
+				case 'confirm':
+					this.emit('case', this.caseSelected)
+					break
+			}
+		}
 	}
 
 	/**
@@ -331,16 +351,15 @@ export class TicTacToe_Game_UI extends EventEmitter {
 
 	/**
 	 * Validates whether terminal window dimensions meet minimum display requirements.
-	 * @returns {boolean} `false` if current terminal dimensions are sufficient, otherwise `true`.
+	 * @returns {boolean} `true` if current terminal dimensions are sufficient, otherwise `true`.
 	 */
 	checkSizeTerminal() {
 		const HEIGHT_MIN = 16
 		const WIDTH_MIN = 95
-		if (getScreenHeight() >= HEIGHT_MIN && getScreenWidth() >= WIDTH_MIN) {
-			this.emit('window:work')
-			return true
+		if (HEIGHT_MIN >= getScreenHeight() && WIDTH_MIN >= getScreenWidth()) {
+			return false
 		}
-		return false
+		return true
 	}
 }
 

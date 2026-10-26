@@ -11,10 +11,16 @@ function assert(condition, message) {
 
 const currentGame = new TicTacToe_Game()
 currentGame.startGame()
-currentGame.playCurrentTurn(0)
-try {
-	currentGame.playCurrentTurn(0)
-	assert(false, 'La meme case a etais joué 2 fois')
-} catch (error) {
-	assert(true, 'La meme case n\'a pas etais joué 2 fois')
-}
+
+let recupCase
+currentGame.on('refuse:case', (refuse) => {
+	recupCase = refuse
+})
+
+currentGame.playCurrentTurn(3)
+console.log(recupCase)
+
+currentGame.playCurrentTurn(3)
+console.log(recupCase)
+
+assert(recupCase === 3, 'Il reconnais bien la double saisie') 

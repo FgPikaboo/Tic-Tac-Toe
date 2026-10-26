@@ -123,8 +123,11 @@ export class TicTacToe_Game extends EventEmitter {
 			throw new Error(I18n.ERROR_IDX(idx))
 		}
 		if (this.value_grid[idx] !== '') {
-			throw new Error(I18n.ERROR_SAME_SEIZURE)
+			this.emit('refuse:case', idx)
 		}
+
+		const who = this.status
+		const isEnded = this.status === TicTacToe_Game.STATUS.ENDED
 
 		if (this.status === TicTacToe_Game.STATUS.P1) {
 			this.value_grid[idx] = TicTacToe_Game.SYMBOLE_PLAYER.P1
@@ -132,18 +135,24 @@ export class TicTacToe_Game extends EventEmitter {
 			this.value_grid[idx] = TicTacToe_Game.SYMBOLE_PLAYER.P2
 		}
 
-		this.emit('turn', {
-			who: this.status, 
-			caseSelected: idx
-		})
-
 		this._checkWinCondition()
-		if (!(this.status === TicTacToe_Game.STATUS.ENDED)) {
+		if (!isEnded) {
 			if (this.status === TicTacToe_Game.STATUS.P1) {
 				this.status = TicTacToe_Game.STATUS.P2
 			} else {
 				this.status = TicTacToe_Game.STATUS.P1
 			}
+		}
+
+		this.emit('turn', {
+			who, 
+			caseSelected: idx,
+			grid: this.getValueGrid(),
+			nextPlayer: isEnded ? null : this.status
+		})
+
+		if (isEnded) {
+			this.emit('end', this.winner)
 		}
 	}
 
@@ -152,7 +161,7 @@ export class TicTacToe_Game extends EventEmitter {
 	 * Updates instance status and winner properties directly upon finding a result.
 	 * @private
 	 */
-	_checkWinCondition() { // emit le winner ici
+	_checkWinCondition() {
 		const isFull = (array) => !array.some((element) => element === '')
 		if (isFull(this.value_grid)) {
 			this.winner = TicTacToe_Game.WINNER.DRAW

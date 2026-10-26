@@ -47,6 +47,56 @@ export class TicTacToe extends EventEmitter {
 
 		/** @type {{onAction: Function}|null} Le composant qui reçoit les actions */
 		this.focused = null
+
+		/** @type {null|TicTacToe_Game} */
+		this.currentGame = null
+	}
+
+	startGame() {
+		clear()
+
+		if (!this.ui.game.checkSizeTerminal()) {
+			console.log(I18n.ERROR_TERMINAL_TOO_SMALL)
+			this.exit()
+		}
+
+		// New game instance
+		this.currentGame = new TicTacToe_Game()
+
+		this.currentGame.on('refuse:case', (caseRefuse) => {
+			this.ui.game.showOrderTurnAndInfo()
+		})
+
+		this.currentGame.on('turn', ({who, caseSelected, grid, nextPlayer}) => {
+			this.ui.game.showValueTicTacToe(grid)
+			if (nextPlayer) {
+				this.ui.game.showOrderTurnAndInfo(nextPlayer)
+			}
+		})
+
+		this.currentGame.on('end', (winner) => {
+			if (this.currentGame.getStatus() === TicTacToe_Game.STATUS.ENDED) {
+				clear()
+				if (winner === TicTacToe_Game.WINNER.P1 || winner === TicTacToe_Game.WINNER.P2) {
+					this.countWinnerLadder(winner)
+				}
+				this.ui.game.showEndGame(winner)
+				this.bus.emit('game:end', winner)
+				this.prevWinner = winner
+				this.focus(null)
+				this.bus.once('action', () => this.showMenu())
+				this.currentGame.setFirstPlayer(this.prevWinner)
+				clear()
+			}
+		})
+
+		this.ui.game.showTicTacToe()
+		this.ui.game.showSeparatorBlocksInGame()
+		this.ui.common.showLadderInfo(this.ladder, this.ui.game.getBlocks().upperRight.x, this.ui.game.getBlocks().upperRight.y)
+		this.ui.game.showCredits()
+		this.ui.game.showGameCursor()
+		this.ui.game.showOrderTurnAndInfo()
+		this.focus(this.ui.game)
 	}
 
 	focus(component) {
@@ -66,13 +116,6 @@ export class TicTacToe extends EventEmitter {
 		this.ui.common.showLadderInfo(this.ladder, 0, 0)
 	}
 
-	async startGame() {
-		this.focus(null)                  // le menu n'écoute plus
-		clear()
-		await this.launchTicTacToeGame()  // l'ancienne partie, avec son while
-		this.showMenu()
-	}
-
 	/**
 	 * Increments the score counter for the winning player.
 	 * @param {number} current_winner - The status code representing the winning player.
@@ -82,85 +125,6 @@ export class TicTacToe extends EventEmitter {
 			this.ladder.P1 += 1
 		} else if (current_winner === TicTacToe_Game.STATUS.P2) {
 			this.ladder.P2 += 1
-		}
-	}
-	
-	/**
-	 * Validates terminal dimensions and initializes a new game session.
-	 */
-	async launchTicTacToeGame() {
-
-		this.ui.game.once('window:work', () => {
-			Utils.log('Window work')
-		})
-		this.ui.game.checkSizeTerminal()
-
-		if (!this.ui.game.checkSizeTerminal()) {
-			console.log(I18n.ERROR_TERMINAL_TOO_SMALL)
-			this.exit()
-		}
-
-		// New game instance
-		const currentGame = new TicTacToe_Game()
-
-		currentGame.on('turn', (player) => {
-			Utils.log(`Fin du tour du joueur ${player.who}`)
-		})
-
-		currentGame.setFirstPlayer(this.prevWinner)
-		this.ui.game.showTicTacToe()
-		this.ui.game.showSeparatorBlocksInGame()
-		this.ui.common.showLadderInfo(this.ladder, this.ui.game.getBlocks().upperRight.x, this.ui.game.getBlocks().upperRight.y)
-		this.ui.game.showCredits()
-		this.ui.game.showGameCursor()
-
-		let endGame = false
-		let errorSamePos = false
-		while (!endGame) {
-
-			if (!errorSamePos) {
-				this.ui.game.showOrderTurnAndInfo(currentGame.getStatus())
-			} else {
-				errorSamePos = false
-			}
-
-			const action = await this.controller.waitMoveInGame()
-			switch (action) {
-				case "up":
-					this.ui.game.moveUp()
-					break
-				case "down":
-					this.ui.game.moveDown()
-					break
-				case "left":
-					this.ui.game.moveLeft()
-					break
-				case "right":
-					this.ui.game.moveRight()
-					break
-				case "confirm":
-					try {
-						currentGame.playCurrentTurn(this.ui.game.getCaseSelected())
-					} catch (error) {
-						errorSamePos = true
-						this.ui.game.showOrderTurnAndInfo()
-					}
-					this.ui.game.showValueTicTacToe(currentGame.getValueGrid())
-					if (currentGame.getStatus() === TicTacToe_Game.STATUS.ENDED) {
-						clear()
-						const winner = currentGame.getWinner() // EVENT pour avoir le vainqueur // 	FAIRE CA BESOIN EMIT
-						if (winner === TicTacToe_Game.WINNER.P1 || winner === TicTacToe_Game.WINNER.P2) {
-							this.countWinnerLadder(winner)
-						}
-						this.ui.game.showEndGame(winner) // EVENT but.emit pour informer l'ui du vainqueur, qui puisse afficher
-						this.bot.sendMessage(I18n.BOT_DISCORD_WINNER(winner))
-						this.prevWinner = winner
-						await this.controller.waitDoubleConfirm()
-						endGame = true
-						clear()
-					}
-					break
-			}
 		}
 	}
 
@@ -185,15 +149,23 @@ export class TicTacToe extends EventEmitter {
 		this.bot.initBot()
 		this.controller.listen()
 		this.showMenu()
+
+		this.ui.game.on('case', (caseSelected) => {
+			this.currentGame.playCurrentTurn(caseSelected)
+		})
+
+		this.bus.on('game:end', (winner) => {
+			this.bot.sendMessage(this.bot.sendMessage(I18n.BOT_DISCORD_WINNER(winner)))
+		}) 
 	}
 
 	/**
 	 * Exit game
 	 */
-	exit() { // EVENT
+	exit() {
 		destroy()
 		process.exit()
 	}
-
+	
 	main() {}
 }
