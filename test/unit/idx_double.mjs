@@ -13,7 +13,7 @@ const currentGame = new TicTacToe_Game()
 currentGame.startGame()
 
 let recupCase
-currentGame.on('refuse:case', (refuse) => {
+currentGame.on('refused', (refuse) => {
 	recupCase = refuse
 })
 
