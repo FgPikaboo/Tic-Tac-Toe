@@ -152,8 +152,8 @@ export class TicTacToe extends EventEmitter {
 			this.currentGame.playCurrentTurn(caseSelected)
 		})
 
-		this.bus.once('game:end', (winner) => {
-			this.bot.sendMessage(this.bot.sendMessage(I18n.BOT_DISCORD_WINNER(winner)))
+		this.bus.on('game:end', (winner) => {
+			this.bot.sendMessage(I18n.BOT_DISCORD_WINNER(winner))
 		}) 
 	}
 
