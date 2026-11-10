@@ -6,6 +6,7 @@ import { I18n } from "./constantes/I18n.mjs"
 import EventEmitter from 'node:events'
 import { Bot_Discord } from "../bot_discord.mjs"
 import { Bus } from "./bus.mjs"
+import { Utils } from "../utils.mjs"
 
 /**
  * Le chef d'orchestre : il écoute tout le monde et décide qui fait quoi.
@@ -103,6 +104,17 @@ export class TicTacToe extends EventEmitter {
 	}
 
 	startGame() {
+		// 1.1: C'est une simple string donc 'écouteurs action :'
+		// 1.2: Le chiffre 1, car si je lance directement avec confirme, j'ai fait qu'une action qui a etais lancer
+		// 1.3: 1, car il a fait un changement de mode/ecran
+
+		// 2.1 & 3.1: pareil que 1.1
+		// 2.2 & 3.2: Un nombre egal a la saisie effectué
+		// 2.3 & 3.3: Un nombre egal au changement d'ecran effectué
+
+		// Correction: L'instance se reset a chaque parti, donc il fait qu'une action dans tout les cas
+		Utils.log('écouteurs action :', this.controller.listenerCount('action'), this.bus.listenerCount('action'))
+
 		if (!this.ui.game.checkSizeTerminal()) {
 			console.log(I18n.ERROR_TERMINAL_TOO_SMALL)
 			this.exit()
