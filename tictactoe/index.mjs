@@ -104,15 +104,11 @@ export class TicTacToe extends EventEmitter {
 	}
 
 	startGame() {
-		// 1.1: C'est une simple string donc 'écouteurs action :'
-		// 1.2: Le chiffre 1, car si je lance directement avec confirme, j'ai fait qu'une action qui a etais lancer
-		// 1.3: 1, car il a fait un changement de mode/ecran
-
-		// 2.1 & 3.1: pareil que 1.1
-		// 2.2 & 3.2: Un nombre egal a la saisie effectué
-		// 2.3 & 3.3: Un nombre egal au changement d'ecran effectué
-
-		// Correction: L'instance se reset a chaque parti, donc il fait qu'une action dans tout les cas
+		// écouteurs action : 1 1
+		// Le premier 1, côté Controller : le seul on('action') du Controller est celui de start(), 
+		// qui renvoie chaque action sur le Bus. start() n'est appelé qu'une fois, donc il n'y en a toujours qu'un.
+		// Le second 1, côté Bus : au moment où startGame() commence, le menu a encore le focus. 
+		// C'est lui, le seul écouteur du Bus. Le focus passe à la grille à la fin de startGame().
 		Utils.log('écouteurs action :', this.controller.listenerCount('action'), this.bus.listenerCount('action'))
 
 		if (!this.ui.game.checkSizeTerminal()) {
