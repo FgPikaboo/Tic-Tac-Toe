@@ -56,6 +56,7 @@ export class TicTacToe extends EventEmitter {
 
 		this.bot.initBot()
 		this.controller.listen()
+
 		this.showMenu()
 	}
 

@@ -45,6 +45,7 @@ export class TicTacToe_Menu_UI extends EventEmitter {
 		 * @param {string} action
 		 */
 		this.onAction = (action) => {
+			// Utils.log(`onAction Param: ${action}`)
 			switch (action) {
 				case 'up':
 					this.moveUp()
