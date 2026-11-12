@@ -6,6 +6,11 @@ export class Bus extends EventsEmitter {
 		super()
 	}
 
+	/**
+	 * Emetteur d'evenement avec une gestion d'erreur
+	 * @param {string} event nom de l'evenement
+	 * @param {any} value valeur de l'evenement
+	 */
 	emit(event, value) {
 		const listeners = this.rawListeners(event)
 		Utils.log(
