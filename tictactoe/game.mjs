@@ -163,12 +163,6 @@ export class TicTacToe_Game extends EventEmitter {
 	 * @private
 	 */
 	_checkWinCondition() {
-		const isFull = (array) => !array.some((element) => element === '')
-		if (isFull(this.value_grid)) {
-			this.winner = TicTacToe_Game.WINNER.DRAW
-			this.status = TicTacToe_Game.STATUS.ENDED
-			return
-		}
 		const isDiagonalWin = (this.value_grid[0] === this.value_grid[4]) &&
 			(this.value_grid[0] === this.value_grid[8]) && 
 			this.value_grid[0] !== ''
@@ -196,6 +190,12 @@ export class TicTacToe_Game extends EventEmitter {
 				this.status = TicTacToe_Game.STATUS.ENDED
 				return
 			}
+		}
+		const isFull = (array) => !array.some((element) => element === '')
+		if (isFull(this.value_grid)) {
+			this.winner = TicTacToe_Game.WINNER.DRAW
+			this.status = TicTacToe_Game.STATUS.ENDED
+			return
 		}
 	}
 }
