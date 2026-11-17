@@ -8,20 +8,18 @@ export class Bus extends EventsEmitter {
 
 	/**
 	 * Emetteur d'evenement avec une gestion d'erreur
-	 * @param {string} event nom de l'evenement
-	 * @param {any} value valeur de l'evenement
+	 * @param {string} name nom de l'evenement
+	 * @param {...any} args valeur de l'evenement
 	 */
-	emit(event, value) {
-		const listeners = this.rawListeners(event)
-		Utils.log(
-			`event: ${event}, nombre: ${listeners.length}`
-		)
+	emit(name, ...args) {
+		const listeners = this.rawListeners(name)
 		for (const listener of listeners) {
 			try {
-				listener(value)
+				listener.apply(this, args)
 			} catch (error) {
-				Utils.log(error.message)
+				Utils.log(`[bus] l'écouteur de '${name}' a planté :`, error.message)
 			}
 		}
+		return listeners.length > 0
 	}
 }
